@@ -1,6 +1,6 @@
 # fieldtrip
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that A Probot app
+> A GitHub App and express server built with [Probot](https://github.com/probot/probot)
 
 ## Development Notes
 
