@@ -6,7 +6,7 @@
   "homepage": "https://github.com/djgrant/fieldtrip",
   "scripts": {
     "build": "tsc",
-    "dev": "onchange -i -k 'src/*' -- ts-node src/index.ts",
+    "dev": "onchange -i -k 'src/**/*' -- ts-node src/index.ts",
     "start": "node ./lib/index.js"
   },
   "dependencies": {
