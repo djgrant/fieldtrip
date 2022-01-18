@@ -6,9 +6,7 @@
   
   "homepage": "https://github.com/djgrant/fieldtrip",
   "workspaces": [
-    "apps/*",
-    "courses/*",
-    "packages/*"
+    "apps/*"
   ],
   "scripts": {
     "build": "lerna run build",
