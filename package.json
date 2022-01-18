@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "Daniel Grant",
   
-  "homepage": "https://github.com/djgrant/fieldtrip",
+  "homepage": "https://github.com/notationhq/fieldtrip",
   "workspaces": [
     "apps/*"
   ],
