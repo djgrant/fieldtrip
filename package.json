@@ -6,7 +6,8 @@
   
   "homepage": "https://github.com/notationhq/fieldtrip",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "courses"
   ],
   "scripts": {
     "build": "lerna run build",
