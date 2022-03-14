@@ -1,10 +1,14 @@
-app = "fieldtrip-staging-api"
+app = "fieldtrip"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
-[env]
+[build]
+  dockerfile = "Dockerfile.client"
+
+[build.args]
+  REACT_APP_SERVER_URL="https://api.fieldtrip.notation.run"
 
 [experimental]
   allowed_public_ports = []
