@@ -10,7 +10,7 @@ export const auth = Router();
 auth.get("/login", async (_, res) => {
   const params = querystring.stringify({
     client_id: config.bots.fieldtrip.GITHUB_CLIENT_ID,
-    redirect_uri: `${config.HOST}/auth/login/cb`,
+    redirect_uri: `${config.SERVER_HOST}/auth/login/cb`,
   });
   const url = `https://github.com/login/oauth/authorize?${params}`;
   res.redirect(url);

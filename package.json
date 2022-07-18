@@ -18,7 +18,8 @@
     "deploy:client:prod": "fly deploy --config fly.client.prod.toml",
     "deploy:client:staging": "fly deploy --config fly.client.staging.toml",
     "start": "yarn workspace server start",
-    "test": "yarn build -- --noEmit && jest"
+    "test": "yarn build -- --noEmit && jest",
+    "tunnel": "scripts/tunnel"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",

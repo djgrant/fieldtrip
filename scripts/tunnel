@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+cloudflared tunnel \
+  --credentials-file .cloudflared/credentials.server.json \
+  --url localhost:4000 \
+  --no-tls-verify \
+    run _ & \
+
+cloudflared tunnel \
+  --credentials-file .cloudflared/credentials.client.json \
+  --url localhost:3000 \
+  --no-tls-verify \
+    run _

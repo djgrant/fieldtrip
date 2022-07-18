@@ -7,7 +7,7 @@ import type {
   EventAssertion,
 } from "../types";
 import { getFile } from "../utils";
-import { HOST } from "../config";
+import { SERVER_HOST } from "../config";
 import { Enrollments } from "../types";
 
 const notNull = (value: any): value is NonNullable<typeof value> =>
@@ -144,7 +144,7 @@ class CourseAuthed extends Course {
     }
 
     if (url.startsWith("/auth")) {
-      url = HOST + url;
+      url = SERVER_HOST + url;
     }
 
     return { ...action, url, passed };
