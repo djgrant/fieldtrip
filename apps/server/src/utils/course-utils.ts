@@ -31,10 +31,11 @@ export function on<E extends EmitterWebhookEventName>(
   predicate: (...args: any) => boolean,
   action?: (...args: any) => Promise<unknown>
 ): unknown {
-  const botName = this || "fieldwork";
+  const botName = this || "fieldtrip";
   return { event, predicate, action, botName };
 }
 
+on.fieldtrip = on.bind("fieldtrip")
 on.amber = on.bind("amber");
 on.malachi = on.bind("malachi");
 on.uma = on.bind("uma");

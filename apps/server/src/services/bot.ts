@@ -6,11 +6,28 @@ import { db, enrollments, events } from "../services/db";
 import { createProbot } from "../utils";
 import { taskq } from "./taskq";
 import { bots } from "../config";
-import type { Bots } from "@packages/courses/types";
+import type { Bots,CourseHook, EventAssertion } from "@packages/courses/types";
+import { on } from "../utils/course-utils"
 
 // @todo get course using event payload repo
 const course = courses.js2;
-const triggers = Course.getHooks(course);
+/* const x =  {stages:[{hooks:[{
+  id: "delete",
+  hook: on.fieldtrip(
+    "repository.deleted",
+    () => true,
+    async () => {
+      await enrollments(db).delete({username:'alaa-yahia',course_id: 'js2'})
+      return;
+    }
+  ),
+}]
+}]} */
+
+const triggers: (CourseHook | { id: string; hook: EventAssertion })[]  = 
+[...Course.getHooks(course),
+// ...Course.getHooks(x)
+];
 
 let i = 0;
 const triggersByBotName = {} as Record<
@@ -37,12 +54,12 @@ for (const trigger of triggers) {
   }
 }
 
-export const createBot = (botName: Bots) => {
+export const createBot = (botName: Bots, statickHooks?: (app:Probot)=> void) => {
   const botTriggers = triggersByBotName[botName];
-
   const app = (app: Probot) => {
+    if(statickHooks) statickHooks(app)
+    
     if (!botTriggers) return;
-
     for (const botTrigger of botTriggers) {
       const { trigger, priority } = botTrigger;
       const { event, predicate } = trigger.hook;
