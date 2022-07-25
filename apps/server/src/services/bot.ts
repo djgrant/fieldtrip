@@ -7,27 +7,12 @@ import { createProbot } from "../utils";
 import { taskq } from "./taskq";
 import { bots } from "../config";
 import type { Bots,CourseHook, EventAssertion } from "@packages/courses/types";
-import { on } from "../utils/course-utils"
 
 // @todo get course using event payload repo
 const course = courses.js2;
-/* const x =  {stages:[{hooks:[{
-  id: "delete",
-  hook: on.fieldtrip(
-    "repository.deleted",
-    () => true,
-    async () => {
-      await enrollments(db).delete({username:'alaa-yahia',course_id: 'js2'})
-      return;
-    }
-  ),
-}]
-}]} */
 
 const triggers: (CourseHook | { id: string; hook: EventAssertion })[]  = 
-[...Course.getHooks(course),
-// ...Course.getHooks(x)
-];
+Course.getHooks(course)
 
 let i = 0;
 const triggersByBotName = {} as Record<

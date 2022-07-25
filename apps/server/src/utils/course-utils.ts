@@ -35,7 +35,6 @@ export function on<E extends EmitterWebhookEventName>(
   return { event, predicate, action, botName };
 }
 
-on.fieldtrip = on.bind("fieldtrip")
 on.amber = on.bind("amber");
 on.malachi = on.bind("malachi");
 on.uma = on.bind("uma");
