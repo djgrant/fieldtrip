@@ -1,5 +1,5 @@
 import { Router } from "express";
-import querystring from "querystring";
+import {URLSearchParams} from "url"
 import { createOAuthUserAuth } from "@octokit/auth-oauth-user";
 import { createAppAuth } from "@octokit/auth-app";
 import * as config from "../config";
@@ -8,10 +8,11 @@ import { ProbotOctokit } from "probot";
 export const auth = Router();
 
 auth.get("/login", async (_, res) => {
-  const params = querystring.stringify({
+  const params =new URLSearchParams({
     client_id: config.bots.fieldtrip.GITHUB_CLIENT_ID,
     redirect_uri: `${config.SERVER_HOST}/auth/login/cb`,
-  });
+  }).toString();
+
   const url = `https://github.com/login/oauth/authorize?${params}`;
   res.redirect(url);
 });
@@ -23,7 +24,6 @@ auth.get("/login/cb", async (req, res, next) => {
       clientSecret: config.bots.fieldtrip.GITHUB_CLIENT_SECRET,
       code: req.query.code as string,
     });
-
     const userAuth = await getUserAuth();
     const userOctokit = new ProbotOctokit({ auth: userAuth });
     const { data: user } = await userOctokit.users.getAuthenticated();
