@@ -1,0 +1,15 @@
+{
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "yarn run build",
+        "cwd": "apps/server",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "assets": ["yarn.lock"]
+      }
+    }
+  }
+}
