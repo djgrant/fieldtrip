@@ -9,7 +9,7 @@
     "courses"
   ],
   "scripts": {
-    "build": "nx run-many --target=build --all",
+    "build": "nx affected:build --all",
     "db:types": "dotenv -- bash -c 'npx @databases/pg-schema-cli --database $DATABASE_URL --directory apps/server/src/types/generated'",
     "dev": "nx run-many --target=dev --projects=client,server --parallel=2",
     "dev:packages": "nx run-many --target=dev --parallel --all",
