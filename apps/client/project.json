@@ -5,10 +5,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "yarn run build",
-        "cwd": "apps/client",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
-        "assets": ["yarn.lock"]
+        "cwd": "apps/client"
       }
     }
   }
