@@ -2,8 +2,9 @@ import { createBot } from "./bot";
 import { enrollments, db} from "../services/db";
 
 export const fieldtrip = createBot("fieldtrip",(app)=> {
-    app.on("repository.deleted", async()=> {
-     await enrollments(db).delete({username:'alaa-yahia',course_id: 'js2'})
+    app.on("repository.deleted", async(context)=> {
+        const username = context.payload.repository?.owner?.login
+        await enrollments(db).delete({username});
 })});
 
 export const malachi = createBot("malachi");
