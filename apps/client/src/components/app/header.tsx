@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { Container } from "src/components/library";
 import { LOGIN_URL } from "src/config";
 import { useMst } from "src/store";
-import Logo from "./Logo"
+import Logo from "./Logo";
 
 export const Header: FC = observer(() => {
   const { user } = useMst();
@@ -11,7 +11,7 @@ export const Header: FC = observer(() => {
     <header className="border-b border-gray-200 bg-slate-50">
       <Container className="flex justify-between py-4">
         <div className="flex items-center">
-        <Logo className="block pr-2 w-28"/>
+          <Logo className="block pr-2 w-28" />
           <div className="text-xs font-medium uppercase text-slate-500">
             fieldtrip
           </div>

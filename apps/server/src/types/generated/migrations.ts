@@ -12,10 +12,10 @@ interface Migrations {
   /**
    * @default CURRENT_TIMESTAMP
    */
-  executed_at: (Date) | null
-  hash: string
-  id: number & {readonly __brand?: 'migrations_id'}
-  name: string
+  executed_at: Date | null;
+  hash: string;
+  id: number & { readonly __brand?: "migrations_id" };
+  name: string;
 }
 export default Migrations;
 
@@ -23,9 +23,9 @@ interface Migrations_InsertParameters {
   /**
    * @default CURRENT_TIMESTAMP
    */
-  executed_at?: (Date) | null
-  hash: string
-  id: number & {readonly __brand?: 'migrations_id'}
-  name: string
+  executed_at?: Date | null;
+  hash: string;
+  id: number & { readonly __brand?: "migrations_id" };
+  name: string;
 }
-export type {Migrations_InsertParameters}
+export type { Migrations_InsertParameters };

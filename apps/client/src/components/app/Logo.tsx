@@ -2,7 +2,7 @@ import type { FC } from "react";
 type Props = {
   className: string;
 };
-const Logo: FC<Props> = ({className}) => (
+const Logo: FC<Props> = ({ className }) => (
   <svg
     viewBox="0 0 39 38"
     xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +14,6 @@ const Logo: FC<Props> = ({className}) => (
       strokeLinejoin: "round",
       strokeMiterlimit: 2,
     }}
-    
   >
     <g transform="translate(.938 -.086) scale(1.01862)">
       <path
@@ -63,6 +62,6 @@ const Logo: FC<Props> = ({className}) => (
       </g>
     </g>
   </svg>
-)
+);
 
-export default Logo
+export default Logo;
