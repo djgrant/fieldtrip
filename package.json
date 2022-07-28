@@ -51,6 +51,7 @@
     "@djgrant/components": "^0.4.1",
     "@nrwl/js": "^14.4.3",
     "@nrwl/nx-cloud": "latest",
+    "@octokit/rest": "^19.0.3",
     "@swc/core": "^1.2.133",
     "@swc/helpers": "^0.3.2",
     "@tailwindcss/forms": "^0.4.0",
