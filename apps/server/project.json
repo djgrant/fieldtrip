@@ -2,12 +2,11 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:swc",
+      "executor": "@nrwl/js:tsc",
       "options": {
         "main": "apps/server/src/index.ts",
         "outputPath":"apps/server/dist",
         "tsConfig":"apps/server/tsconfig.json",
-        "command": "yarn run build",
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": ["yarn.lock"]
