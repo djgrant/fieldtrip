@@ -9,23 +9,23 @@
 // tslint:disable
 
 interface Events {
-  bot_name: string
-  course_id: string & {readonly __brand?: 'events_course_id'}
-  event_name: string
-  installation_id: number
-  payload: any
-  trigger_id: string & {readonly __brand?: 'events_trigger_id'}
-  username: string & {readonly __brand?: 'events_username'}
+  bot_name: string;
+  course_id: string & { readonly __brand?: "events_course_id" };
+  event_name: string;
+  installation_id: number;
+  payload: any;
+  trigger_id: string & { readonly __brand?: "events_trigger_id" };
+  username: string & { readonly __brand?: "events_username" };
 }
 export default Events;
 
 interface Events_InsertParameters {
-  bot_name: string
-  course_id: string & {readonly __brand?: 'events_course_id'}
-  event_name: string
-  installation_id: number
-  payload: any
-  trigger_id: string & {readonly __brand?: 'events_trigger_id'}
-  username: string & {readonly __brand?: 'events_username'}
+  bot_name: string;
+  course_id: string & { readonly __brand?: "events_course_id" };
+  event_name: string;
+  installation_id: number;
+  payload: any;
+  trigger_id: string & { readonly __brand?: "events_trigger_id" };
+  username: string & { readonly __brand?: "events_username" };
 }
-export type {Events_InsertParameters}
+export type { Events_InsertParameters };

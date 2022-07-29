@@ -8,22 +8,22 @@
 /* eslint-disable */
 // tslint:disable
 
-import Enrollments, {Enrollments_InsertParameters} from './enrollments'
-import Events, {Events_InsertParameters} from './events'
-import Executions, {Executions_InsertParameters} from './executions'
-import Logs, {Logs_InsertParameters} from './logs'
-import Migrations, {Migrations_InsertParameters} from './migrations'
-import TaskStats, {TaskStats_InsertParameters} from './task_stats'
-import Tasks, {Tasks_InsertParameters} from './tasks'
+import Enrollments, { Enrollments_InsertParameters } from "./enrollments";
+import Events, { Events_InsertParameters } from "./events";
+import Executions, { Executions_InsertParameters } from "./executions";
+import Logs, { Logs_InsertParameters } from "./logs";
+import Migrations, { Migrations_InsertParameters } from "./migrations";
+import TaskStats, { TaskStats_InsertParameters } from "./task_stats";
+import Tasks, { Tasks_InsertParameters } from "./tasks";
 
 interface DatabaseSchema {
-  enrollments: {record: Enrollments, insert: Enrollments_InsertParameters};
-  events: {record: Events, insert: Events_InsertParameters};
-  executions: {record: Executions, insert: Executions_InsertParameters};
-  logs: {record: Logs, insert: Logs_InsertParameters};
-  migrations: {record: Migrations, insert: Migrations_InsertParameters};
-  task_stats: {record: TaskStats, insert: TaskStats_InsertParameters};
-  tasks: {record: Tasks, insert: Tasks_InsertParameters};
+  enrollments: { record: Enrollments; insert: Enrollments_InsertParameters };
+  events: { record: Events; insert: Events_InsertParameters };
+  executions: { record: Executions; insert: Executions_InsertParameters };
+  logs: { record: Logs; insert: Logs_InsertParameters };
+  migrations: { record: Migrations; insert: Migrations_InsertParameters };
+  task_stats: { record: TaskStats; insert: TaskStats_InsertParameters };
+  tasks: { record: Tasks; insert: Tasks_InsertParameters };
 }
 export default DatabaseSchema;
 
@@ -35,7 +35,8 @@ export default DatabaseSchema;
  */
 function serializeValue(t: string, c: string, v: unknown): unknown {
   if (
-    (t === "enrollments" && (c === "bots" || c === "hooks" || c === "milestones")) ||
+    (t === "enrollments" &&
+      (c === "bots" || c === "hooks" || c === "milestones")) ||
     (t === "events" && c === "payload") ||
     (t === "logs" && c === "message") ||
     (t === "tasks" && (c === "context" || c === "params"))
@@ -44,7 +45,7 @@ function serializeValue(t: string, c: string, v: unknown): unknown {
   }
   return v;
 }
-export {serializeValue}
+export { serializeValue };
 
 export type {
   Enrollments,
@@ -61,4 +62,4 @@ export type {
   Migrations_InsertParameters,
   TaskStats,
   TaskStats_InsertParameters,
-}
+};

@@ -6,11 +6,13 @@ import { db, enrollments, events } from "../services/db";
 import { createProbot } from "../utils";
 import { taskq } from "./taskq";
 import { bots } from "../config";
-import type { Bots } from "@packages/courses/types";
+import type { Bots, CourseHook, EventAssertion } from "@packages/courses/types";
 
 // @todo get course using event payload repo
 const course = courses.js2;
-const triggers = Course.getHooks(course);
+
+const triggers: (CourseHook | { id: string; hook: EventAssertion })[] =
+  Course.getHooks(course);
 
 let i = 0;
 const triggersByBotName = {} as Record<
@@ -37,12 +39,15 @@ for (const trigger of triggers) {
   }
 }
 
-export const createBot = (botName: Bots) => {
+export const createBot = (
+  botName: Bots,
+  statickHooks?: (app: Probot) => void
+) => {
   const botTriggers = triggersByBotName[botName];
-
   const app = (app: Probot) => {
-    if (!botTriggers) return;
+    if (statickHooks) statickHooks(app);
 
+    if (!botTriggers) return;
     for (const botTrigger of botTriggers) {
       const { trigger, priority } = botTrigger;
       const { event, predicate } = trigger.hook;

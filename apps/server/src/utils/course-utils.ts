@@ -31,7 +31,7 @@ export function on<E extends EmitterWebhookEventName>(
   predicate: (...args: any) => boolean,
   action?: (...args: any) => Promise<unknown>
 ): unknown {
-  const botName = this || "fieldwork";
+  const botName = this || "fieldtrip";
   return { event, predicate, action, botName };
 }
 

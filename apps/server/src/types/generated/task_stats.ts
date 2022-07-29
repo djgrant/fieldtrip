@@ -8,80 +8,80 @@
 /* eslint-disable */
 // tslint:disable
 
-import Tasks from './tasks'
+import Tasks from "./tasks";
 
 interface TaskStats {
-  collection: string
+  collection: string;
   /**
    * @default 0
    */
-  failure: number
+  failure: number;
   /**
    * @default 0
    */
-  locked: number
+  locked: number;
   /**
    * @default 0
    */
-  pending: number
+  pending: number;
   /**
    * @default 0
    */
-  running: number
+  running: number;
   /**
    * @default 0
    */
-  scheduled: number
+  scheduled: number;
   /**
    * @default 0
    */
-  success: number
-  task_id: (Tasks['id']) | null
+  success: number;
+  task_id: Tasks["id"] | null;
   /**
    * @default 0
    */
-  timeout: number
+  timeout: number;
   /**
    * @default 0
    */
-  total: number
+  total: number;
 }
 export default TaskStats;
 
 interface TaskStats_InsertParameters {
-  collection: string
+  collection: string;
   /**
    * @default 0
    */
-  failure?: number
+  failure?: number;
   /**
    * @default 0
    */
-  locked?: number
+  locked?: number;
   /**
    * @default 0
    */
-  pending?: number
+  pending?: number;
   /**
    * @default 0
    */
-  running?: number
+  running?: number;
   /**
    * @default 0
    */
-  scheduled?: number
+  scheduled?: number;
   /**
    * @default 0
    */
-  success?: number
-  task_id?: (Tasks['id']) | null
+  success?: number;
+  task_id?: Tasks["id"] | null;
   /**
    * @default 0
    */
-  timeout?: number
+  timeout?: number;
   /**
    * @default 0
    */
-  total?: number
+  total?: number;
 }
-export type {TaskStats_InsertParameters}
+export type { TaskStats_InsertParameters };
