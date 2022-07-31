@@ -1,8 +1,14 @@
 FROM node:14-slim
 WORKDIR /usr/src/app
-COPY package.json yarn.lock tsconfig.json lerna.json ./
+COPY package.json yarn.lock tsconfig.json nx.json ./
 COPY apps/server apps/server/
 COPY courses courses/
 RUN yarn install
-RUN yarn build
+RUN yarn run build:server
+
+FROM node:14-slim
+WORKDIR /
+COPY --from=0 /usr/src/app/apps/server/dist/package.json ./
+COPY --from=0 /usr/src/app/apps/server/dist ./dist/
+RUN yarn install
 CMD [ "npm", "start" ]
