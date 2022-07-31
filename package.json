@@ -48,9 +48,6 @@
     "socket.io-client": "^4.4.1"
   },
   "devDependencies": {
-    "babel-preset-react-app": "^10.0.1",
-    "jest": "^27.4.7",
-    "lerna": "^4.0.0",
     "prettier": "^2.7.1",
     "@djgrant/components": "^0.4.1",
     "@nrwl/js": "^14.4.3",
@@ -73,6 +70,8 @@
     "dotenv": "^15.0.0",
     "dotenv-cli": "^4.1.1",
     "http-proxy-middleware": "^2.0.1",
+    "babel-preset-react-app": "^10.0.1",
+    "jest": "^27.4.7",
     "nock": "^13.2.2",
     "nx": "14.4.3",
     "onchange": "^7.1.0",
