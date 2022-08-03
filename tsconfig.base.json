@@ -1,0 +1,24 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "lib": ["es2021"],
+    "module": "es2022",
+    "moduleResolution": "NodeNext",
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2021"
+  },
+  "exclude": ["node_modules", "tmp"]
+}

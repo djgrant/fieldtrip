@@ -2,20 +2,14 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/js:swc",
       "options": {
         "main": "apps/server/src/index.ts",
-        "outputPath":"apps/server/dist",
-        "tsConfig":"apps/server/tsconfig.json",
+        "tsConfig": "apps/server/tsconfig.json",
+        "outputPath": "dist/apps/server",
+        "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": ["yarn.lock"]
-      }
-    },
-    "start": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "yarn run start",
-        "cwd": "apps/server"
       }
     }
   }
