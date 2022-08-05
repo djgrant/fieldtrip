@@ -6,6 +6,7 @@ import * as mw from "./middlewares";
 import * as config from "./config";
 import { Course } from "./services";
 import { Enrollments } from "./types";
+import * as fieldtrip from "@notation/fieldtrip";
 
 export const io = (server: HTTPServer) => {
   const io = new Server(server, {

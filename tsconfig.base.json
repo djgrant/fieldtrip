@@ -18,7 +18,10 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2021"
+    "target": "es2021",
+    "paths": {
+      "@notation/fieldtrip": ["packages/fieldtrip/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

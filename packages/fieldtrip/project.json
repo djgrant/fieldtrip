@@ -1,0 +1,18 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/fieldtrip/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/fieldtrip",
+        "main": "packages/fieldtrip/src/index.ts",
+        "tsConfig": "packages/fieldtrip/tsconfig.lib.json",
+        "assets": ["packages/fieldtrip/*.md"]
+      }
+    }
+  },
+  "tags": []
+}

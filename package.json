@@ -6,7 +6,8 @@
   "homepage": "https://github.com/notationhq/fieldtrip",
   "workspaces": [
     "apps/*",
-    "courses"
+    "courses",
+    "packages/*"
   ],
   "scripts": {
     "build": "nx affected:build --all",
