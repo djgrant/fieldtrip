@@ -3,8 +3,12 @@ import type {
   EmitterWebhookEvent,
 } from "@octokit/webhooks";
 import type { PullRequest, Issue } from "@octokit/webhooks-types";
-import type { Enrollments, Hook, EventAssertion } from "../types";
-import { Github } from "../services";
+import type {
+  Enrollments,
+  Hook,
+  EventAssertion,
+} from "@notation/fieldtrip/types";
+import { Github } from "./github";
 import { Context } from "probot";
 
 export type Predicate<E extends EmitterWebhookEventName> = (

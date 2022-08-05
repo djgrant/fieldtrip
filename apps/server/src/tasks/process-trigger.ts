@@ -2,7 +2,7 @@ import PQueue from "p-queue";
 import courses from "@packages/courses";
 import { Course, Github, actionRegister } from "../services";
 import { db, enrollments, events } from "../services/db";
-import { createProbot } from "../utils";
+import { createProbot } from "@notation/fieldtrip/utils";
 import { bots } from "../config";
 import { taskq } from "../services/taskq";
 import type { Bots } from "@packages/courses/types";

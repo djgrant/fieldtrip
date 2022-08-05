@@ -5,10 +5,10 @@ import type {
   CourseMilestone,
   CourseHook,
   EventAssertion,
-} from "../types";
-import { getFile } from "../utils";
+} from "@notation/fieldtrip/types";
+import { getFile } from "@notation/fieldtrip/utils";
 import { SERVER_HOST } from "../config";
-import { Enrollments } from "../types";
+import { Enrollments } from "@notation/fieldtrip/types";
 
 const notNull = (value: any): value is NonNullable<typeof value> =>
   value !== null && value !== undefined;

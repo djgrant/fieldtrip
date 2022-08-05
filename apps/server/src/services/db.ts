@@ -1,9 +1,12 @@
 import createConnectionPool, { sql } from "@databases/pg";
 import tables from "@databases/pg-typed";
-import DatabaseSchema, { Enrollments, Tasks } from "../types/generated";
+import DatabaseSchema, {
+  Enrollments,
+  Tasks,
+} from "@notation/fieldtrip/types/generated";
 import { DATABASE_SCHEMA, DATABASE_URL } from "../config";
 import { emitter } from "../emitter";
-import databaseSchema from "../types/generated/schema.json";
+import databaseSchema from "@notation/fieldtrip/types/generated/schema.json";
 
 const db = createConnectionPool({
   bigIntMode: "string",

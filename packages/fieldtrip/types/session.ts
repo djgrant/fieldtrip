@@ -1,5 +1,5 @@
 import type { OAuthAppAuthentication } from "@octokit/auth-oauth-user";
-import type { Bots } from "./";
+import type { Bots } from ".";
 
 export type Session = {
   user?: {

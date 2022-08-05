@@ -10,7 +10,7 @@
     "importHelpers": true,
     "lib": ["es2021"],
     "module": "es2022",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node",
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "rootDir": ".",

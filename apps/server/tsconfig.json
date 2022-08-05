@@ -1,14 +1,15 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src/"],
+  "include": ["src/", "../../packages/fieldtrip/types/**/*.d.ts"],
   "compilerOptions": {
     "lib": ["es2020"],
     "module": "commonjs",
     "target": "es2020",
-    "outDir": "./dist",
+    "outDir": "../../dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "baseUrl": "./"
+
+    "rootDir": "../../../"
   },
   "ts-node": {
     "transpileOnly": true,

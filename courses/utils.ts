@@ -1,1 +1,1 @@
-export * from "../apps/server/src/utils/course-utils";
+export * from "@notation/fieldtrip/utils/course-utils";

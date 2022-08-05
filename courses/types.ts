@@ -6,4 +6,4 @@
  * i.e. from the npm registry or as a distinct build stage in the monorepo.
  * */
 
-export * from "../apps/server/src/types";
+export * from "@notation/fieldtrip/types";

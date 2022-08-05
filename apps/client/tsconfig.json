@@ -17,5 +17,5 @@
     "jsx": "react-jsx",
     "baseUrl": "./"
   },
-  "include": ["src"]
+  "include": ["src", "../../packages/fieldtrip/types/**/*.d.ts"]
 }

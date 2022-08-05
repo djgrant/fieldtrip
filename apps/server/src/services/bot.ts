@@ -3,7 +3,7 @@ import courses from "@packages/courses";
 import { Course } from "../services/course";
 import { Github, actionRegister } from "../services";
 import { db, enrollments, events } from "../services/db";
-import { createProbot } from "../utils";
+import { createProbot } from "@notation/fieldtrip/utils";
 import { taskq } from "./taskq";
 import { bots } from "../config";
 import type { Bots, CourseHook, EventAssertion } from "@packages/courses/types";
