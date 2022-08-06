@@ -2,14 +2,13 @@
   "extends": "../../tsconfig.base.json",
   "include": ["src/", "../../packages/fieldtrip/types/**/*.d.ts"],
   "compilerOptions": {
+    "rootDir": "../../../",
     "lib": ["es2020"],
     "module": "commonjs",
     "target": "es2020",
     "outDir": "../../dist",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-
-    "rootDir": "../../../"
+    "moduleResolution": "Node",
+    "resolveJsonModule": true
   },
   "ts-node": {
     "transpileOnly": true,
