@@ -1,4 +1,4 @@
-import type { CourseStage } from "../../types";
+import type { CourseStage } from "@notation/fieldtrip";
 import { sprint1Hooks } from "./sprint1-hooks";
 import { sprint1Milestones } from "./sprint1-milestones";
 import { sprint1Actions } from "./sprint1-actions";

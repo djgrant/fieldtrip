@@ -4,7 +4,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "declaration": false,
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
@@ -20,7 +19,7 @@
     "strict": true,
     "target": "es2021",
     "paths": {
-      "@notation/fieldtrip": ["packages/fieldtrip/index.ts"]
+      "@notation/fieldtrip": ["packages/fieldtrip"]
     }
   },
   "exclude": ["node_modules", "tmp"]

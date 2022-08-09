@@ -1,7 +1,8 @@
 import { createProbot as createProbotOrig } from "probot";
+
+import type { BotConfig } from "../config";
+import * as config from "../config";
 import { getLog } from "./logger";
-import * as config from "./config";
-import type { BotConfig } from "./config";
 
 export const createProbot = (botConfig: BotConfig) => {
   if (config.isDev && botConfig.WEBHOOK_PROXY_URL) {

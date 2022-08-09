@@ -1,5 +1,10 @@
 import js2 from "./js2-coworkers/config";
 
+const courses = { js2: js2 };
+
 export default {
-  [js2.id]: js2,
+  ...courses,
+  has(key: string): key is keyof typeof courses {
+    return key in courses;
+  },
 };

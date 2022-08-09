@@ -1,5 +1,5 @@
 import type { Context as BaseContext } from "probot";
-import { getFile } from "@notation/fieldtrip/utils";
+import { getFile } from "./file";
 
 export type EventContext = Pick<
   BaseContext<InstallationEvents> | BaseContext<RepoEvents>,
@@ -40,7 +40,6 @@ export class Github {
     if ("repositories" in this.context.payload) {
       return this.context.payload.repositories || [];
     }
-    return;
   }
 
   private get eventRepo() {
@@ -246,7 +245,7 @@ export class Github {
     if (currentFile) {
       // @ts-ignore content possibly doesn't exist if over a certain size
       const content = currentFile.data.content;
-      props["old_content"] = Buffer.from(content, "base64").toString("utf8");
+      props.old_content = Buffer.from(content, "base64").toString("utf8");
     }
 
     return this.octokit.repos.createOrUpdateFileContents(

@@ -1,14 +1,13 @@
 import type {
-  CourseConfig,
-  CourseStage,
   CourseAction,
-  CourseMilestone,
+  CourseConfig,
   CourseHook,
+  CourseMilestone,
+  CourseStage,
   EventAssertion,
-} from "@notation/fieldtrip/types";
-import { getFile } from "@notation/fieldtrip/utils";
-import { SERVER_HOST } from "../config";
-import { Enrollments } from "@notation/fieldtrip/types";
+} from "@notation/fieldtrip";
+import { Enrollments } from "./types";
+import { getFile } from "./file";
 
 const notNull = (value: any): value is NonNullable<typeof value> =>
   value !== null && value !== undefined;
@@ -16,16 +15,22 @@ const notNull = (value: any): value is NonNullable<typeof value> =>
 export class Course {
   config: CourseConfig;
   state: Enrollments | null;
+  host: string;
 
-  constructor(config: CourseConfig, state: Enrollments | null = null) {
+  constructor(
+    config: CourseConfig,
+    state: Enrollments | null = null,
+    host: string
+  ) {
     this.config = config;
     this.state = state;
+    this.host = host;
   }
 
   async compile(): Promise<CourseConfig> {
     const meta = await this.compileMeta();
     if (this.state) {
-      const courseAuthed = new CourseAuthed(this.config, this.state);
+      const courseAuthed = new CourseAuthed(this.config, this.state, this.host);
       const stages = await Promise.all(
         this.config.stages.map(courseAuthed.compileStage)
       );
@@ -90,11 +95,13 @@ export class Course {
 class CourseAuthed extends Course {
   config: CourseConfig;
   state: Enrollments;
+  host: string;
 
-  constructor(config: CourseConfig, state: Enrollments) {
-    super(config, state);
+  constructor(config: CourseConfig, state: Enrollments, host: string) {
+    super(config, state, host);
     this.config = config;
     this.state = state;
+    this.host = host;
   }
 
   compileStage = async (stage: CourseStage): Promise<CourseStage> => {
@@ -144,7 +151,7 @@ class CourseAuthed extends Course {
     }
 
     if (url.startsWith("/auth")) {
-      url = SERVER_HOST + url;
+      url = this.host + url;
     }
 
     return { ...action, url, passed };

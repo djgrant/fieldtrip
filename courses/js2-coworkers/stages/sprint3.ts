@@ -1,4 +1,4 @@
-import type { CourseStage } from "../../types";
+import type { CourseStage } from "@notation/fieldtrip";
 
 export const sprint3: CourseStage = {
   key: "sprint-3",

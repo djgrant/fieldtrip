@@ -1,11 +1,10 @@
 import type { Server as HTTPServer } from "http";
-import courses from "@packages/courses";
+import { Course, Enrollments } from "@notation/fieldtrip";
 import { Server } from "socket.io";
 import { emitter } from "./emitter";
 import * as mw from "./middlewares";
 import * as config from "./config";
-import { Course } from "./services";
-import { Enrollments } from "@notation/fieldtrip/types";
+import courses from "@packages/courses";
 
 export const io = (server: HTTPServer) => {
   const io = new Server(server, {
@@ -27,8 +26,9 @@ export const io = (server: HTTPServer) => {
     if (!username) return;
     emitter.on(`${username}:enrollment:updated`, async (data: Enrollments) => {
       if (!data) return;
-      const courseConfig = courses[data.course_id as any];
-      const course = new Course(courseConfig, data);
+      if (!courses.has(data.course_id)) return;
+      const courseConfig = courses[data.course_id];
+      const course = new Course(courseConfig, data, config.SERVER_HOST);
       const compiledCourse = await course.compile();
       socket.emit("course:update", {
         courseId: data.course_id,

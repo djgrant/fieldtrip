@@ -1,7 +1,8 @@
-import courses from "@packages/courses";
 import { Router } from "express";
-import { enrollments, tasks, db, events } from "../services/db";
-import { Course } from "../services";
+import { Course } from "@notation/fieldtrip";
+import { db, enrollments, events, tasks } from "src/services/db";
+import { SERVER_HOST } from "src/config";
+import courses from "@packages/courses";
 
 export const api = Router();
 
@@ -28,7 +29,7 @@ api.get("/courses/:id", async (req, res, next) => {
     const state = req.locals.enrollmentKey
       ? await enrollments(db).findOne(req.locals.enrollmentKey)
       : null;
-    const course = new Course(courseConfig, state);
+    const course = new Course(courseConfig, state, SERVER_HOST);
     const compiledCourse = await course.compile();
     res.send(compiledCourse);
   } catch (err) {

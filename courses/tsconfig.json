@@ -2,12 +2,9 @@
   "extends": "../tsconfig.base.json",
   "include": ["./"],
   "compilerOptions": {
-    "incremental": true,
-    "lib": ["es2020"],
-    "module": "commonjs",
-    "target": "es2020",
-    "outDir": "./dist",
-    "moduleResolution": "node",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "outDir": "../dist/out-tsc",
+    "strict": false,
+    "noImplicitAny": false
   }
 }

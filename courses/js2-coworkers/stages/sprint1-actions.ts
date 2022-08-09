@@ -1,5 +1,5 @@
-import type { CourseAction } from "../../types";
-import { on } from "../../utils";
+import type { CourseAction } from "@notation/fieldtrip";
+import { on } from "@notation/fieldtrip";
 
 export const sprint1Actions: CourseAction[] = [
   {
