@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Redirect, Router } from "@reach/router";
+import { Router } from "react-router-dom";
 import { Provider, store } from "src/store";
 import { Course, NotFound } from "src/pages";
 import { Announcement } from "./components/app";
