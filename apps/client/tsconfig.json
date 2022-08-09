@@ -1,11 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src"],
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "../../dist/out-tsc",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx"
-  }
+  },
+  "include": ["./src"]
 }

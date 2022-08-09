@@ -4,7 +4,7 @@ import { Router } from "react-router-dom";
 import { Provider, store } from "src/store";
 import { Course, NotFound } from "src/pages";
 import { Announcement } from "./components/app";
-import "src/assets/styles.css";
+import "./main.css";
 
 ReactDOM.render(
   <Announcement message="Initialising lab..." />,
