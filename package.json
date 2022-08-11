@@ -23,7 +23,7 @@
     "test": "nx run-many --target=test --all",
     "tunnel": "scripts/tunnel",
     "reset": "nx reset",
-    "publish": "nx run fieldtrip:version --postTargets=fieldtrip:publish'",
+    "publish": "nx run fieldtrip:version --postTargets=fieldtrip:deploy'",
     "prepare": "husky install",
     "deploy": "nx run fieldtrip:deploy"
   },

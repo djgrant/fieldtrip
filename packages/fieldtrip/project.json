@@ -12,12 +12,35 @@
         "assets": ["packages/fieldtrip/*.md"]
       }
     },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "version": {
+      "executor": "@jscutlery/semver:version",
       "options": {
-        "lintFilePatterns": ["packages/fieldtrip/**/*.ts"]
+        "options": {
+          "postTargets": ["fieldtrip:deploy"]
+        }
       }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public",
+        "buildTarget": "production",
+        "dryRun": true,
+        "noBuild": true,
+        "tag": "${tag}"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["fieldtrip:test", "fieldtrip"]
+      },
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "build"
+        }
+      ]
     },
     "test": {
       "executor": "@nrwl/jest:jest",
@@ -26,32 +49,6 @@
         "jestConfig": "packages/fieldtrip/jest.config.ts",
         "passWithNoTests": true
       }
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "options": {
-          "postTargets": ["fieldtrip:publish"]
-        }
-      }
-    },
-    "deploy": {
-      "executor": "ngx-deploy-npm:deploy",
-      "options": {
-        "access": "public"
-      }
-    },
-    "publish": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "node tools/scripts/publish.mjs fieldtrip {args.ver} {args.tag}"
-      },
-      "dependsOn": [
-        {
-          "projects": "self",
-          "target": "build"
-        }
-      ]
     }
   },
   "tags": []
