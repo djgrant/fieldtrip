@@ -1,8 +1,8 @@
 FROM node:14-slim
 WORKDIR /usr/src/app
-COPY package.json yarn.lock tsconfig.base.json nx.json ./
+COPY package.json package-lock.json tsconfig.base.json nx.json ./
 COPY apps/server apps/server/
-COPY courses courses/
+COPY packages/fieldtrip packages/fieldtrip
 RUN yarn install
 RUN yarn run build:server
 

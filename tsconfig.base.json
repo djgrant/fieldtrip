@@ -19,7 +19,8 @@
     "strict": true,
     "target": "es2021",
     "paths": {
-      "@notation/fieldtrip": ["packages/fieldtrip"]
+      "@notation/fieldtrip": ["packages/fieldtrip"],
+      "@notation/g": ["packages/ggg/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

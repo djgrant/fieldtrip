@@ -22,7 +22,10 @@
     "start": "nx run apps-server:start",
     "test": "nx run-many --target=test --all",
     "tunnel": "scripts/tunnel",
-    "reset": "nx reset"
+    "reset": "nx reset",
+    "publish": "nx run fieldtrip:version --postTargets=fieldtrip:publish'",
+    "prepare": "husky install",
+    "deploy": "nx run fieldtrip:deploy"
   },
   "dependencies": {
     "@databases/pg": "^5.3.0",
@@ -52,10 +55,17 @@
     "react-router-dom": "^6.3.0",
     "regenerator-runtime": "^0.13.9",
     "socket.io": "^4.4.1",
-    "socket.io-client": "^4.4.1"
+    "socket.io-client": "^4.4.1",
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@jscutlery/semver": "^2.26.0",
+    "@nrwl/eslint-plugin-nx": "14.4.3",
+    "@nrwl/jest": "14.4.3",
     "@nrwl/js": "^14.4.3",
+    "@nrwl/linter": "14.4.3",
     "@nrwl/nx-cloud": "latest",
     "@swc/cli": "~0.1.55",
     "@swc/core": "^1.2.133",
@@ -66,11 +76,16 @@
     "@types/node": "^16.11.19",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
     "@vitejs/plugin-react": "^2.0.0",
     "autoprefixer": "^10.4.2",
     "dotenv": "^15.0.0",
     "dotenv-cli": "^4.1.1",
+    "eslint": "~8.15.0",
+    "eslint-config-prettier": "8.1.0",
     "http-proxy-middleware": "^2.0.1",
+    "husky": "^8.0.0",
     "jest": "^27.4.7",
     "nock": "^13.2.2",
     "nx": "14.4.3",
