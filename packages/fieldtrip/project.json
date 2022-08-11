@@ -23,11 +23,7 @@
     "deploy": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
-        "access": "public",
-        "buildTarget": "production",
-        "dryRun": true,
-        "noBuild": true,
-        "tag": "${tag}"
+        "access": "public"
       }
     },
     "publish": {
