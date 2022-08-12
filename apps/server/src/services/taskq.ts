@@ -1,5 +1,5 @@
 import { PgTaskQ } from "@djgrant/pg-taskq";
-import * as config from "../config";
+import * as config from "src/config";
 
 export const taskq = new PgTaskQ({
   db: { connectionString: config.DATABASE_URL },

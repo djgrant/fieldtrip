@@ -1,14 +1,14 @@
 import { Router } from "express";
-import {URLSearchParams} from "url"
+import { URLSearchParams } from "url";
 import { createOAuthUserAuth } from "@octokit/auth-oauth-user";
 import { createAppAuth } from "@octokit/auth-app";
-import * as config from "../config";
+import * as config from "src/config";
 import { ProbotOctokit } from "probot";
 
 export const auth = Router();
 
 auth.get("/login", async (_, res) => {
-  const params =new URLSearchParams({
+  const params = new URLSearchParams({
     client_id: config.bots.fieldtrip.GITHUB_CLIENT_ID,
     redirect_uri: `${config.SERVER_HOST}/auth/login/cb`,
   }).toString();

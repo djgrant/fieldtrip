@@ -1,8 +1,8 @@
-import * as bots from "../services/bots";
 import type { RequestHandler } from "express";
-import { enrollments, db } from "../services/db";
-import { Bots } from "@notation/fieldtrip/types";
-import { getInstallationId } from "@notation/fieldtrip/utils";
+import * as bots from "src/services/bots";
+import { db, enrollments } from "src/services/db";
+import { Bots } from "src/types";
+import { getInstallationId } from "src/utils";
 
 const botNames = Object.keys(bots) as Bots[];
 

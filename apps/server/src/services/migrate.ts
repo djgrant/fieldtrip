@@ -1,6 +1,6 @@
 import { migrations } from "../migrations";
 import { exec } from "child_process";
-import { DATABASE_SCHEMA, DATABASE_URL } from "../config";
+import { DATABASE_SCHEMA, DATABASE_URL } from "src/config";
 import { db } from "./db";
 
 export const migrate = async () => {

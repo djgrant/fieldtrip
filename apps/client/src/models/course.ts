@@ -1,5 +1,5 @@
 import type { Instance, SnapshotIn, SnapshotOut } from "mobx-state-tree";
-import { types, flow } from "mobx-state-tree";
+import { flow, types } from "mobx-state-tree";
 import { getRoot } from "src/store";
 import { toaster } from "evergreen-ui";
 import { api } from "src/utils/api";

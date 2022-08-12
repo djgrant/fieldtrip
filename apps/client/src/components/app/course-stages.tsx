@@ -1,4 +1,4 @@
-import { Markdown, Tab, Tabs, TabPage } from "src/components/library";
+import { Markdown, Tab, TabPage, Tabs } from "src/components/library";
 import { CourseActions, CourseMilestones } from ".";
 import { observer } from "mobx-react-lite";
 import type { ICourseStage } from "src/models";

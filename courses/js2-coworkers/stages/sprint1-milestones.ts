@@ -1,5 +1,5 @@
-import type { CourseMilestone } from "../../types";
-import { on, prByOwner, prRefsIssue } from "../../utils";
+import type { CourseMilestone } from "@notation/fieldtrip";
+import { on, prByOwner, prRefsIssue } from "@notation/fieldtrip";
 
 export const sprint1Milestones: CourseMilestone[] = [
   {

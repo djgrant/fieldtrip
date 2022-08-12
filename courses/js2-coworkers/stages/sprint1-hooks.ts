@@ -1,5 +1,5 @@
-import type { CourseHook } from "../../types";
-import { on } from "../../utils";
+import type { CourseHook } from "@notation/fieldtrip";
+import { on } from "@notation/fieldtrip";
 
 export const sprint1Hooks: CourseHook[] = [
   {

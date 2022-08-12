@@ -1,5 +1,5 @@
+import type { CourseConfig } from "@notation/fieldtrip";
 import { sprint1, sprint2, sprint3 } from "./stages";
-import type { CourseConfig } from "../types";
 
 const config: CourseConfig = {
   id: "js2",

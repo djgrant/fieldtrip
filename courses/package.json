@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "main": "dist/courses/index.js",
   "author": "Daniel Grant",
-  
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch"
