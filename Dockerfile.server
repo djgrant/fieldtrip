@@ -2,6 +2,8 @@ FROM node:14-slim
 WORKDIR /usr/src/app
 COPY package.json package-lock.json tsconfig.base.json nx.json ./
 COPY apps/server apps/server/
+COPY packages/fieldtrip packages/fieldtrip/
+COPY courses courses/
 RUN npm install
 RUN npm run build:server
 

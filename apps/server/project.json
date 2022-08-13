@@ -9,7 +9,7 @@
         "outputPath": "dist/apps/server",
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
-        "assets": ["yarn.lock"]
+        "assets": ["package-lock.json"]
       }
     }
   }
