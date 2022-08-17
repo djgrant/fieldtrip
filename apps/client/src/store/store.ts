@@ -1,4 +1,4 @@
-import { Root } from "src/models";
+import { Root } from "../models";
 
 const initialSnapshot = {
   user: null,

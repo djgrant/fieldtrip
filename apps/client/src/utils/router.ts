@@ -1,23 +1,19 @@
-import {
-  globalHistory,
-  matchPath,
-  navigate,
-  NavigateOptions,
-  History,
-} from "@reach/router";
+import { BrowserHistory } from "history";
+import globalHistory from "history/browser";
+import { useNavigate, matchPath } from "react-router-dom";
+
+interface NavigateOptions {
+  replace?: boolean;
+  state?: any;
+}
 
 export const router = {
-  navigate(path: string, opts?: NavigateOptions<{}>) {
-    navigate(path, opts);
-  },
-  replace(path: string, opts: Omit<NavigateOptions<{}>, "replace"> = {}) {
-    navigate(path, { replace: true, ...opts });
-  },
   location(history = globalHistory) {
     return history.location;
   },
+
   async listen(subscriber: (...args: any) => void) {
-    const onRouteChange = async (history: History) => {
+    const onRouteChange = async (history: BrowserHistory) => {
       await subscriber(router.location(history));
     };
     await onRouteChange(globalHistory);

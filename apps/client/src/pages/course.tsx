@@ -1,13 +1,12 @@
 import type { FC } from "react";
-import { RouteComponentProps } from "@reach/router";
 import { observer } from "mobx-react-lite";
-import { AppLayout } from "src/components/templates";
-import { Container } from "src/components/library";
-import { CourseHero, CourseStages, CourseRepo } from "src/components/app";
-import { useMst } from "src/store";
-import { Announcement } from "src/components/app";
+import { AppLayout } from "../components/templates";
+import { Container } from "../components/library";
+import { CourseHero, CourseStages, CourseRepo } from "../components/app";
+import { useMst } from "../store";
+import { Announcement } from "../components/app";
 
-interface Props extends RouteComponentProps {
+interface Props {
   id?: string;
 }
 

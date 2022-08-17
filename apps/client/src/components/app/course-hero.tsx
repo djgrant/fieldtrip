@@ -1,9 +1,9 @@
-import { Button, H1, H4, Markdown } from "src/components/library";
-import githubIcon from "src/assets/github.svg";
-import type { ICourse } from "src/models";
 import type { FC } from "react";
-import { LOGIN_URL } from "src/config";
-import coworkers from "src/assets/coworkers.svg";
+import type { ICourse } from "../../models";
+import { LOGIN_URL } from "../../config";
+import { Button, H1, H4, Markdown } from "../library";
+import coworkers from "../../assets/coworkers.svg";
+import githubIcon from "../../assets/github.svg";
 
 type Props = {
   course: ICourse;

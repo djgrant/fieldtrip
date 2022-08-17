@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router } from "react-router-dom";
-import { Provider, store } from "src/store";
-import { Course, NotFound } from "src/pages";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider, store } from "./store";
+import { Index } from "./pages/index";
+import { Course } from "./pages/course";
+import { NotFound } from "./pages/not-found";
 import { Announcement } from "./components/app";
 import "./main.css";
 
@@ -17,11 +19,13 @@ store
     ReactDOM.render(
       <React.StrictMode>
         <Provider value={store}>
-          <Router>
-            <Redirect from="/" to="courses/js2" noThrow />
-            <Course path="courses/:id/*" />
-            <NotFound default />
-          </Router>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="courses/:id/*" element={<Course />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
         </Provider>
       </React.StrictMode>,
       document.getElementById("root")

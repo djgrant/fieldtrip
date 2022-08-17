@@ -32,10 +32,12 @@
     "@databases/pg-typed": "^4.1.0",
     "@djgrant/pg-taskq": "^1.0.0-alpha.38",
     "@djgrant/react-tailwind": "^1.0.0",
+    "@notation/fieldtrip": "0.0.1",
     "@octokit/auth-app": "^3.6.1",
     "@octokit/auth-oauth-user": "^1.3.0",
     "@octokit/rest": "^19.0.3",
     "@packages/courses": "1.0.0",
+    "@radix-ui/react-tabs": "^1.0.0",
     "@swc/helpers": "^0.4.6",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
@@ -55,8 +57,7 @@
     "regenerator-runtime": "^0.13.9",
     "socket.io": "^4.4.1",
     "socket.io-client": "^4.4.1",
-    "tslib": "^2.3.0",
-    "@notation/fieldtrip": "0.0.1"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",

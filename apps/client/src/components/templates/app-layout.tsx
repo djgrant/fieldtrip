@@ -1,7 +1,11 @@
-import type { FC } from "react";
-import { Header } from "src/components/app";
+import type { FC, ReactNode } from "react";
+import { Header } from "../app";
 
-export const AppLayout: FC = ({ children }) => {
+interface Props {
+  children: ReactNode;
+}
+
+export const AppLayout: FC<Props> = ({ children }) => {
   return (
     <div className="mb-16">
       <Header />

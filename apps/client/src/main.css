@@ -5,3 +5,8 @@
 html {
   color: #24292e;
 }
+
+.tabTrigger [data-state="active"] {
+  @apply border-b-4;
+  @apply border-blue-500;
+}
