@@ -12,7 +12,10 @@
     },
     "keepClassNames": true,
     "externalHelpers": true,
-    "loose": true
+    "loose": true,
+    "paths": {
+      "src/*": ["./src/*"]
+    }
   },
   "module": {
     "type": "commonjs",
