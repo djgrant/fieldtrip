@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "../../dist/out-tsc",
+    "module": "ESNext",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx"

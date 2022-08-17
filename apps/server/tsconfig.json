@@ -1,12 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src"],
+  "include": ["src/**/*"],
   "compilerOptions": {
     "baseUrl": "./",
+    "module": "commonjs",
     "outDir": "../../dist/out-tsc"
   },
   "ts-node": {
     "transpileOnly": true,
-    "transpiler": "ts-node/transpilers/swc-experimental"
+    "transpiler": "ts-node/transpilers/swc-experimental",
+    "require": ["tsconfig-paths/register"]
   }
 }
