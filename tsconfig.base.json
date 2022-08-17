@@ -17,6 +17,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2021",
+    "esModuleInterop": true,
     "paths": {
       "@notation/fieldtrip": ["packages/fieldtrip"]
     }

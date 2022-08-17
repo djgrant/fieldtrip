@@ -3,9 +3,10 @@
   "include": ["./"],
   "compilerOptions": {
     "baseUrl": "./",
+    "module": "NodeNext",
+    "moduleResolution": "Node",
     "outDir": "../dist/out-tsc",
     "strict": false,
-    "noImplicitAny": false,
-    "moduleResolution": "NodeNext"
+    "noImplicitAny": false
   }
 }

@@ -4,6 +4,7 @@
     "baseUrl": "./",
     "outDir": "../../dist/out-tsc",
     "module": "ESNext",
+    "moduleResolution": "Node",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx"

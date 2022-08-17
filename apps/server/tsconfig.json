@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "module": "commonjs",
+    "moduleResolution": "Node",
     "outDir": "../../dist/out-tsc"
   },
   "ts-node": {
