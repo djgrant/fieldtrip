@@ -7,7 +7,7 @@
   "workspaces": [
     "apps/*",
     "courses",
-    "packages/*"
+    "dist/packages/*"
   ],
   "scripts": {
     "build": "nx affected:build --all",
