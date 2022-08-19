@@ -1,6 +1,7 @@
 {
   "jsc": {
     "target": "es2017",
+    "baseUrl": "./server",
     "parser": {
       "syntax": "typescript",
       "decorators": true,
