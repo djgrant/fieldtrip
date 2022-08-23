@@ -44,3 +44,5 @@ export const bots = {
 };
 
 export type BotConfig = ReturnType<typeof createBotConfig>;
+
+export const Github_AUTH = getEnv("GITHUB_AUTH");
