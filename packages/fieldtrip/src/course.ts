@@ -5,7 +5,7 @@ import type {
   CourseMilestone,
   CourseStage,
   EventAssertion,
-} from "@notation/fieldtrip";
+} from "./types";
 import { Enrollments } from "./types";
 import { getFile } from "./file";
 
