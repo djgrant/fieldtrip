@@ -1,8 +1,8 @@
 import type { Instance, SnapshotIn, SnapshotOut } from "mobx-state-tree";
-import { types, flow } from "mobx-state-tree";
-import { getRoot } from "src/store";
+import { flow, types } from "mobx-state-tree";
+import { getRoot } from "../store";
 import { toaster } from "evergreen-ui";
-import { api } from "src/utils/api";
+import { api } from "../utils/api";
 import { CourseStage } from ".";
 
 export const Course = types

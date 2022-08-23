@@ -1,8 +1,8 @@
 import { io } from "socket.io-client";
 import { toaster } from "evergreen-ui";
 import { applySnapshot, getSnapshot } from "mobx-state-tree";
-import { store } from "src/store";
-import { SERVER_URL } from "src/config";
+import { store } from "./store";
+import { SERVER_URL } from "./config";
 import { IRootSnapshotOut } from "./models";
 
 export const socket = io(SERVER_URL!, {

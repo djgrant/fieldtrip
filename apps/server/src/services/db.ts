@@ -1,9 +1,9 @@
 import createConnectionPool, { sql } from "@databases/pg";
 import tables from "@databases/pg-typed";
-import DatabaseSchema, { Enrollments, Tasks } from "../types/generated";
-import { DATABASE_SCHEMA, DATABASE_URL } from "../config";
-import { emitter } from "../emitter";
-import databaseSchema from "../types/generated/schema.json";
+import { DATABASE_SCHEMA, DATABASE_URL } from "src/config";
+import { emitter } from "src/emitter";
+import { DatabaseSchema, Enrollments } from "src/types";
+import databaseSchema from "src/types/generated/schema.json";
 
 const db = createConnectionPool({
   bigIntMode: "string",
@@ -22,7 +22,7 @@ const { enrollments, events, tasks } = tables<DatabaseSchema>({
   databaseSchema,
 });
 
-export { sql, db, enrollments, events, tasks };
+export { db, enrollments, events, sql, tasks };
 
 const isUpdatedEnrollment = (result: any): result is Enrollments =>
   typeof result === "object" &&

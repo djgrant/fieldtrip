@@ -1,0 +1,51 @@
+{
+  "sourceRoot": "packages/fieldtrip/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/fieldtrip",
+        "main": "packages/fieldtrip/src/index.ts",
+        "tsConfig": "packages/fieldtrip/tsconfig.lib.json",
+        "assets": ["packages/fieldtrip/*.md"]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "options": {
+          "postTargets": ["fieldtrip:deploy"]
+        }
+      }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["fieldtrip:test", "fieldtrip"]
+      },
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "build"
+        }
+      ]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/fieldtrip"],
+      "options": {
+        "jestConfig": "packages/fieldtrip/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

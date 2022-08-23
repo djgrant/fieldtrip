@@ -1,8 +1,8 @@
-import { Button, H4, Markdown } from "src/components/library";
-import { observer } from "mobx-react-lite";
-import * as config from "src/config";
 import type { FC } from "react";
-import type { ICourse } from "src/models";
+import { observer } from "mobx-react-lite";
+import * as config from "../../config";
+import type { ICourse } from "../../models";
+import { Button, H4, Markdown } from "../library";
 
 type Props = {
   stage: ICourse["stages"][number];

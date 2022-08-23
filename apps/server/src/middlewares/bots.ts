@@ -1,9 +1,9 @@
+import type { ApplicationFunction } from "probot/lib/types";
+import type { Probot } from "probot";
+import type { BotConfig } from "src/config";
 import express from "express";
 import { createNodeMiddleware } from "probot";
-import * as bots from "../services/bots";
-import type { Probot } from "probot";
-import type { ApplicationFunction } from "probot/lib/types";
-import type { BotConfig } from "../config";
+import * as bots from "src/services/bots";
 
 const probot = (params: {
   app: ApplicationFunction;

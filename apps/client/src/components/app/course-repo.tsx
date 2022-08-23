@@ -1,5 +1,6 @@
-import type { ICourseEnrollment } from "src/models";
-import { Button, Link } from "src/components/library";
+import { Link } from "react-router-dom";
+import type { ICourseEnrollment } from "../../models";
+import { Button } from "../library";
 
 type Props = {
   onDelete: (...args: any) => any;

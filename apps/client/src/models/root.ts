@@ -2,10 +2,29 @@ import { Instance, SnapshotIn, SnapshotOut } from "mobx-state-tree";
 import { types, flow } from "mobx-state-tree";
 import { User } from "./user";
 import { Course } from "./course";
-import { router } from "src/utils/router";
 import { toaster } from "evergreen-ui";
-import { socket } from "src/socket";
-import { api } from "src/utils/api";
+import { socket } from "../socket";
+import { api } from "../utils/api";
+import history from "history/browser";
+import { BrowserHistory } from "history";
+import { matchPath } from "react-router-dom";
+
+const listen = async (subscriber: (...args: any) => void) => {
+  const onRouteChange = async (history: BrowserHistory) => {
+    await subscriber(history.location);
+  };
+  await onRouteChange(history);
+  history.listen((history) => onRouteChange(history as any));
+};
+
+const match = async (path: string, subscriber: (...args: any) => void) => {
+  await listen(async (args) => {
+    const match = matchPath(path, args.pathname);
+    if (match) {
+      await subscriber(match);
+    }
+  });
+};
 
 export const Root = types
   .model({
@@ -31,7 +50,7 @@ export const Root = types
         self.courses.put(course);
       } catch (err: any) {
         if (err.status === 404) {
-          router.replace("/404");
+          history.replace("/404");
         } else {
           toaster.danger("Failed to load course");
           console.log(err);
@@ -43,7 +62,7 @@ export const Root = types
     // lazy loading i.e. load everything up front so I don't have to implement loading states :)
     init: flow(function* () {
       yield self.loadUser();
-      yield router.match("/courses/:id/*", async ({ params }) => {
+      yield match("/courses/:id/*", async ({ params }) => {
         await self.loadCourse(params.id);
         if (self.user) {
           socket.connect();

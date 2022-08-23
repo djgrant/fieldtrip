@@ -1,11 +1,11 @@
-FROM node:14-slim AS build
+FROM node:16 AS build
 ARG REACT_APP_SERVER_URL
-COPY package.json yarn.lock tsconfig.json lerna.json ./
+WORKDIR /usr/src/app
+COPY package.json package-lock.json tsconfig.base.json nx.json ./
 COPY apps/client apps/client/
-RUN cd apps/client
-RUN yarn install
-RUN yarn build
+RUN npm install
+RUN npx nx build apps-client
 
 FROM pierrezemb/gostatic
-COPY --from=build apps/client/build /srv/http/
+COPY --from=build /usr/src/app/dist/apps/client /srv/http/
 CMD ["-port","8080","-https-promote", "-enable-logging", "-fallback", "index.html"]

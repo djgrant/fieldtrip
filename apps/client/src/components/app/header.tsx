@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import { observer } from "mobx-react-lite";
-import { Container } from "src/components/library";
-import { LOGIN_URL } from "src/config";
-import { useMst } from "src/store";
+import { Container } from "../library";
+import { LOGIN_URL } from "../../config";
+import { useMst } from "../../store";
 import Logo from "./Logo";
 
 export const Header: FC = observer(() => {

@@ -11,10 +11,10 @@ Follow the instructions in [docs/setup](docs/setup.md).
 Deployments are made to fly.io. After setting up their CLI tools and authenticating, run:
 
 ```
-yarn deploy:client:staging
-yarn deploy:client:prod
-yarn deploy:server:staging
-yarn deploy:server:prod
+npm run deploy:client:staging
+npm run deploy:client:prod
+npm run deploy:server:staging
+npm run deploy:server:prod
 ```
 
 ## Contributing

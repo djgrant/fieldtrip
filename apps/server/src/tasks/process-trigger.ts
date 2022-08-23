@@ -1,11 +1,12 @@
 import PQueue from "p-queue";
-import courses from "@packages/courses";
-import { Course, Github, actionRegister } from "../services";
-import { db, enrollments, events } from "../services/db";
-import { createProbot } from "../utils";
-import { bots } from "../config";
-import { taskq } from "../services/taskq";
-import type { Bots } from "@packages/courses/types";
+import { Course, Github } from "@notation/fieldtrip";
+import { bots } from "src/config";
+import { actionRegister } from "src/services";
+import { db, enrollments, events } from "src/services/db";
+import { taskq } from "src/services/taskq";
+import type { Bots } from "src/types";
+import { createProbot } from "src/utils";
+import courses from "@local/courses";
 
 // @todo get course using event payload repo
 const course = courses.js2;

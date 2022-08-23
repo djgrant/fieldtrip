@@ -1,4 +1,4 @@
-import type { Enrollments } from "./";
+import type { Enrollments } from ".";
 
 // @todo break these into input and generated types
 

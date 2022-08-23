@@ -1,5 +1,5 @@
+import { enrollments, db } from "src/services/db";
 import { createBot } from "./bot";
-import { enrollments, db } from "../services/db";
 
 export const fieldtrip = createBot("fieldtrip", (app) => {
   app.on("repository.deleted", async (context) => {

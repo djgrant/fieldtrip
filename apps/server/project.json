@@ -1,0 +1,16 @@
+{
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:swc",
+      "options": {
+        "main": "apps/server/src/index.ts",
+        "tsConfig": "apps/server/tsconfig.json",
+        "outputPath": "dist/apps/server",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "assets": ["package-lock.json"]
+      }
+    }
+  }
+}

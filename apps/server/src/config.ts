@@ -15,7 +15,7 @@ function getEnv(key: string, required = true) {
 export const DATABASE_URL = getEnv("DATABASE_URL");
 export const DATABASE_SCHEMA = getEnv("DATABASE_SCHEMA");
 export const SERVER_HOST = getEnv("SERVER_HOST");
-export const PORT = getEnv("PORT");
+export const PORT = getEnv("SERVER_PORT");
 export const CLIENT_HOST = getEnv("CLIENT_HOST");
 export const ROOT_DOMAIN = getEnv("ROOT_DOMAIN");
 

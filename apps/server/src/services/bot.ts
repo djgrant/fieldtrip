@@ -1,12 +1,12 @@
+import type { CourseHook, EventAssertion } from "@notation/fieldtrip";
+import type { Bots } from "src/types";
 import { Probot } from "probot";
-import courses from "@packages/courses";
-import { Course } from "../services/course";
-import { Github, actionRegister } from "../services";
-import { db, enrollments, events } from "../services/db";
-import { createProbot } from "../utils";
-import { taskq } from "./taskq";
-import { bots } from "../config";
-import type { Bots, CourseHook, EventAssertion } from "@packages/courses/types";
+import { Course, Github } from "@notation/fieldtrip";
+import { bots } from "src/config";
+import { actionRegister, taskq } from "src/services";
+import { db, enrollments, events } from "src/services/db";
+import { createProbot } from "src/utils";
+import courses from "@local/courses";
 
 // @todo get course using event payload repo
 const course = courses.js2;

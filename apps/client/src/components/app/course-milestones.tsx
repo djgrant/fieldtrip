@@ -1,7 +1,7 @@
-import { H4, Markdown } from "src/components/library";
+import { H4, Markdown } from "../library";
 import { observer } from "mobx-react-lite";
 import type { FC } from "react";
-import type { ICourse } from "src/models";
+import type { ICourse } from "../../models";
 
 type Props = {
   stage: ICourse["stages"][number];
