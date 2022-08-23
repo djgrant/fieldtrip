@@ -1,11 +1,7 @@
 {
   "private": true,
-  "name": "@packages/courses",
+  "name": "@local/courses",
   "version": "1.0.0",
-  "main": "dist/courses/index.js",
-  "author": "Daniel Grant",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
-  }
+  "main": "index.js",
+  "author": "Daniel Grant"
 }

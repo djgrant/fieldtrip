@@ -1,0 +1,15 @@
+{
+  "sourceRoot": "courses",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/courses",
+        "main": "courses/index.ts",
+        "tsConfig": "courses/tsconfig.json"
+      }
+    }
+  }
+}

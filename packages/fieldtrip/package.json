@@ -1,6 +1,5 @@
 {
   "name": "@notation/fieldtrip",
   "version": "0.0.1",
-  "main": "src/index.js",
-  "types": "src/index.d.ts"
+  "main": "src/index"
 }
