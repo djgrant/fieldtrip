@@ -5,15 +5,13 @@
   "author": "Daniel Grant",
   "homepage": "https://github.com/notationhq/fieldtrip",
   "workspaces": [
-    "apps/*",
-    "courses",
     "dist/packages/*"
   ],
   "scripts": {
     "build": "nx affected:build --all",
     "build:server": "nx run apps-server:build",
     "db:types": "dotenv -- bash -c 'npx @databases/pg-schema-cli --database $DATABASE_URL --directory apps/server/src/types/generated'",
-    "dev": "nx run-many --target=dev --projects='apps-client,apps-server' --parallel=2",
+    "dev": "npm run tunnel & nx run-many --target=dev --projects='apps-client,apps-server' --parallel=2",
     "dev:packages": "nx run-many --target=dev --parallel --all",
     "deploy:server:prod": "fly deploy --config ./fly.server.production.toml",
     "deploy:server:staging": "fly deploy --config ./fly.server.staging.toml",
