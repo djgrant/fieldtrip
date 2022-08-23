@@ -30,12 +30,13 @@ DATABASE_URL="postgres://<user>@localhost:5432/fieldwork"
 ## 5. Install
 
 ```sh
-yarn
+npm bootstrap
 ```
+
+This will copy packages into the dist folder so that [workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces) can be set up, and the run `npm install`.
 
 ## 6. Run
 
 ```sh
-yarn tunnel
-yarn dev
+npm run dev
 ```
