@@ -12,11 +12,8 @@
   },
   "scripts": {
     "bootstrap": "scripts/bootstrap.mjs && npm install",
-    "build": "nx affected:build --all",
-    "build:server": "nx run apps-server:build",
     "db:types": "dotenv -- bash -c 'npx @databases/pg-schema-cli --database $DATABASE_URL --directory apps/server/src/types/generated'",
     "dev": "npm run tunnel & nx run-many --target=dev --projects='apps-client,apps-server' --parallel=2",
-    "dev:packages": "nx run-many --target=dev --parallel --all",
     "deploy:server:prod": "fly deploy --config ./fly.server.production.toml",
     "deploy:server:staging": "fly deploy --config ./fly.server.staging.toml",
     "deploy:client:prod": "fly deploy --config fly.client.prod.toml",
@@ -24,7 +21,6 @@
     "start": "nx run apps-server:start",
     "test": "nx run-many --target=test --all",
     "tunnel": "scripts/tunnel",
-    "reset": "nx reset",
     "publish": "nx run fieldtrip:test && nx run fieldtrip:version && nx run fieldtrip:deploy",
     "prepare": "husky install"
   },
