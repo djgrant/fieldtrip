@@ -7,6 +7,7 @@ export default defineConfig({
   },
   define: {
     DEV: process.env.DEV,
+    REACT_APP_SERVER_URL: process.env.REACT_APP_SERVER_URL,
   },
   plugins: [react()],
   resolve: {
