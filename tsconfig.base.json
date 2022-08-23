@@ -19,7 +19,8 @@
     "target": "es2021",
     "esModuleInterop": true,
     "paths": {
-      "@notation/fieldtrip": ["dist/packages/fieldtrip"]
+      "@local/courses": ["packages/courses"],
+      "@notation/fieldtrip": ["packages/fieldtrip"]
     }
   },
   "exclude": ["node_modules", "tmp"]

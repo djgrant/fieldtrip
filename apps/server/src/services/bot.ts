@@ -6,7 +6,7 @@ import { bots } from "src/config";
 import { actionRegister, taskq } from "src/services";
 import { db, enrollments, events } from "src/services/db";
 import { createProbot } from "src/utils";
-import courses from "@packages/courses";
+import courses from "@local/courses";
 
 // @todo get course using event payload repo
 const course = courses.js2;

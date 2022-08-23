@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 import { emitter } from "./emitter";
 import * as mw from "./middlewares";
 import * as config from "./config";
-import courses from "@packages/courses";
+import courses from "@local/courses";
 
 export const io = (server: HTTPServer) => {
   const io = new Server(server, {

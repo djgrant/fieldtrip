@@ -2,7 +2,7 @@ import { Router } from "express";
 import { Course } from "@notation/fieldtrip";
 import { db, enrollments, events, tasks } from "src/services/db";
 import { SERVER_HOST } from "src/config";
-import courses from "@packages/courses";
+import courses from "@local/courses";
 
 export const api = Router();
 
