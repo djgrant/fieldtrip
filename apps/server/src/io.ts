@@ -5,36 +5,8 @@ import { emitter } from "./emitter";
 import * as mw from "./middlewares";
 import * as config from "./config";
 import courses from "@packages/courses";
-import fetchCourse from "./services/courses";
-import { rollup } from "rollup";
-import swc from "rollup-plugin-swc";
-import virtual from "@rollup/plugin-virtual";
-
-const defaultTsConfig = {
-  include: ["**/*"],
-  compilerOptions: {
-    rootDir: ".",
-    baseUrl: ".",
-    module: "EsNext",
-    moduleResolution: "Node",
-    strict: false,
-    noImplicitAny: false,
-    allowSyntheticDefaultImports: true,
-    outDir: null,
-    declarationDir: null,
-    declaration: false,
-  },
-};
 
 export const io = (server: HTTPServer) => {
-  console.log(process.cwd(), "process.cwd()");
-  fetchCourse({
-    owner: "alaa-yahia",
-    repo: "course",
-    path: "",
-    name: "course",
-  }).then(build);
-
   const io = new Server(server, {
     path: "/ws",
     cors: {
@@ -65,59 +37,3 @@ export const io = (server: HTTPServer) => {
     });
   });
 };
-
-async function build(files: any) {
-  let bundle;
-  let buildFailed = false;
-  try {
-    // create a bundle
-    bundle = await rollup({
-      input: "config.ts",
-      plugins: [
-        virtual({
-          "tsconfig.json": JSON.stringify(defaultTsConfig, null, 4),
-          ...files,
-        }),
-        swc({
-          jsc: {
-            parser: {
-              syntax: "typescript",
-            },
-            target: "es2018",
-          },
-        }),
-      ],
-    });
-    console.log("................ppp", bundle);
-    // an array of file names this bundle depends on
-    console.log(bundle.watchFiles, "watched files");
-
-    await generateOutputs(bundle, outputOptions);
-  } catch (error) {
-    buildFailed = true;
-    // do some error reporting
-    console.error(error);
-  }
-  if (bundle) {
-    // closes the bundle
-    await bundle.close();
-  }
-  process.exit(buildFailed ? 1 : 0);
-}
-
-const outputOptions = { dir: "output", format: "cjs" };
-
-async function generateOutputs(bundle, outputOptions) {
-  // generate output specific code in-memory
-  // you can call this function multiple times on the same bundle object
-  // replace bundle.generate with bundle.write to directly write to disk
-  const { output } = await bundle.generate(outputOptions);
-
-  for (const chunkOrAsset of output) {
-    if (chunkOrAsset.type === "asset") {
-      console.log("Asset", chunkOrAsset);
-    } else {
-      console.log("Chunk", chunkOrAsset.modules);
-    }
-  }
-}
