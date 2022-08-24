@@ -7,62 +7,33 @@ import * as config from "./config";
 import courses from "@packages/courses";
 import fetchCourse from "./services/courses";
 import { rollup } from "rollup";
-import typescript from "@rollup/plugin-typescript";
-//import typescript from "rollup-plugin-typescript2";
+import swc from "rollup-plugin-swc";
 import virtual from "@rollup/plugin-virtual";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
+
+const defaultTsConfig = {
+  include: ["**/*"],
+  compilerOptions: {
+    rootDir: ".",
+    baseUrl: ".",
+    module: "EsNext",
+    moduleResolution: "Node",
+    strict: false,
+    noImplicitAny: false,
+    allowSyntheticDefaultImports: true,
+    outDir: null,
+    declarationDir: null,
+    declaration: false,
+  },
+};
 
 export const io = (server: HTTPServer) => {
   console.log(process.cwd(), "process.cwd()");
-  fetchCourse(
-    {
-      owner: "alaa-yahia",
-      repo: "course",
-      path: "",
-      name: "course",
-    },
-    {}
-  ).then((files) => {
-    const inputOptions = {
-      input: "config.ts",
-      external: ["ms"],
-      plugins: [
-        virtual({
-          ...files,
-        }),
-        //commonjs({ extensions: [".js", ".ts"] }),
-        typescript({
-          compilerOptions: {
-            module: "ESNext",
-          },
-        }),
-
-        /*           {
-          tsconfig: false,
-            compilerOptions: {
-              module: "CommonJS",
-              moduleResolution: "Node",
-            },
-          } */
-
-        /* {
-          check: false,
-          tsconfigOverride: {
-            include: [],
-            compilerOptions: {
-              module: "ESNext",
-              esModuleInterop: false,
-              baseUrl: "",
-              outDir: "",
-            },
-          },
-        } */
-      ],
-    };
-
-    build(inputOptions);
-  });
+  fetchCourse({
+    owner: "alaa-yahia",
+    repo: "course",
+    path: "",
+    name: "course",
+  }).then(build);
 
   const io = new Server(server, {
     path: "/ws",
@@ -95,12 +66,28 @@ export const io = (server: HTTPServer) => {
   });
 };
 
-async function build(inputOptions) {
+async function build(files: any) {
   let bundle;
   let buildFailed = false;
   try {
     // create a bundle
-    bundle = await rollup(inputOptions);
+    bundle = await rollup({
+      input: "config.ts",
+      plugins: [
+        virtual({
+          "tsconfig.json": JSON.stringify(defaultTsConfig, null, 4),
+          ...files,
+        }),
+        swc({
+          jsc: {
+            parser: {
+              syntax: "typescript",
+            },
+            target: "es2018",
+          },
+        }),
+      ],
+    });
     console.log("................ppp", bundle);
     // an array of file names this bundle depends on
     console.log(bundle.watchFiles, "watched files");
