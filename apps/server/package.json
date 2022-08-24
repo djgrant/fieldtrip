@@ -5,10 +5,10 @@
   "author": "Daniel Grant",
   "scripts": {
     "build": "tsc",
-    "dev": "onchange -i -k 'src/**/*' '../../courses/**/*' -- ts-node src/index.ts",
+    "dev": "onchange -i -k 'src/**/*' -- ts-node src/index.ts",
     "start": "node ./src/index.js"
   },
   "engines": {
-    "node": ">= 10.13.0"
+    "node": ">=16.17.0"
   }
 }

@@ -1,5 +1,5 @@
 import type { Context as BaseContext } from "probot";
-import { getFile } from "./file";
+import { getFile } from "@local/markdown";
 
 export type EventContext = Pick<
   BaseContext<InstallationEvents> | BaseContext<RepoEvents>,

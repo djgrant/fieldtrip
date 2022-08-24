@@ -1,0 +1,14 @@
+{
+  "sourceRoot": "packages/@local/github/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/@local/github/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

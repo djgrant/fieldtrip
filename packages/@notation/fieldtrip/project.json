@@ -1,15 +1,15 @@
 {
-  "sourceRoot": "packages/fieldtrip/src",
+  "sourceRoot": "packages/@notation/fieldtrip/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/fieldtrip",
-        "main": "packages/fieldtrip/src/index.ts",
-        "tsConfig": "packages/fieldtrip/tsconfig.lib.json",
-        "assets": ["packages/fieldtrip/*.md"]
+        "outputPath": "dist/packages/@notation/fieldtrip",
+        "main": "packages/@notation/fieldtrip/src/index.ts",
+        "tsConfig": "packages/@notation/fieldtrip/tsconfig.lib.json",
+        "assets": ["package-lock.json"]
       }
     },
     "version": {

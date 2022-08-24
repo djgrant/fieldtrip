@@ -5,7 +5,7 @@
   "author": "Daniel Grant",
   "homepage": "https://github.com/notationhq/fieldtrip",
   "workspaces": [
-    "dist/packages/*"
+    "dist/packages/**/*"
   ],
   "engines": {
     "node": ">=16.17.0"

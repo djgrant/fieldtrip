@@ -1,7 +1,8 @@
 import type { CourseHook, EventAssertion } from "@notation/fieldtrip";
 import type { Bots } from "src/types";
 import { Probot } from "probot";
-import { Course, Github } from "@notation/fieldtrip";
+import { Github } from "@local/github";
+import { Course } from "src/services/course";
 import { bots } from "src/config";
 import { actionRegister, taskq } from "src/services";
 import { db, enrollments, events } from "src/services/db";

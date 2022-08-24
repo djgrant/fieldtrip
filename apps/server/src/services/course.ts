@@ -5,9 +5,9 @@ import type {
   CourseMilestone,
   CourseStage,
   EventAssertion,
-} from "./types";
-import { Enrollments } from "./types";
-import { getFile } from "./file";
+  Enrollments,
+} from "@notation/fieldtrip";
+import { getFile } from "@local/markdown";
 
 const notNull = (value: any): value is NonNullable<typeof value> =>
   value !== null && value !== undefined;

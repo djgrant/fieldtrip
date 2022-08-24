@@ -1,5 +1,6 @@
 import PQueue from "p-queue";
-import { Course, Github } from "@notation/fieldtrip";
+import { Github } from "@local/github";
+import { Course } from "src/services/course";
 import { bots } from "src/config";
 import { actionRegister } from "src/services";
 import { db, enrollments, events } from "src/services/db";

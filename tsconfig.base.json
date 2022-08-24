@@ -19,8 +19,10 @@
     "target": "es2021",
     "esModuleInterop": true,
     "paths": {
-      "@local/courses": ["packages/courses"],
-      "@notation/fieldtrip": ["packages/fieldtrip"]
+      "@local/courses": ["packages/@local/courses"],
+      "@local/github": ["packages/@local/github"],
+      "@local/markdown": ["packages/@local/markdown"],
+      "@notation/fieldtrip": ["packages/@notation/fieldtrip"]
     }
   },
   "exclude": ["node_modules", "tmp"]

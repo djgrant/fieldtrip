@@ -1,0 +1,14 @@
+{
+  "sourceRoot": "packages/@local/markdown/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/@local/markdown/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}
