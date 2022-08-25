@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "author": "Daniel Grant",
   "scripts": {
-    "build": "tsc",
     "dev": "onchange -i -k 'src/**/*' -- ts-node src/index.ts",
     "start": "node ./src/index.js"
   },
