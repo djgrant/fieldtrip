@@ -8,6 +8,6 @@ RUN npm install
 RUN npx nx build apps-server
 
 FROM node:16-slim
-WORKDIR /
+WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/dist/apps/server ./
 CMD [ "node", "index" ]
