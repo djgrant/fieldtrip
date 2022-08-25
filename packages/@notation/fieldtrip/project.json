@@ -2,6 +2,17 @@
   "sourceRoot": "packages/@notation/fieldtrip/src",
   "projectType": "library",
   "targets": {
+    "prebuild": {
+      "description": "Geneate declarations from @local/github package and copy to types folder",
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "tsc --project packages/@local/github/tsconfig.lib.json",
+          "cp dist/out-tsc/packages/@local/github/src/github.d.ts packages/@notation/fieldtrip/src/types/github.ts"
+        ],
+        "parallel": false
+      }
+    },
     "build": {
       "executor": "@nrwl/js:swc",
       "outputs": ["{options.outputPath}"],
@@ -9,7 +20,7 @@
         "outputPath": "dist/packages/@notation/fieldtrip",
         "main": "packages/@notation/fieldtrip/src/index.ts",
         "tsConfig": "packages/@notation/fieldtrip/tsconfig.lib.json",
-        "assets": ["package-lock.json"]
+        "assets": ["packages/@notation/fieldtrip/*.md"]
       }
     },
     "version": {
