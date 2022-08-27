@@ -22,6 +22,8 @@ export const ROOT_DOMAIN = getEnv("ROOT_DOMAIN");
 export const SESSION_KEY1 = getEnv("SESSION_KEY1");
 export const SESSION_KEY2 = getEnv("SESSION_KEY2");
 
+export const GITHUB_AUTH = getEnv("GITHUB_AUTH");
+
 export const isDev = process.env.NODE_ENV === "development";
 export const isProd = process.env.NODE_ENV === "production";
 
