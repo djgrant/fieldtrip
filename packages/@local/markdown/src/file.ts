@@ -1,24 +1,17 @@
-import path from "path";
-import qs from "qs";
-import { promises as fs } from "fs";
+import * as qs from "qs";
+import * as fs from "fs/promises";
 
 export async function getFile(
-  relativePath: string,
+  filePath: string,
   props?: Record<string, string>
 ) {
-  const [relativeFilePath, query] = relativePath.split("?");
+  const [basePath, query] = filePath.split("?");
   const queryProps = qs.parse(query);
 
   const allProps = { ...props, ...queryProps } as typeof queryProps &
     typeof props;
 
-  const absPath = path.resolve(
-    process.cwd(),
-    "../../courses/js2-coworkers/docs",
-    relativeFilePath
-  );
-
-  const content = await fs.readFile(absPath, { encoding: "utf-8" });
+  const content = await fs.readFile(basePath, { encoding: "utf-8" });
 
   if (!Object.keys(allProps).length) return content;
 

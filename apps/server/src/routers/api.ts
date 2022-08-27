@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Course } from "@notation/fieldtrip";
+import { Course } from "src/services/course";
 import { db, enrollments, events, tasks } from "src/services/db";
 import { SERVER_HOST } from "src/config";
 import courses from "@local/courses";

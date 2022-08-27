@@ -2,14 +2,13 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:swc",
+      "executor": "@wanews/nx-esbuild:build",
       "options": {
-        "main": "apps/server/src/index.ts",
-        "tsConfig": "apps/server/tsconfig.json",
-        "outputPath": "dist/apps/server",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
-        "assets": ["package-lock.json"]
+        "bundle": true,
+        "platform": "node",
+        "entryPoints": ["apps/server/src/index.ts"],
+        "outdir": "dist/apps/server",
+        "external": ["pg-native"]
       }
     }
   }

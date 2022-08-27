@@ -4,11 +4,10 @@ COPY package.json package-lock.json tsconfig.base.json nx.json ./
 COPY scripts scripts/
 COPY apps/server apps/server/
 COPY packages packages/
-RUN npm run bootstrap
+RUN npm install
 RUN npx nx build apps-server
 
 FROM node:16-slim
-WORKDIR /
+WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/dist/apps/server ./
-RUN npm install
-CMD [ "npm", "start" ]
+CMD [ "node", "index" ]

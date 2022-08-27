@@ -1,6 +1,7 @@
 import type { Server as HTTPServer } from "http";
-import { Course, Enrollments } from "@notation/fieldtrip";
+import { Enrollments } from "@notation/fieldtrip";
 import { Server } from "socket.io";
+import { Course } from "src/services/course";
 import { emitter } from "./emitter";
 import * as mw from "./middlewares";
 import * as config from "./config";

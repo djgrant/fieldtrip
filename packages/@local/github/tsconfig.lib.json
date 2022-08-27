@@ -1,9 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/packages/fieldtrip",
-    "declaration": true,
-    "types": []
+    "outDir": "../../../dist/out-tsc",
+    "declaration": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]

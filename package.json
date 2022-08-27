@@ -5,13 +5,12 @@
   "author": "Daniel Grant",
   "homepage": "https://github.com/notationhq/fieldtrip",
   "workspaces": [
-    "dist/packages/*"
+    "packages/**/*"
   ],
   "engines": {
     "node": ">=16.17.0"
   },
   "scripts": {
-    "bootstrap": "scripts/bootstrap.mjs && npm install",
     "db:types": "dotenv -- bash -c 'npx @databases/pg-schema-cli --database $DATABASE_URL --directory apps/server/src/types/generated'",
     "dev": "npm run tunnel & nx run-many --target=dev --projects='apps-client,apps-server' --parallel=2",
     "deploy:server:prod": "fly deploy --config ./fly.server.production.toml",
@@ -30,13 +29,12 @@
     "@databases/pg-typed": "^4.1.0",
     "@djgrant/pg-taskq": "^1.0.0-alpha.38",
     "@djgrant/react-tailwind": "^1.0.0",
-    "@local/courses": "^1.0.0",
-    "@notation/fieldtrip": "^0.0.1",
     "@octokit/auth-app": "^3.6.1",
     "@octokit/auth-oauth-user": "^1.3.0",
     "@octokit/rest": "^19.0.3",
     "@radix-ui/react-tabs": "^1.0.0",
     "@swc/helpers": "^0.4.6",
+    "@wanews/nx-esbuild": "^0.24.1",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "eventemitter3": "^4.0.7",
