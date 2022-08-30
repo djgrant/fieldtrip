@@ -20,7 +20,7 @@
     "start": "nx run apps-server:start",
     "test": "nx run-many --target=test --all",
     "tunnel": "scripts/tunnel",
-    "publish": "nx run fieldtrip:test && nx run fieldtrip:version && nx run fieldtrip:deploy",
+    "publish": "nx run @notation-fieldtrip:test && nx run @notation-fieldtrip:version && nx run @notation-fieldtrip:deploy",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -66,6 +66,7 @@
     "@nrwl/js": "^14.4.3",
     "@nrwl/linter": "14.4.3",
     "@nrwl/nx-cloud": "latest",
+    "@rollup/plugin-node-resolve": "^13.3.0",
     "@swc/cli": "~0.1.55",
     "@swc/core": "^1.2.133",
     "@tailwindcss/forms": "^0.4.0",
@@ -86,6 +87,7 @@
     "http-proxy-middleware": "^2.0.1",
     "husky": "^8.0.0",
     "jest": "^27.4.7",
+    "ngx-deploy-npm": "^4.2.2",
     "nock": "^13.2.2",
     "nx": "^14.5.8",
     "onchange": "^7.1.0",

@@ -16,8 +16,8 @@ fetchCourse({
   console.log("Files written to disk");
   mkdirSync(`../../course/`, { recursive: true });
 
-  const target = `../../course/rollup.config.js`;
-  const content = `
+  const rollupConfigTarget = `../../course/rollup.config.js`;
+  const rollupConfigContent = `
   import typescript from "@rollup/plugin-typescript";
   export default {
     input: "config.ts",
@@ -30,11 +30,40 @@ fetchCourse({
     },
   };`;
 
-  writeFileSync(target, content, {
+  const tsConfigTarget = `../../course/tsconfig.json`;
+  const tsConfigContent = `
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["./"]
+}`;
+
+  writeFileSync(rollupConfigTarget, rollupConfigContent, {
     encoding: "utf8",
     flag: "w",
   });
-
+  writeFileSync(tsConfigTarget, tsConfigContent, {
+    encoding: "utf8",
+    flag: "w",
+  });
+  exec(
+    `npm install`,
+    {
+      cwd: "../../course",
+    },
+    (err) => {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
   exec(
     `rollup --config rollup.config.js`,
     {

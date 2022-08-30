@@ -31,7 +31,7 @@ const fetchCourse = async (options: CourseMeta, courseFiles: Files = {}) => {
   const octokit = new Octokit({
     auth: GITHUB_AUTH,
   });
-
+  console.log("Fetching course has started");
   const { data } = await octokit.repos.getContent(options);
   if (Array.isArray(data)) {
     await Promise.all(
