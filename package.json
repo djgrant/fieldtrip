@@ -52,12 +52,14 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "regenerator-runtime": "^0.13.9",
-    "rollup": "^2.78.1",
     "socket.io": "^4.4.1",
     "socket.io-client": "^4.4.1",
-    "tslib": "^2.3.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
+    "tslib": "^2.3.0",
+    "rollup-plugin-esbuild": "^4.10.1",
+    "esbuild": "^0.15.7",
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
     "@jscutlery/semver": "^2.26.0",
