@@ -21,7 +21,7 @@ export const courses = new Map();
 const registeredCourses = ["https://github.com/alaa-yahia/course"];
 
 //Extract meta from urls
-const meta = (registeredCourses: string[]) => {
+const meta = (registeredCourses: string[]): CourseMeta[] => {
   //name = repo | repo.directory
   //path = "" | repo.directory
   //regex
@@ -30,7 +30,7 @@ const meta = (registeredCourses: string[]) => {
 
 const coursesMeta = meta(registeredCourses);
 
-coursesMeta.forEach((courseMeta: CourseMeta) => {
+coursesMeta.forEach((courseMeta) => {
   mkdirSync(join("../../", process.cwd(), "courses", courseMeta.name), {
     recursive: true,
   });

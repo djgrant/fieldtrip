@@ -8,19 +8,18 @@ import { courses } from "./services/courses";
 
 fetchCourses().then((coursesObj) => {
   console.log(courses);
-});
+  migrate()
+    .then(() => {
+      const server = app.listen(config.PORT, () => {
+        console.log("app listening on port", config.PORT);
+      });
 
-migrate()
-  .then(() => {
-    const server = app.listen(config.PORT, () => {
-      console.log("app listening on port", config.PORT);
+      io(server);
+
+      taskq.take(/^trigger:/, processTrigger);
+      taskq.start();
+    })
+    .catch((err) => {
+      throw err;
     });
-
-    io(server);
-
-    taskq.take(/^trigger:/, processTrigger);
-    taskq.start();
-  })
-  .catch((err) => {
-    throw err;
-  });
+});
