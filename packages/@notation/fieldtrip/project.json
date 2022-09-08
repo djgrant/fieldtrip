@@ -53,7 +53,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/packages/fieldtrip"],
       "options": {
-        "jestConfig": "packages/fieldtrip/jest.config.ts",
+        "jestConfig": "packages/@notation/fieldtrip/jest.config.ts",
         "passWithNoTests": true
       }
     }
