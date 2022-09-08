@@ -6,10 +6,10 @@ import { processTrigger } from "./tasks";
 import fetchCourses from "./services/courses";
 import { courses } from "./services/courses";
 
-fetchCourses().then(() => {
-  console.log("done..");
+fetchCourses().then((coursesObj) => {
+  console.log(courses);
 });
-console.log(courses, "couse");
+
 migrate()
   .then(() => {
     const server = app.listen(config.PORT, () => {

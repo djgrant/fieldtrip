@@ -1,9 +1,9 @@
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { dirname, join } from "path";
+import { execSync } from "child_process";
 import { Octokit } from "@octokit/rest";
 import { GITHUB_AUTH } from "src/config";
 import schema from "../utils/courseSchema";
-import { exec } from "child_process";
 
 type CourseMeta = {
   owner: string;
@@ -40,7 +40,7 @@ const fetchCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   const octokit = new Octokit({
     auth: GITHUB_AUTH,
   });
-  console.log("Fetching course has started");
+
   const { data } = await octokit.repos.getContent(meta);
   if (Array.isArray(data)) {
     await Promise.all(
@@ -77,82 +77,53 @@ const fetchCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
 };
 
 const fetchCourses = async () => {
-  coursesMeta.forEach(async (course) => {
-    const { course: courseName } = await fetchCourse(course);
-    console.log(`${courseName} written to disk`);
-    const rollupConfigTarget = `../../courses/${courseName}/rollup.config.js`;
-    const rollupConfigContent = `
-      import esbuild from 'rollup-plugin-esbuild'
-      export default {
-        input: "config.ts",
-        plugins: [
-          esbuild(),
-        ],
-        output: {
-          file: "${courseName}.js",
-          format: "cjs",
-        },
-      };`;
+  return await Promise.all(
+    coursesMeta.map(async (course) => {
+      const { course: courseName } = await fetchCourse(course);
+      console.log(`${courseName} written to disk`);
+      const rollupConfigTarget = `../../courses/${courseName}/rollup.config.js`;
+      const rollupConfigContent = `
+        import esbuild from 'rollup-plugin-esbuild'
+        export default {
+          input: "config.ts",
+          plugins: [
+            esbuild(),
+          ],
+          output: {
+            file: "${courseName}.js",
+            format: "cjs",
+          },
+        };`;
 
-    const tsConfigTarget = `../../courses/${courseName}/tsconfig.json`;
-    const tsConfigContent = `
-    {
-      "compilerOptions": {
-        "baseUrl": "./",
-        "target": "ES2020",
-        "module": "CommonJS",
-        "moduleResolution": "Node",
-        "strict": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true
-      },
-      "include": ["./"]
-    }`;
+      writeFileSync(rollupConfigTarget, rollupConfigContent);
 
-    writeFileSync(rollupConfigTarget, rollupConfigContent, {
-      encoding: "utf8",
-      flag: "w",
-    });
-    writeFileSync(tsConfigTarget, tsConfigContent, {
-      encoding: "utf8",
-      flag: "w",
-    });
-    exec(
-      `npm install`,
-      {
+      execSync(`npm install`, {
         cwd: `../../courses/${courseName}`,
-      },
-      (err) => {
-        if (err) {
-          console.log(err);
-        }
-      }
-    );
-    exec(
-      `rollup --config rollup.config.js`,
-      {
+      });
+      execSync(`rollup --config rollup.config.js`, {
         cwd: `../../courses/${courseName}`,
-      },
-      (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("Course compiled successfuly");
-          const loadedFile = require(join(
-            process.cwd(),
-            "../../courses/course/course.js"
-          ));
-          console.log(loadedFile, "lop");
-          if (loadedFile) {
-            schema.isValid(loadedFile).then((valid) => {
-              console.log(valid, "valid");
-              courses.set(courseName, course);
-            });
-          }
+      });
+
+      if (existsSync(`../../courses/${courseName}/course.js`)) {
+        const loadedFile = require(join(
+          process.cwd(),
+          `../../courses/${courseName}/course.js`
+        ));
+        if (!loadedFile) {
+          return { [courseName]: "Not Valid" };
         }
+
+        console.log("Course compiled successfuly");
+
+        const valid = await schema.isValid(loadedFile);
+        if (!valid) {
+          return { [courseName]: "Not Valid" };
+        }
+        courses.set(courseName, loadedFile);
+        return { [courseName]: loadedFile };
       }
-    );
-  });
+    })
+  );
 };
 
 export default fetchCourses;
