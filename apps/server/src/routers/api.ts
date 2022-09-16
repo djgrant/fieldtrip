@@ -1,10 +1,12 @@
-import { Router } from "express";
+import express from "express";
 import { Course } from "src/services/course";
-import { db, enrollments, events, tasks } from "src/services/db";
+import { db, enrollments, events, tasks, courses } from "src/services/db";
 import { SERVER_HOST } from "src/config";
-import courses from "@local/courses";
+import coursesObj from "@local/courses";
 
-export const api = Router();
+export const api = express.Router();
+
+api.use(express.json());
 
 api.get("/user", async (req, res) => {
   const { user } = req.locals;
@@ -19,7 +21,7 @@ api.get("/user", async (req, res) => {
 });
 
 api.get("/courses", async (req, res) => {
-  res.json(Object.keys(courses));
+  res.json(Object.keys(coursesObj));
 });
 
 api.get("/courses/:id", async (req, res, next) => {
@@ -80,6 +82,31 @@ api.delete("/courses/:id", async (req, res, next) => {
     });
     res.sendStatus(204);
   } catch (err) {
+    next(err);
+  }
+});
+
+api.post("/courses", async (req, res, next) => {
+  const { user, course } = req.locals;
+  console.log(coursesObj, "local");
+  /*   if (!user) return res.sendStatus(403);
+  if (!course) return res.sendStatus(404); */
+
+  try {
+    // Insert must come first so that the row is available to webhook events
+    /*     await courses(db).insert({
+      course_name: `https://github.com/${user.login}/${course.repo}`,
+    });
+    await user.octokit.request("POST /user/repos", {
+      name: course.repo,
+      auto_init: true,
+    });*/
+    res.sendStatus(201);
+  } catch (err) {
+    // if this fails it could mean:
+    // a) repo already exists
+    // b) user uninstall the root app, but didn't revoke its oauth privileges
+    // c) the db failed to insert
     next(err);
   }
 });

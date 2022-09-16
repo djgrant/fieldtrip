@@ -18,11 +18,11 @@ const db = createConnectionPool({
   },
 });
 
-const { enrollments, events, tasks } = tables<DatabaseSchema>({
+const { enrollments, events, tasks, courses } = tables<DatabaseSchema>({
   databaseSchema,
 });
 
-export { db, enrollments, events, sql, tasks };
+export { db, enrollments, events, sql, tasks, courses };
 
 const isUpdatedEnrollment = (result: any): result is Enrollments =>
   typeof result === "object" &&

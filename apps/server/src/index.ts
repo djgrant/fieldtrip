@@ -3,7 +3,7 @@ import * as config from "./config";
 import { io } from "./io";
 import { migrate, taskq } from "./services";
 import { processTrigger } from "./tasks";
-import fetchCourses from "./services/courses";
+import { fetchCourses } from "./services/courses";
 import { courses } from "./services/courses";
 
 fetchCourses().then((coursesObj) => {

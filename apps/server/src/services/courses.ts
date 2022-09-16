@@ -36,7 +36,7 @@ coursesMeta.forEach((courseMeta) => {
   });
 });
 
-const fetchCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
+const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   const octokit = new Octokit({
     auth: GITHUB_AUTH,
   });
@@ -46,7 +46,7 @@ const fetchCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
     await Promise.all(
       data.map(async (item) => {
         if (item.type === "dir") {
-          await fetchCourse({ ...meta, path: item.path }, courseFiles);
+          await getCourse({ ...meta, path: item.path }, courseFiles);
         }
 
         if (item.type === "file") {
@@ -76,54 +76,60 @@ const fetchCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   return { course: meta.name };
 };
 
-const fetchCourses = async () => {
+const compileCourse = async (courseName: string) => {
+  const rollupConfigTarget = `../../courses/${courseName}/rollup.config.js`;
+  const rollupConfigContent = `
+    import esbuild from 'rollup-plugin-esbuild'
+    export default {
+      input: "config.ts",
+      plugins: [
+        esbuild(),
+      ],
+      output: {
+        file: "${courseName}.js",
+        format: "cjs",
+      },
+    };`;
+
+  writeFileSync(rollupConfigTarget, rollupConfigContent);
+
+  execSync(`npm install`, {
+    cwd: `../../courses/${courseName}`,
+  });
+  execSync(`rollup --config rollup.config.js`, {
+    cwd: `../../courses/${courseName}`,
+  });
+
+  if (existsSync(`../../courses/${courseName}/course.js`)) {
+    const loadedFile = require(join(
+      process.cwd(),
+      `../../courses/${courseName}/course.js`
+    ));
+    if (!loadedFile) {
+      return { [courseName]: "Not Valid" };
+    }
+
+    console.log("Course compiled successfuly");
+
+    const valid = await schema.isValid(loadedFile);
+    if (!valid) {
+      return { [courseName]: "Not Valid" };
+    }
+    courses.set(courseName, loadedFile);
+    return { [courseName]: loadedFile };
+  }
+};
+
+export const fetchCourse = async (course: CourseMeta) => {
+  const { course: courseName } = await getCourse(course);
+  console.log(`${courseName} written to disk`);
+  return await compileCourse(courseName);
+};
+
+export const fetchCourses = async () => {
   return await Promise.all(
     coursesMeta.map(async (course) => {
-      const { course: courseName } = await fetchCourse(course);
-      console.log(`${courseName} written to disk`);
-      const rollupConfigTarget = `../../courses/${courseName}/rollup.config.js`;
-      const rollupConfigContent = `
-        import esbuild from 'rollup-plugin-esbuild'
-        export default {
-          input: "config.ts",
-          plugins: [
-            esbuild(),
-          ],
-          output: {
-            file: "${courseName}.js",
-            format: "cjs",
-          },
-        };`;
-
-      writeFileSync(rollupConfigTarget, rollupConfigContent);
-
-      execSync(`npm install`, {
-        cwd: `../../courses/${courseName}`,
-      });
-      execSync(`rollup --config rollup.config.js`, {
-        cwd: `../../courses/${courseName}`,
-      });
-
-      if (existsSync(`../../courses/${courseName}/course.js`)) {
-        const loadedFile = require(join(
-          process.cwd(),
-          `../../courses/${courseName}/course.js`
-        ));
-        if (!loadedFile) {
-          return { [courseName]: "Not Valid" };
-        }
-
-        console.log("Course compiled successfuly");
-
-        const valid = await schema.isValid(loadedFile);
-        if (!valid) {
-          return { [courseName]: "Not Valid" };
-        }
-        courses.set(courseName, loadedFile);
-        return { [courseName]: loadedFile };
-      }
+      return await fetchCourse(course);
     })
   );
 };
-
-export default fetchCourses;
