@@ -6,10 +6,6 @@ export default defineConfig({
     target: "es2022",
     outDir: "../../dist/apps/client",
   },
-  define: {
-    DEV: process.env.DEV,
-    REACT_APP_SERVER_URL: process.env.REACT_APP_SERVER_URL,
-  },
   plugins: [react()],
   resolve: {
     alias: {
