@@ -4,6 +4,7 @@ import { execSync } from "child_process";
 import { Octokit } from "@octokit/rest";
 import { GITHUB_AUTH } from "src/config";
 import schema from "../utils/courseSchema";
+import type { CourseConfig } from "@notation/fieldtrip";
 
 type CourseMeta = {
   owner: string;
@@ -21,17 +22,17 @@ export const courses = new Map();
 const registeredCourses = ["https://github.com/alaa-yahia/course"];
 
 //Extract meta from urls
-const meta = (registeredCourses: string[]): CourseMeta[] => {
+export const extractCourseMeta = (registeredCourse: string): CourseMeta => {
   //name = repo | repo.directory
   //path = "" | repo.directory
   //regex
-  return [{ owner: "alaa-yahia", repo: "course", path: "", name: "course" }];
+  return { owner: "alaa-yahia", repo: "course", path: "", name: "course" };
 };
 
-const coursesMeta = meta(registeredCourses);
+const coursesMeta = registeredCourses.map(extractCourseMeta);
 
-coursesMeta.forEach((courseMeta) => {
-  mkdirSync(join("../../", process.cwd(), "courses", courseMeta.name), {
+coursesMeta.forEach((course) => {
+  mkdirSync(join("../../", process.cwd(), "courses", course.name), {
     recursive: true,
   });
 });
@@ -76,7 +77,7 @@ const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   return { course: meta.name };
 };
 
-const compileCourse = async (courseName: string) => {
+const compileCourse = (courseName: string) => {
   const rollupConfigTarget = `../../courses/${courseName}/rollup.config.js`;
   const rollupConfigContent = `
     import esbuild from 'rollup-plugin-esbuild'
@@ -99,31 +100,44 @@ const compileCourse = async (courseName: string) => {
   execSync(`rollup --config rollup.config.js`, {
     cwd: `../../courses/${courseName}`,
   });
-
-  if (existsSync(`../../courses/${courseName}/course.js`)) {
-    const loadedFile = require(join(
-      process.cwd(),
-      `../../courses/${courseName}/course.js`
-    ));
-    if (!loadedFile) {
-      return { [courseName]: "Not Valid" };
-    }
-
-    console.log("Course compiled successfuly");
-
-    const valid = await schema.isValid(loadedFile);
-    if (!valid) {
-      return { [courseName]: "Not Valid" };
-    }
-    courses.set(courseName, loadedFile);
-    return { [courseName]: loadedFile };
-  }
 };
 
+const loadCompiledCourse = (path: string) => {
+  if (existsSync(path)) {
+    const loadedFile = require(join(process.cwd(), path));
+    if (!loadedFile) {
+      return null;
+    }
+    return loadedFile;
+  }
+  return null;
+};
+
+const isCourseValid = async (course: CourseConfig) => {
+  if (!course) {
+    return false;
+  }
+  const isSchemaValid = await schema.isValid(course);
+  if (!isSchemaValid) {
+    return false;
+  }
+  return true;
+};
+
+//need better name
 export const fetchCourse = async (course: CourseMeta) => {
   const { course: courseName } = await getCourse(course);
   console.log(`${courseName} written to disk`);
-  return await compileCourse(courseName);
+  compileCourse(courseName);
+  console.log("Course compiled successfuly");
+  const configFile = loadCompiledCourse(
+    `../../courses/${courseName}/${courseName}.js`
+  );
+  const isValid = await isCourseValid(configFile);
+  if (isValid) {
+    courses.set(courseName, configFile);
+  }
+  return isValid;
 };
 
 export const fetchCourses = async () => {

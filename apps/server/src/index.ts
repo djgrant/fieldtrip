@@ -6,7 +6,7 @@ import { processTrigger } from "./tasks";
 import { fetchCourses } from "./services/courses";
 import { courses } from "./services/courses";
 
-fetchCourses().then((coursesObj) => {
+fetchCourses().then((courses) => {
   console.log(courses);
   migrate()
     .then(() => {
