@@ -126,16 +126,25 @@ const isCourseValid = async (course: CourseConfig) => {
 
 //need better name
 export const fetchCourse = async (course: CourseMeta) => {
-  const { course: courseName } = await getCourse(course);
-  console.log(`${courseName} written to disk`);
-  compileCourse(courseName);
-  console.log("Course compiled successfuly");
-  const configFile = loadCompiledCourse(
-    `../../courses/${courseName}/${courseName}.js`
-  );
+  const coursePath = join("../../", "courses", course.name);
+
+  if (
+    !(
+      existsSync(coursePath) &&
+      existsSync(join(coursePath, `${course.name}.js`))
+    )
+  ) {
+    const { course: courseName } = await getCourse(course);
+    console.log(`${courseName} written to disk`);
+    compileCourse(courseName);
+    console.log("Course compiled successfuly");
+  }
+
+  const configFile = loadCompiledCourse(join(coursePath, `${course.name}.js`));
+
   const isValid = await isCourseValid(configFile);
   if (isValid) {
-    courses.set(courseName, configFile);
+    courses.set(course.name, configFile);
   }
   return isValid;
 };

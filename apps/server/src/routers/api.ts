@@ -1,4 +1,5 @@
 import express from "express";
+import { rmSync } from "fs";
 import { Course } from "src/services/course";
 import { db, enrollments, events, tasks, courses } from "src/services/db";
 import { SERVER_HOST } from "src/config";
@@ -95,6 +96,7 @@ api.post("/courses", async (req, res, next) => {
     if (isFetched) {
       return res.sendStatus(200);
     } else {
+      rmSync(`../../courses/${meta.name}`, { recursive: true, force: true });
       return res.sendStatus(400);
     }
   } catch (err) {
