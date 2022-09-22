@@ -117,15 +117,10 @@ const isCourseValid = async (course: CourseConfig) => {
   if (!course) {
     return false;
   }
-  const isSchemaValid = await schema.isValid(course);
-  if (!isSchemaValid) {
-    return false;
-  }
-  return true;
+  return await schema.isValid(course);
 };
 
-//need better name
-export const fetchCourse = async (course: CourseMeta) => {
+export const loadCourse = async (course: CourseMeta) => {
   const coursePath = join("../../", "courses", course.name);
 
   if (
@@ -149,10 +144,10 @@ export const fetchCourse = async (course: CourseMeta) => {
   return isValid;
 };
 
-export const fetchCourses = async () => {
+export const loadCourses = async () => {
   return await Promise.all(
     coursesMeta.map(async (course) => {
-      return await fetchCourse(course);
+      return await loadCourse(course);
     })
   );
 };

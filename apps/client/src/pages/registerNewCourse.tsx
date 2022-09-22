@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "../utils/api";
 import { toaster } from "evergreen-ui";
+import { AppLayout } from "../components/templates";
 
 export const RegisterNewCourse = () => {
   const [state, setState] = useState("");
@@ -21,19 +22,27 @@ export const RegisterNewCourse = () => {
   };
 
   return (
-    <form onSubmit={submit}>
-      <label htmlFor="courseUrl">Course Github Link</label>
-      <input
-        type="url"
-        name="courseUrl"
-        value={state}
-        onChange={(e) => setState(e.target.value)}
-      />
-      {/*  {state.errors.name && <p>{state.errors.name}</p>} */}
-
-      <button type="submit" name="Submit Course">
-        Submit course
-      </button>
-    </form>
+    <AppLayout>
+      <form
+        onSubmit={submit}
+        className="h-full flex flex-col items-center justify-center mt-10"
+      >
+        <label htmlFor="courseUrl">Course Github Link</label>
+        <input
+          type="url"
+          name="courseUrl"
+          value={state}
+          onChange={(e) => setState(e.target.value)}
+          className="border-2"
+        />
+        <button
+          type="submit"
+          name="Submit Course"
+          className="border-2 px-3 py-1 mt-5 rounded"
+        >
+          Submit course
+        </button>
+      </form>
+    </AppLayout>
   );
 };

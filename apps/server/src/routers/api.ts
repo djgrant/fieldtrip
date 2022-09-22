@@ -3,8 +3,8 @@ import { rmSync } from "fs";
 import { Course } from "src/services/course";
 import { db, enrollments, events, tasks, courses } from "src/services/db";
 import { SERVER_HOST } from "src/config";
-import coursesObj from "@local/courses";
-import { extractCourseMeta, fetchCourse } from "src/services/courses";
+import { courses as coursesObj } from "../services/courses";
+import { extractCourseMeta, loadCourse } from "src/services/courses";
 
 export const api = express.Router();
 
@@ -92,8 +92,13 @@ api.post("/courses", async (req, res, next) => {
   const { course: courseUrl } = req.body;
   try {
     const meta = extractCourseMeta(courseUrl);
-    const isFetched = await fetchCourse(meta);
+    const isFetched = await loadCourse(meta);
     if (isFetched) {
+      const y = await courses(db).update(
+        { course_id: "5555" },
+        { course_url: courseUrl }
+      );
+      console.log(y, "y");
       return res.sendStatus(200);
     } else {
       rmSync(`../../courses/${meta.name}`, { recursive: true, force: true });

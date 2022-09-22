@@ -3,10 +3,10 @@ import * as config from "./config";
 import { io } from "./io";
 import { migrate, taskq } from "./services";
 import { processTrigger } from "./tasks";
-import { fetchCourses } from "./services/courses";
+import { loadCourses } from "./services/courses";
 import { courses } from "./services/courses";
 
-fetchCourses().then((courses) => {
+loadCourses().then((courses) => {
   console.log(courses);
   migrate()
     .then(() => {
