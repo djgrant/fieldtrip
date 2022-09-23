@@ -94,11 +94,9 @@ api.post("/courses", async (req, res, next) => {
     const meta = extractCourseMeta(courseUrl);
     const isFetched = await loadCourse(meta);
     if (isFetched) {
-      const y = await courses(db).update(
-        { course_id: "5555" },
-        { course_url: courseUrl }
-      );
-      console.log(y, "y");
+      await courses(db).insertOrIgnore({
+        course_url: courseUrl,
+      });
       return res.sendStatus(200);
     } else {
       rmSync(`../../courses/${meta.name}`, { recursive: true, force: true });

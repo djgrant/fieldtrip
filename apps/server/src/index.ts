@@ -6,7 +6,7 @@ import { processTrigger } from "./tasks";
 import { loadCourses } from "./services/courses";
 import { courses } from "./services/courses";
 
-loadCourses().then((courses) => {
+loadCourses().then(async () => {
   console.log(courses);
   migrate()
     .then(() => {

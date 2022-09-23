@@ -4,6 +4,7 @@ import { execSync } from "child_process";
 import { Octokit } from "@octokit/rest";
 import { GITHUB_AUTH } from "src/config";
 import schema from "../utils/courseSchema";
+import { db, courses as registeredCourses } from "src/services/db";
 import type { CourseConfig } from "@notation/fieldtrip";
 
 type CourseMeta = {
@@ -19,7 +20,10 @@ type Files = {
 
 export const courses = new Map();
 
-const registeredCourses = ["https://github.com/alaa-yahia/course"];
+const loadRegisteredCourses = async () => {
+  const courses = (await registeredCourses(db).find().all()) || [];
+  return courses.map((course) => course.course_url);
+};
 
 //Extract meta from urls
 export const extractCourseMeta = (registeredCourse: string): CourseMeta => {
@@ -28,14 +32,6 @@ export const extractCourseMeta = (registeredCourse: string): CourseMeta => {
   //regex
   return { owner: "alaa-yahia", repo: "course", path: "", name: "course" };
 };
-
-const coursesMeta = registeredCourses.map(extractCourseMeta);
-
-coursesMeta.forEach((course) => {
-  mkdirSync(join("../../", process.cwd(), "courses", course.name), {
-    recursive: true,
-  });
-});
 
 const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   const octokit = new Octokit({
@@ -145,6 +141,16 @@ export const loadCourse = async (course: CourseMeta) => {
 };
 
 export const loadCourses = async () => {
+  const registeredCourses = await loadRegisteredCourses();
+
+  const coursesMeta = registeredCourses.map(extractCourseMeta);
+
+  coursesMeta.forEach((course) => {
+    mkdirSync(join("../../", process.cwd(), "courses", course.name), {
+      recursive: true,
+    });
+  });
+
   return await Promise.all(
     coursesMeta.map(async (course) => {
       return await loadCourse(course);

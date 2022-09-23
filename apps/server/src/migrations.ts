@@ -105,8 +105,7 @@ export const migrations = [
   sql`
   create table if not exists ${sql.ident(DATABASE_SCHEMA)}.courses (
     course_url text not null,
-    course_id text not null,
-    primary key (course_id)
+    primary key (course_url)
   );
 `,
 ];
