@@ -6,20 +6,20 @@ import { processTrigger } from "./tasks";
 import { loadCourses } from "./services/courses";
 import { courses } from "./services/courses";
 
-loadCourses().then(async () => {
-  console.log(courses);
-  migrate()
-    .then(() => {
-      const server = app.listen(config.PORT, () => {
-        console.log("app listening on port", config.PORT);
-      });
+migrate()
+  .then(async () => {
+    const courses = await loadCourses();
+    console.log(courses);
 
-      io(server);
-
-      taskq.take(/^trigger:/, processTrigger);
-      taskq.start();
-    })
-    .catch((err) => {
-      throw err;
+    const server = app.listen(config.PORT, () => {
+      console.log("app listening on port", config.PORT);
     });
-});
+
+    io(server);
+
+    taskq.take(/^trigger:/, processTrigger);
+    taskq.start();
+  })
+  .catch((err) => {
+    throw err;
+  });
