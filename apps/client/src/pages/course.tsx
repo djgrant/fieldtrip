@@ -5,12 +5,14 @@ import { Container } from "../components/library";
 import { CourseHero, CourseStages, CourseRepo } from "../components/app";
 import { useMst } from "../store";
 import { Announcement } from "../components/app";
+import { useParams } from "react-router-dom";
 
 interface Props {
   id?: string;
 }
 
-export const Course: FC<Props> = observer(({ id }) => {
+export const Course: FC<Props> = observer(() => {
+  const { id } = useParams();
   const { user, courses } = useMst();
   const course = courses.get(id!);
   if (!course) return <Announcement message="Loading course...." />;
