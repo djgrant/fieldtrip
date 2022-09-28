@@ -3,7 +3,7 @@ import { rmSync } from "fs";
 import { Course } from "src/services/course";
 import { db, enrollments, events, tasks, courses } from "src/services/db";
 import { SERVER_HOST } from "src/config";
-import { courses as coursesObj } from "../services/courses";
+import { courses as coursesMap } from "src/services/courses";
 import { extractCourseMeta, loadCourse } from "src/services/courses";
 
 export const api = express.Router();
@@ -23,7 +23,7 @@ api.get("/user", async (req, res) => {
 });
 
 api.get("/courses", async (req, res) => {
-  res.json(Object.keys(coursesObj));
+  res.json({ courses: Array.from(coursesMap.values()) });
 });
 
 api.get("/courses/:id", async (req, res, next) => {

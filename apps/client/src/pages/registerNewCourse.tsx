@@ -16,9 +16,6 @@ export const RegisterNewCourse = () => {
       console.log(err);
       toaster.danger("Something went wrong");
     }
-
-    /*  .then(res => res.json())
-        .then(json => setState(json.user)) */
   };
 
   return (

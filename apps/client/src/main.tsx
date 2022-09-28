@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider, store } from "./store";
 import { Index } from "./pages/index";
 import { Course } from "./pages/course";
+import { Courses } from "./pages/courses";
 import { NotFound } from "./pages/not-found";
 import { RegisterNewCourse } from "./pages/registerNewCourse";
 import { Announcement } from "./components/app";
@@ -23,6 +24,7 @@ store
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="courses" element={<Courses />} />
               <Route path="courses/:id/*" element={<Course />} />
               <Route
                 path="register-new-course"
