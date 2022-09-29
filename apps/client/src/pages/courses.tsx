@@ -30,7 +30,7 @@ export const Courses = () => {
         {Array.isArray(courses) && courses.length > 0 ? (
           <div>
             {courses.map((course) => (
-              <Link to={course.id}>
+              <Link to={course.id} key={course.id}>
                 <div className="border-2 pt-8 rounded px-3">{course.title}</div>
               </Link>
             ))}
