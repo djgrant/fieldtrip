@@ -1,4 +1,8 @@
-import type { CourseHook, EventAssertion } from "@notation/fieldtrip";
+import type {
+  CourseConfig,
+  CourseHook,
+  EventAssertion,
+} from "@notation/fieldtrip";
 import type { Bots } from "src/types";
 import { Probot } from "probot";
 import { Github } from "@local/github";
@@ -7,45 +11,53 @@ import { bots } from "src/config";
 import { actionRegister, taskq } from "src/services";
 import { db, enrollments, events } from "src/services/db";
 import { createProbot } from "src/utils";
-import courses from "@local/courses";
+import { courses } from "src/services/courses";
 
-// @todo get course using event payload repo
-const course = courses.js2;
-
-const triggers: (CourseHook | { id: string; hook: EventAssertion })[] =
-  Course.getHooks(course);
-
-let i = 0;
-const triggersByBotName = {} as Record<
-  string,
-  { priority: number; trigger: ReturnType<typeof Course.getHooks>[number] }[]
->;
-for (const trigger of triggers) {
-  if (!triggersByBotName[trigger.hook.botName]) {
-    triggersByBotName[trigger.hook.botName] = [];
+const getTriggersByBotName = (course: CourseConfig) => {
+  if (!course) {
+    return;
   }
-  if ("action" in trigger.hook) {
-    let priority =
-      "priority" in trigger && typeof trigger.priority === "number"
-        ? trigger.priority
-        : i++;
+  const triggers: (CourseHook | { id: string; hook: EventAssertion })[] =
+    Course.getHooks(course);
 
-    triggersByBotName[trigger.hook.botName].push({
-      // give priority (sequence position) to triggers with an action so that they are executed sequentially
-      priority,
-      trigger,
-    });
-  } else {
-    triggersByBotName[trigger.hook.botName].push({ trigger, priority: 0 });
+  let i = 0;
+  const triggersByBotName = {} as Record<
+    string,
+    { priority: number; trigger: ReturnType<typeof Course.getHooks>[number] }[]
+  >;
+  for (const trigger of triggers) {
+    if (!triggersByBotName[trigger.hook.botName]) {
+      triggersByBotName[trigger.hook.botName] = [];
+    }
+    if ("action" in trigger.hook) {
+      let priority =
+        "priority" in trigger && typeof trigger.priority === "number"
+          ? trigger.priority
+          : i++;
+
+      triggersByBotName[trigger.hook.botName].push({
+        // give priority (sequence position) to triggers with an action so that they are executed sequentially
+        priority,
+        trigger,
+      });
+    } else {
+      triggersByBotName[trigger.hook.botName].push({ trigger, priority: 0 });
+    }
   }
-}
+  return triggersByBotName;
+};
 
 export const createBot = (
   botName: Bots,
   statickHooks?: (app: Probot) => void
 ) => {
-  const botTriggers = triggersByBotName[botName];
   const app = (app: Probot) => {
+    // @todo get course using event payload repo
+    const course = courses.get("course");
+
+    const triggersByBotName = getTriggersByBotName(course) || {};
+    console.log({ triggersByBotName });
+    const botTriggers = triggersByBotName[botName];
     if (statickHooks) statickHooks(app);
 
     if (!botTriggers) return;
@@ -55,7 +67,7 @@ export const createBot = (
 
       app.on(event as any, async (context) => {
         const github = new Github(context, { targetRepo: course.repo });
-
+        console.log(botTriggers, "mnmnmn");
         if (github.eventShouldBeIgnored) return;
 
         // wait for actions to finish to ensure state is up-to-date

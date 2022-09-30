@@ -1,4 +1,4 @@
-import { app } from "./app";
+import runServer from "./app";
 import * as config from "./config";
 import { io } from "./io";
 import { migrate, taskq } from "./services";
@@ -11,7 +11,7 @@ migrate()
     const courses = await loadCourses();
     console.log(courses);
 
-    const server = app.listen(config.PORT, () => {
+    const server = runServer().listen(config.PORT, () => {
       console.log("app listening on port", config.PORT);
     });
 
