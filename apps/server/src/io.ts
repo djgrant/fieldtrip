@@ -5,7 +5,7 @@ import { Course } from "src/services/course";
 import { emitter } from "./emitter";
 import * as mw from "./middlewares";
 import * as config from "./config";
-import courses from "@local/courses";
+import { courses } from "src/services/courses";
 
 export const io = (server: HTTPServer) => {
   const io = new Server(server, {
@@ -28,7 +28,7 @@ export const io = (server: HTTPServer) => {
     emitter.on(`${username}:enrollment:updated`, async (data: Enrollments) => {
       if (!data) return;
       if (!courses.has(data.course_id)) return;
-      const courseConfig = courses[data.course_id];
+      const courseConfig = courses.get(data.course_id);
       const course = new Course(courseConfig, data, config.SERVER_HOST);
       const compiledCourse = await course.compile();
       socket.emit("course:update", {

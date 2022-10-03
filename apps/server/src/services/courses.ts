@@ -135,7 +135,7 @@ export const loadCourse = async (course: CourseMeta) => {
 
   const isValid = await isCourseValid(configFile);
   if (isValid) {
-    courses.set(course.name, configFile);
+    courses.set(configFile.id, configFile);
   }
   return isValid;
 };

@@ -20,6 +20,7 @@ const listen = async (subscriber: (...args: any) => void) => {
 const match = async (path: string, subscriber: (...args: any) => void) => {
   await listen(async (args) => {
     const match = matchPath(path, args.pathname);
+    console.log(match, "match");
     if (match) {
       await subscriber(match);
     }

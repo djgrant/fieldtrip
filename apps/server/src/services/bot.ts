@@ -53,7 +53,7 @@ export const createBot = (
 ) => {
   const app = (app: Probot) => {
     // @todo get course using event payload repo
-    const course = courses.get("course");
+    const course = courses.get("js2");
 
     const triggersByBotName = getTriggersByBotName(course) || {};
     console.log({ triggersByBotName });
