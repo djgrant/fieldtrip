@@ -23,19 +23,12 @@ export const Root = types
       }
     }),
     loadCourse: flow(function* (courseId) {
-      const { router } = yield import("../router");
-      try {
-        const res = yield api.course(courseId);
-        if (res.status === 404) {
-          router.navigate("/404", { replace: true });
-          return;
-        }
-        const course = yield res.json();
-        self.courses.put(course);
-      } catch (err: any) {
-        toaster.danger("Failed to load course");
-        console.log(err);
+      const res = yield api.course(courseId);
+      if (res.status === 404) {
+        throw new Response("Not Found", { status: 404 });
       }
+      const course = yield res.json();
+      self.courses.put(course);
     }),
   }));
 

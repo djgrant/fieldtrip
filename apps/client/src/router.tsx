@@ -10,7 +10,7 @@ import { socket } from "./socket";
 import { Index } from "./pages/index";
 import { Course } from "./pages/course";
 import { Courses } from "./pages/courses";
-import { NotFound } from "./pages/not-found";
+import { ErrorBoundary } from "./pages/error-boundary";
 import { RegisterNewCourse } from "./pages/registerNewCourse";
 import React from "react";
 
@@ -34,9 +34,10 @@ export const router = createBrowserRouter(
             socket.connect();
           }
         }}
+        errorElement={<ErrorBoundary />}
       />
       <Route path="register-new-course" element={<RegisterNewCourse />} />
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<ErrorBoundary />} />
     </React.Fragment>
   )
 );
