@@ -4,7 +4,6 @@ import { User } from "./user";
 import { Course } from "./course";
 import { toaster } from "evergreen-ui";
 import { api } from "../utils/api";
-// import { router } from "../utils/router";
 
 export const Root = types
   .model({
