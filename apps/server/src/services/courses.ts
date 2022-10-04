@@ -58,6 +58,8 @@ const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
               path: item.path,
             });
 
+            // @todo add typeguard to refine type for data
+            // https://www.typescriptlang.org/docs/handbook/2/narrowing.html
             const { path, content: fileContent } = data;
             const content = Buffer.from(fileContent, "base64").toString("utf8");
             courseFiles[path] = content;
