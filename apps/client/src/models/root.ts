@@ -20,6 +20,7 @@ const listen = async (subscriber: (...args: any) => void) => {
 const match = async (path: string, subscriber: (...args: any) => void) => {
   await listen(async (args) => {
     const match = matchPath(path, args.pathname);
+    console.log(match, "match");
     if (match) {
       await subscriber(match);
     }
@@ -62,7 +63,7 @@ export const Root = types
     // lazy loading i.e. load everything up front so I don't have to implement loading states :)
     init: flow(function* () {
       yield self.loadUser();
-      yield match("/courses/:id/*", async ({ params }) => {
+      yield match("courses/:id/*", async ({ params }) => {
         await self.loadCourse(params.id);
         if (self.user) {
           socket.connect();

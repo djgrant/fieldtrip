@@ -6,6 +6,7 @@ export default defineConfig({
     target: "es2022",
     outDir: "../../dist/apps/client",
   },
+  server: { port: 3000 },
   plugins: [react()],
   resolve: {
     alias: {

@@ -8,7 +8,7 @@ import type {
   Enrollments,
 } from "@notation/fieldtrip";
 import { getFile } from "@local/markdown";
-
+import { join } from "path";
 const notNull = (value: any): value is NonNullable<typeof value> =>
   value !== null && value !== undefined;
 
@@ -46,7 +46,9 @@ export class Course {
   }
 
   compileMeta = async (): Promise<CourseConfig> => {
-    const summary = await getFile(this.config.summary);
+    const summary = await getFile(
+      join("../../courses/course/docs", this.config.summary)
+    );
     const stages = await Promise.all(
       this.config.stages.map(this.compileStageMeta)
     );
@@ -59,7 +61,10 @@ export class Course {
       typeof stage.summary === "function"
         ? stage.summary(this.state)
         : stage.summary;
-    const summary = await getFile(summaryPath);
+
+    const summary = await getFile(
+      join("../../courses/course/docs", summaryPath)
+    );
     return { ...stage, summary, actions: [], milestones: [] };
   };
 

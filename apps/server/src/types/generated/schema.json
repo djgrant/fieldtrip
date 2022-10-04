@@ -1,5 +1,17 @@
 [
   {
+    "name": "courses",
+    "columns": [
+      {
+        "name": "course_url",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 25,
+        "typeName": "TEXT"
+      }
+    ]
+  },
+  {
     "name": "enrollments",
     "columns": [
       {

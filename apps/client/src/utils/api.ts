@@ -12,4 +12,10 @@ export const api = {
   course: (id: string) => api.fetch(`courses/${id}`),
   enroll: (id: string) => api.fetch(`courses/${id}`, { method: "POST" }),
   delete: (id: string) => api.fetch(`courses/${id}`, { method: "DELETE" }),
+  registerCourse: (course: string) =>
+    api.fetch("courses", {
+      method: "POST",
+      body: JSON.stringify({ course }),
+      headers: { "Content-Type": "application/json" },
+    }),
 };

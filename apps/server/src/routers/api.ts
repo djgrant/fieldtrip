@@ -1,10 +1,14 @@
-import { Router } from "express";
+import express from "express";
+import { rmSync } from "fs";
 import { Course } from "src/services/course";
-import { db, enrollments, events, tasks } from "src/services/db";
+import { db, enrollments, events, tasks, courses } from "src/services/db";
 import { SERVER_HOST } from "src/config";
-import courses from "@local/courses";
+import { courses as coursesMap } from "src/services/courses";
+import { extractCourseMeta, loadCourse } from "src/services/courses";
 
-export const api = Router();
+export const api = express.Router();
+
+api.use(express.json());
 
 api.get("/user", async (req, res) => {
   const { user } = req.locals;
@@ -19,7 +23,7 @@ api.get("/user", async (req, res) => {
 });
 
 api.get("/courses", async (req, res) => {
-  res.json(Object.keys(courses));
+  res.json({ courses: Array.from(coursesMap.values()) });
 });
 
 api.get("/courses/:id", async (req, res, next) => {
@@ -79,6 +83,25 @@ api.delete("/courses/:id", async (req, res, next) => {
       name: `trigger:${enrollmentKey.course_id}:${enrollmentKey.username}`,
     });
     res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+});
+
+api.post("/courses", async (req, res, next) => {
+  const { course: courseUrl } = req.body;
+  try {
+    const meta = extractCourseMeta(courseUrl);
+    const isFetched = await loadCourse(meta);
+    if (isFetched) {
+      await courses(db).insertOrIgnore({
+        course_url: courseUrl,
+      });
+      return res.sendStatus(200);
+    } else {
+      rmSync(`../../courses/${meta.name}`, { recursive: true, force: true });
+      return res.sendStatus(400);
+    }
   } catch (err) {
     next(err);
   }

@@ -1,5 +1,5 @@
 FROM node:16 AS build
-ARG REACT_APP_SERVER_URL
+ARG VITE_APP_SERVER_URL
 WORKDIR /usr/src/app
 COPY package.json package-lock.json tsconfig.base.json nx.json ./
 COPY apps/client apps/client/
