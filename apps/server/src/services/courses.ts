@@ -26,51 +26,61 @@ const loadRegisteredCourses = async () => {
 };
 
 //Extract meta from urls
-export const extractCourseMeta = (registeredCourse: string): CourseMeta => {
-  //name = repo | repo.directory
-  //path = "" | repo.directory
-  //regex
-  return { owner: "alaa-yahia", repo: "course", path: "", name: "course" };
+export const extractCourseMeta = (registeredCourse: string): any => {
+  const url = new URL(registeredCourse, "https://github.com/").pathname
+    .split("/")
+    .slice(1);
+
+  return {
+    owner: url[0],
+    repo: url[1],
+    path: url[2] || "",
+    name: url[2] || url[1],
+  };
 };
 
 const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   const octokit = new Octokit({
     auth: GITHUB_AUTH,
   });
+  try {
+    const { data } = await octokit.repos.getContent(meta);
+    if (Array.isArray(data)) {
+      await Promise.all(
+        data.map(async (item) => {
+          if (item.type === "dir") {
+            await getCourse({ ...meta, path: item.path }, courseFiles);
+          }
 
-  const { data } = await octokit.repos.getContent(meta);
-  if (Array.isArray(data)) {
-    await Promise.all(
-      data.map(async (item) => {
-        if (item.type === "dir") {
-          await getCourse({ ...meta, path: item.path }, courseFiles);
-        }
+          if (item.type === "file") {
+            const { data } = await octokit.rest.repos.getContent({
+              ...meta,
+              path: item.path,
+            });
 
-        if (item.type === "file") {
-          const { data } = await octokit.rest.repos.getContent({
-            ...meta,
-            path: item.path,
-          });
-
-          const { path, content: fileContent } = data;
-          const content = Buffer.from(fileContent, "base64").toString("utf8");
-          courseFiles[path] = content;
-          if (!existsSync(join("../../courses", meta.name, dirname(path)))) {
-            mkdirSync(`../../courses/${meta.name}/${dirname(path)}`, {
-              recursive: true,
+            const { path, content: fileContent } = data;
+            const content = Buffer.from(fileContent, "base64").toString("utf8");
+            courseFiles[path] = content;
+            if (!existsSync(join("../../courses", meta.name, dirname(path)))) {
+              mkdirSync(`../../courses/${meta.name}/${dirname(path)}`, {
+                recursive: true,
+              });
+            }
+            const target = `../../courses/${meta.name}/${path}`;
+            writeFileSync(target, content, {
+              encoding: "utf8",
+              flag: "w",
             });
           }
-          const target = `../../courses/${meta.name}/${path}`;
-          writeFileSync(target, content, {
-            encoding: "utf8",
-            flag: "w",
-          });
-        }
-      })
-    );
-  }
+        })
+      );
+    }
 
-  return { course: meta.name };
+    return { course: meta.name };
+  } catch (err) {
+    //console.log(err);
+    return null;
+  }
 };
 
 const compileCourse = (courseName: string) => {
@@ -125,7 +135,11 @@ export const loadCourse = async (course: CourseMeta) => {
       existsSync(join(coursePath, `${course.name}.js`))
     )
   ) {
-    const { course: courseName } = await getCourse(course);
+    const courseFiles = await getCourse(course);
+    if (!courseFiles) {
+      return false;
+    }
+    const { course: courseName } = courseFiles;
     console.log(`${courseName} written to disk`);
     compileCourse(courseName);
     console.log("Course compiled successfuly");
@@ -142,7 +156,6 @@ export const loadCourse = async (course: CourseMeta) => {
 
 export const loadCourses = async () => {
   const registeredCourses = await loadRegisteredCourses();
-
   const coursesMeta = registeredCourses.map(extractCourseMeta);
 
   coursesMeta.forEach((course) => {

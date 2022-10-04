@@ -56,7 +56,7 @@ export const createBot = (
     const course = courses.get("js2");
 
     const triggersByBotName = getTriggersByBotName(course) || {};
-    console.log({ triggersByBotName });
+
     const botTriggers = triggersByBotName[botName];
     if (statickHooks) statickHooks(app);
 
