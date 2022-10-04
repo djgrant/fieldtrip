@@ -4,7 +4,6 @@ import { io } from "./io";
 import { migrate, taskq } from "./services";
 import { processTrigger } from "./tasks";
 import { loadCourses } from "./services/courses";
-import { courses } from "./services/courses";
 
 migrate()
   .then(async () => {
