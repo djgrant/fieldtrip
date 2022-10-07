@@ -3,29 +3,7 @@ import { types, flow } from "mobx-state-tree";
 import { User } from "./user";
 import { Course } from "./course";
 import { toaster } from "evergreen-ui";
-import { socket } from "../socket";
 import { api } from "../utils/api";
-import history from "history/browser";
-import { BrowserHistory } from "history";
-import { matchPath } from "react-router-dom";
-
-const listen = async (subscriber: (...args: any) => void) => {
-  const onRouteChange = async (history: BrowserHistory) => {
-    await subscriber(history.location);
-  };
-  await onRouteChange(history);
-  history.listen((history) => onRouteChange(history as any));
-};
-
-const match = async (path: string, subscriber: (...args: any) => void) => {
-  await listen(async (args) => {
-    const match = matchPath(path, args.pathname);
-    console.log(match, "match");
-    if (match) {
-      await subscriber(match);
-    }
-  });
-};
 
 export const Root = types
   .model({
@@ -45,30 +23,12 @@ export const Root = types
       }
     }),
     loadCourse: flow(function* (courseId) {
-      try {
-        const res = yield api.course(courseId);
-        const course = yield res.json();
-        self.courses.put(course);
-      } catch (err: any) {
-        if (err.status === 404) {
-          history.replace("/404");
-        } else {
-          toaster.danger("Failed to load course");
-          console.log(err);
-        }
+      const res = yield api.course(courseId);
+      if (res.status === 404) {
+        throw new Response("Not Found", { status: 404 });
       }
-    }),
-  }))
-  .actions((self) => ({
-    // lazy loading i.e. load everything up front so I don't have to implement loading states :)
-    init: flow(function* () {
-      yield self.loadUser();
-      yield match("courses/:id/*", async ({ params }) => {
-        await self.loadCourse(params.id);
-        if (self.user) {
-          socket.connect();
-        }
-      });
+      const course = yield res.json();
+      self.courses.put(course);
     }),
   }));
 
