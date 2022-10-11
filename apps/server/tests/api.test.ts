@@ -1,12 +1,8 @@
-import getDatabase from "@databases/pg-test";
-
-async function setup() {
-  const { databaseURL, kill } = await getDatabase();
-}
-
 test("does something", async () => {
+  // pg-test sets DATABASE_URL, which will used by services/db.ts to create a DB connection
+  console.log(process.env.DATABASE_URL);
+
   // Arrange
-  await setup();
 
   // Act
   const response = await fetch("localhost:3000/my-endpoint");
