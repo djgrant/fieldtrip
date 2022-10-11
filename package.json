@@ -24,8 +24,18 @@
     "publish": "nx run @notation-fieldtrip:test && nx run @notation-fieldtrip:version && nx run @notation-fieldtrip:deploy",
     "prepare": "husky install"
   },
+  "pg": {
+    "test": {
+      "migrationsScript": [
+        "yarn",
+        "run",
+        "db:types"
+      ]
+    }
+  },
   "dependencies": {
     "@databases/pg-schema-cli": "^4.2.0",
+    "@databases/pg-test": "^3.1.2",
     "@databases/pg-typed": "^4.1.0",
     "@djgrant/pg-taskq": "^1.0.0-alpha.38",
     "@djgrant/react-tailwind": "^1.0.0",
