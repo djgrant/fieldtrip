@@ -10,6 +10,14 @@
         "outdir": "dist/apps/server",
         "external": ["pg-native"]
       }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/server"],
+      "options": {
+        "jestConfig": "jest.config.js",
+        "passWithNoTests": true
+      }
     }
   }
 }
