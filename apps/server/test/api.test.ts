@@ -1,12 +1,40 @@
-test("does something", async () => {
-  // pg-test sets DATABASE_URL, which will used by services/db.ts to create a DB connection
-  console.log(process.env.DATABASE_URL);
+import { instance as axios } from "./setup";
 
-  // Arrange
+describe("Getting all courses", () => {
+  test("Should get all the courses", async () => {
+    const response = await axios.get("api/courses");
 
-  // Act
-  const response = await fetch("localhost:3000/my-endpoint");
+    expect(response.data).toEqual({
+      courses: [
+        {
+          id: expect.any(String),
+          repo: expect.any(String),
+          title: expect.any(String),
+          module: expect.any(String),
+          summary: expect.any(String),
+          stages: expect.any(Array),
+        },
+      ],
+    });
+  });
+});
 
-  // Assert
-  expect(response).toMatchObject({});
+describe("Getting specific course", () => {
+  test("Should return a 404", async () => {
+    const response = await axios.get("api/courses/popopo");
+    expect(response.status).toBe(404);
+  });
+
+  test("Should return a course", async () => {
+    const response = await axios.get("api/courses/js2");
+    expect(response.status).toBe(200);
+    expect(response.data).toEqual({
+      id: expect.any(String),
+      repo: expect.any(String),
+      title: expect.any(String),
+      module: expect.any(String),
+      summary: expect.any(String),
+      stages: expect.any(Array),
+    });
+  });
 });

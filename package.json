@@ -92,6 +92,8 @@
     "@typescript-eslint/parser": "^5.29.0",
     "@vitejs/plugin-react": "^2.1.0",
     "autoprefixer": "^10.4.2",
+    "axios": "^1.1.2",
+    "axios-mock-adapter": "^1.21.2",
     "dotenv": "^15.0.0",
     "dotenv-cli": "^4.1.1",
     "eslint": "~8.15.0",

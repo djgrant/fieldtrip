@@ -1,15 +1,17 @@
 /* eslint-disable */
-export default {
+module.exports = {
   displayName: "server",
   preset: "../../jest.preset.js",
+  testEnvironment: "node",
   globals: {
     "ts-jest": {
-      tsconfig: "<rootDir>/tsconfig.spec.json",
+      tsconfig: "<rootDir>/tsconfig.json",
     },
   },
   transform: {
-    "^.+\\.[tj]s$": "ts-jest",
+    "^.+\\.(ts|tsx)?$": "ts-jest",
   },
+  transformIgnorePatterns: ["../../node_modules/(?!axios)"],
   moduleFileExtensions: ["ts", "js", "html"],
   coverageDirectory: "coverage/packages/server",
 };
