@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import { ProbotOctokit } from "probot";
 
-export const userSession: RequestHandler = async (req:any, _, next) => {
+export const userSession: RequestHandler = async (req: any, _, next) => {
   if (req.session.user?.auth) {
     const { auth } = req.session.user;
     try {

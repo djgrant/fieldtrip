@@ -12,6 +12,6 @@ module.exports = {
     "^.+\\.(ts|tsx)?$": "ts-jest",
   },
   transformIgnorePatterns: ["../../node_modules/(?!axios)"],
-  moduleFileExtensions: ["ts", "js", "html"],
+  moduleFileExtensions: ["ts", "js"],
   coverageDirectory: "coverage/packages/server",
 };

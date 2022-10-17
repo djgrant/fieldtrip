@@ -44,7 +44,7 @@ api.get("/courses/:id", async (req, res, next) => {
 
 api.post("/courses/:id", async (req, res, next) => {
   const { user, course } = req.locals;
-
+  console.log({ user });
   if (!user) return res.sendStatus(403);
   if (!course) return res.sendStatus(404);
 
