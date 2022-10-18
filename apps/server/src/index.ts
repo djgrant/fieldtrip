@@ -7,8 +7,8 @@ import { loadCourses } from "./services/courses";
 
 migrate()
   .then(async () => {
-    const courses = await loadCourses();
-    console.log(courses);
+    /*     const courses = await loadCourses();
+    console.log(courses); */
 
     const server = runServer().listen(config.PORT, () => {
       console.log("app listening on port", config.PORT);
