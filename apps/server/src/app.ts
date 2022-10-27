@@ -3,7 +3,7 @@ import * as routers from "./routers";
 import * as mw from "./middlewares";
 import * as bots from "src/services/bots";
 
-const runServer = () => {
+const createServer = () => {
   const app = express();
   app.use(mw.cors);
   app.use(mw.locals);
@@ -21,4 +21,4 @@ const runServer = () => {
   return app;
 };
 
-export default runServer;
+export default createServer;

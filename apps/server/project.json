@@ -16,6 +16,7 @@
       "outputs": ["coverage/server"],
       "options": {
         "jestConfig": "apps/server/jest.config.js",
+        "tsconfig": "apps/server/tsconfig.test.json",
         "passWithNoTests": true
       }
     }

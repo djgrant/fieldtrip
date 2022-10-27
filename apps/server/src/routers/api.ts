@@ -23,17 +23,18 @@ api.get("/user", async (req, res) => {
 });
 
 api.get("/courses", async (req, res) => {
-  res.json({ courses: Array.from(coursesMap.values()) });
+  res.json({ courses: Array.from(coursesMap.values()) || [] });
 });
 
 api.get("/courses/:id", async (req, res, next) => {
   const courseConfig = req.locals.course;
-  if (!courseConfig) return res.send(404);
+  if (!courseConfig) return res.sendStatus(404);
   try {
     const state = req.locals.enrollmentKey
       ? await enrollments(db).findOne(req.locals.enrollmentKey)
       : null;
     const course = new Course(courseConfig, state, SERVER_HOST);
+
     const compiledCourse = await course.compile();
     res.send(compiledCourse);
   } catch (err) {
@@ -44,7 +45,6 @@ api.get("/courses/:id", async (req, res, next) => {
 
 api.post("/courses/:id", async (req, res, next) => {
   const { user, course } = req.locals;
-  console.log({ user });
   if (!user) return res.sendStatus(403);
   if (!course) return res.sendStatus(404);
 

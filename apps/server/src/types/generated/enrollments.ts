@@ -12,18 +12,18 @@ interface Enrollments {
   /**
    * @default '[]'::jsonb
    */
-  bots: any;
-  course_id: string & { readonly __brand?: "enrollments_course_id" };
+  bots: any
+  course_id: string & {readonly __brand?: 'enrollments_course_id'}
   /**
    * @default '{}'::jsonb
    */
-  hooks: any;
+  hooks: any
   /**
    * @default '[]'::jsonb
    */
-  milestones: any;
-  repo_url: string;
-  username: string & { readonly __brand?: "enrollments_username" };
+  milestones: any
+  repo_url: string
+  username: string & {readonly __brand?: 'enrollments_username'}
 }
 export default Enrollments;
 
@@ -31,17 +31,17 @@ interface Enrollments_InsertParameters {
   /**
    * @default '[]'::jsonb
    */
-  bots?: any;
-  course_id: string & { readonly __brand?: "enrollments_course_id" };
+  bots?: any
+  course_id: string & {readonly __brand?: 'enrollments_course_id'}
   /**
    * @default '{}'::jsonb
    */
-  hooks?: any;
+  hooks?: any
   /**
    * @default '[]'::jsonb
    */
-  milestones?: any;
-  repo_url: string;
-  username: string & { readonly __brand?: "enrollments_username" };
+  milestones?: any
+  repo_url: string
+  username: string & {readonly __brand?: 'enrollments_username'}
 }
-export type { Enrollments_InsertParameters };
+export type {Enrollments_InsertParameters}

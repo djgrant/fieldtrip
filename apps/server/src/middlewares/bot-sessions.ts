@@ -5,10 +5,9 @@ import { Bots } from "src/types";
 import { getInstallationId } from "src/utils";
 
 const botNames = Object.keys(bots) as Bots[];
-
 export const botSessions: RequestHandler = async (req, _, next) => {
   // Only authorise bots if the user is logged in
-  if (!req.locals.user) return next();
+  if (!req.locals.user || !req.locals.course) return next();
 
   // Authorised bots with an installation ID in the session
   for (const botName of botNames) {
@@ -36,7 +35,6 @@ export const botSessions: RequestHandler = async (req, _, next) => {
       delete req.locals.bots![botName];
     }
   }
-
   await enrollments(db).update(req.locals.enrollmentKey, {
     bots: Object.keys(req.locals.bots),
   });

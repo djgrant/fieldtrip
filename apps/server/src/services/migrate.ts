@@ -12,7 +12,7 @@ export const migrate = async () => {
         reject(err);
       }
       console.log(stdout);
-      console.error(stderr);
+      //console.error(stderr);
       if (stderr) {
         reject(stderr);
       } else {

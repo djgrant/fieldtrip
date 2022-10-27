@@ -8,40 +8,40 @@
 /* eslint-disable */
 // tslint:disable
 
-import Tasks from "./tasks";
+import Tasks from './tasks'
 
 interface Executions {
-  finished_at: Date | null;
+  finished_at: (Date) | null
   /**
    * @default nextval('executions_id_seq'::regclass)
    */
-  id: number & { readonly __brand?: "executions_id" };
+  id: number & {readonly __brand?: 'executions_id'}
   /**
    * @default now()
    */
-  started_at: Date;
+  started_at: Date
   /**
    * @default 'running'::character varying
    */
-  status: string;
-  task_id: Tasks["id"];
+  status: string
+  task_id: Tasks['id']
 }
 export default Executions;
 
 interface Executions_InsertParameters {
-  finished_at?: Date | null;
+  finished_at?: (Date) | null
   /**
    * @default nextval('executions_id_seq'::regclass)
    */
-  id?: number & { readonly __brand?: "executions_id" };
+  id?: number & {readonly __brand?: 'executions_id'}
   /**
    * @default now()
    */
-  started_at?: Date;
+  started_at?: Date
   /**
    * @default 'running'::character varying
    */
-  status?: string;
-  task_id: Tasks["id"];
+  status?: string
+  task_id: Tasks['id']
 }
-export type { Executions_InsertParameters };
+export type {Executions_InsertParameters}

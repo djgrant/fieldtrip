@@ -14,4 +14,6 @@ module.exports = {
   transformIgnorePatterns: ["../../node_modules/(?!axios)"],
   moduleFileExtensions: ["ts", "js"],
   coverageDirectory: "coverage/packages/server",
+  globalSetup: "../../node_modules/@databases/pg-test/jest/globalSetup",
+  globalTeardown: "../../node_modules/@databases/pg-test/jest/globalTeardown",
 };

@@ -1,5 +1,13 @@
-import { instance as axios } from "./setup";
-import { userSession } from "../src/middlewares/user-session";
+import request from "supertest";
+import createServer from "../src/app";
+import { prepareServer } from "../src/index";
+
+beforeAll(async () => {
+  console.log(process.env.DATABASE_URL, "DATABASE_URL");
+  await prepareServer();
+});
+
+jest.setTimeout(10000);
 
 jest.mock("../src/middlewares/user-session", () => {
   return {
@@ -7,57 +15,63 @@ jest.mock("../src/middlewares/user-session", () => {
     userSession: jest.fn((req, res, next) => {
       req.locals.user = {
         auth: "auth",
+        login: "alaa-yahia",
       };
       next();
     }),
   };
 });
 
+jest.mock("../src/middlewares/course", () => {
+  return {
+    __esModule: true,
+    course: jest.fn((req, res, next) => {
+      const id = req.params.id;
+      if (id === "course") {
+        req.locals.course = {
+          id: "course",
+          repo: "coworker-tools",
+          title: "Coworker Discovery Tools",
+          module: "JS2",
+          summary: "./website/intro.md",
+          stages: [],
+        };
+      }
+      next();
+    }),
+  };
+});
+
+jest.mock("../src/services/courses", () => {
+  return {
+    ...jest.requireActual("../src/services/courses"),
+    loadRegisteredCourses: jest
+      .fn()
+      .mockReturnValue(["https://github.com/alaa-yahia/course"]),
+  };
+});
+
 describe("Getting all courses", () => {
   test("Should get all the courses", async () => {
-    const response = await axios.get("api/courses");
-
-    expect(response.data).toEqual({
-      courses: [
-        {
-          id: expect.any(String),
-          repo: expect.any(String),
-          title: expect.any(String),
-          module: expect.any(String),
-          summary: expect.any(String),
-          stages: expect.any(Array),
-        },
-      ],
-    });
+    const res = await request(createServer()).get("/api/courses");
+    expect(Array.isArray(res.body.courses)).toBe(true);
   });
 });
 
 describe("Getting specific course", () => {
   test("Should return a 404", async () => {
-    const response = await axios.get("api/courses/popopo");
-    expect(response.status).toBe(404);
+    await request(createServer()).get("/api/courses/popo").expect(404);
   });
+});
 
-  test("Should return a course", async () => {
-    /* jest.mock("../src/middlewares/user-session", () =>
-      jest.fn((req, res, next) => {
-        req.locals.user = {
-          auth: "auth",
-        };
-        next();
-      })
-    ); */
-    const res = await axios.post("http://localhost:4000/api/courses/opop");
-    const response = await axios.get("api/courses/js2");
-    console.log({ res });
-    expect(response.status).toBe(200);
-    expect(response.data).toEqual({
-      id: expect.any(String),
-      repo: expect.any(String),
-      title: expect.any(String),
-      module: expect.any(String),
-      summary: expect.any(String),
-      stages: expect.any(Array),
-    });
+test("Should return a course", async () => {
+  const data = { course: "https://github.com/alaa-yahia/course" };
+  await request(createServer()).post("/api/courses").send(data).expect(200);
+  await request(createServer()).get("/api/courses/course").expect(200);
+});
+
+describe("Enroll in specific course", () => {
+  test("Should return a 404 if course not found", async () => {
+    await request(createServer()).post("/api/courses/popo").expect(404);
   });
 });
