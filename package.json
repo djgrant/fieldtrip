@@ -11,6 +11,7 @@
     "node": ">=16.17.0"
   },
   "scripts": {
+    "dbtest:types": "npx @databases/pg-schema-cli --database postgres://test-user@localhost:5433/test-db --directory apps/server/src/types/generated",
     "db:types": "dotenv -- bash -c 'npx @databases/pg-schema-cli --database $DATABASE_URL --directory apps/server/src/types/generated'",
     "dev": "npm run tunnel & nx run-many --target=dev --projects='apps-client,apps-server' --parallel=2",
     "deploy:server:prod": "fly deploy --config ./fly.server.production.toml",
@@ -24,18 +25,8 @@
     "publish": "nx run @notation-fieldtrip:test && nx run @notation-fieldtrip:version && nx run @notation-fieldtrip:deploy",
     "prepare": "husky install"
   },
-  "pg": {
-    "test": {
-      "migrationsScript": [
-        "yarn",
-        "run",
-        "db:types"
-      ]
-    }
-  },
   "dependencies": {
     "@databases/pg-schema-cli": "^4.2.0",
-    "@databases/pg-test": "^3.1.2",
     "@databases/pg-typed": "^4.1.0",
     "@djgrant/pg-taskq": "^1.0.0-alpha.38",
     "@djgrant/react-tailwind": "^1.0.0",

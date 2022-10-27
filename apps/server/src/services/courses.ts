@@ -89,8 +89,15 @@ export const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   }
 };
 
-export const compileCourse = (courseName: string) => {
-  const rollupConfigTarget = `../../courses/${courseName}/rollup.config.js`;
+const compileCourse = (courseName: string) => {
+  console.log("compiled v compiled ");
+  const rollupConfigTarget = resolve(
+    __dirname,
+    "../../../../",
+    "courses",
+    courseName,
+    "rollup.config.js"
+  );
   const rollupConfigContent = `
     import esbuild from 'rollup-plugin-esbuild'
     export default {
@@ -162,6 +169,7 @@ export const loadCourse = async (course: CourseMeta) => {
 
 export const loadCourses = async () => {
   const registeredCourses = await loadRegisteredCourses();
+  //const registeredCourses = ["https://github.com/alaa-yahia/course"];
   const coursesMeta = registeredCourses.map(extractCourseMeta);
 
   coursesMeta.forEach((course) => {
