@@ -1,13 +1,28 @@
 import request from "supertest";
 import createServer from "../src/app";
 import { prepareServer } from "../src/index";
-
+import nock from "nock";
+import all_user_repos from "./fixtures/all_user_repos-success.json";
 beforeAll(async () => {
   console.log(process.env.DATABASE_URL, "DATABASE_URL");
   await prepareServer();
 });
 
 jest.setTimeout(10000);
+
+const y = nock("https://api.github.com/")
+  .post("/user/repos", {
+    name: "coworker-tools",
+    auto_init: true,
+  })
+  .reply(201);
+
+const x = nock("https://api.github.com/")
+  .get(`/users/alaa-yahia/installation`, {
+    name: "coworker-tools",
+    auto_init: true,
+  })
+  .reply(200, all_user_repos);
 
 jest.mock("../src/middlewares/user-session", () => {
   return {
@@ -71,7 +86,10 @@ test("Should return a course", async () => {
 });
 
 describe("Enroll in specific course", () => {
-  test("Should return a 404 if course not found", async () => {
+  test("Should return 404 if course not found", async () => {
     await request(createServer()).post("/api/courses/popo").expect(404);
+  });
+  test("Should return 201 when user enrolled in a course", async () => {
+    await request(createServer()).post("/api/courses/course").expect(201);
   });
 });

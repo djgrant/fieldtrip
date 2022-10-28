@@ -54,11 +54,12 @@ api.post("/courses/:id", async (req, res, next) => {
       ...req.locals.enrollmentKey,
       repo_url: `https://github.com/${user.login}/${course.repo}`,
     });
-    await user.octokit.request("POST /user/repos", {
+    const requestRepo = await user.octokit.request("POST /user/repos", {
       name: course.repo,
       auto_init: true,
     });
-    res.sendStatus(201);
+
+    res.sendStatus(requestRepo.status);
   } catch (err) {
     // if this fails it could mean:
     // a) repo already exists
