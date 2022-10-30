@@ -1,8 +1,8 @@
 import request from "supertest";
 import createServer from "../src/app";
 import { prepareServer } from "../src/index";
-import nock from "nock";
-import all_user_repos from "./fixtures/all_user_repos-success.json";
+import * as config from "../src/config";
+
 beforeAll(async () => {
   console.log(process.env.DATABASE_URL, "DATABASE_URL");
   await prepareServer();
@@ -10,7 +10,7 @@ beforeAll(async () => {
 
 jest.setTimeout(10000);
 
-const y = nock("https://api.github.com/")
+/* const y = nock("https://api.github.com/")
   .post("/user/repos", {
     name: "coworker-tools",
     auto_init: true,
@@ -22,15 +22,19 @@ const x = nock("https://api.github.com/")
     name: "coworker-tools",
     auto_init: true,
   })
-  .reply(200, all_user_repos);
+  .reply(200, all_user_repos); */
 
 jest.mock("../src/middlewares/user-session", () => {
   return {
     __esModule: true,
-    userSession: jest.fn((req, res, next) => {
+    userSession: jest.fn(async (req, res, next) => {
+      const octokit = new ProbotOctokit({
+        auth: { token: config.GITHUB_AUTH },
+      });
+      const data = await octokit.users.getAuthenticated();
       req.locals.user = {
-        auth: "auth",
-        login: "alaa-yahia",
+        ...data.data,
+        octokit,
       };
       next();
     }),
@@ -90,6 +94,8 @@ describe("Enroll in specific course", () => {
     await request(createServer()).post("/api/courses/popo").expect(404);
   });
   test("Should return 201 when user enrolled in a course", async () => {
+    //nock.disableNetConnect();
+
     await request(createServer()).post("/api/courses/course").expect(201);
   });
 });
