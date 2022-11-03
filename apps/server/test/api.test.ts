@@ -2,6 +2,7 @@ import request from "supertest";
 import createServer from "../src/app";
 import { prepareServer } from "../src/index";
 import * as config from "../src/config";
+import { ProbotOctokit } from "probot";
 
 beforeAll(async () => {
   console.log(process.env.DATABASE_URL, "DATABASE_URL");
@@ -9,20 +10,6 @@ beforeAll(async () => {
 });
 
 jest.setTimeout(10000);
-
-/* const y = nock("https://api.github.com/")
-  .post("/user/repos", {
-    name: "coworker-tools",
-    auto_init: true,
-  })
-  .reply(201);
-
-const x = nock("https://api.github.com/")
-  .get(`/users/alaa-yahia/installation`, {
-    name: "coworker-tools",
-    auto_init: true,
-  })
-  .reply(200, all_user_repos); */
 
 jest.mock("../src/middlewares/user-session", () => {
   return {
@@ -93,9 +80,8 @@ describe("Enroll in specific course", () => {
   test("Should return 404 if course not found", async () => {
     await request(createServer()).post("/api/courses/popo").expect(404);
   });
-  test("Should return 201 when user enrolled in a course", async () => {
-    //nock.disableNetConnect();
 
+  test("Should return 201 when user enrolled in a course", async () => {
     await request(createServer()).post("/api/courses/course").expect(201);
   });
 });
