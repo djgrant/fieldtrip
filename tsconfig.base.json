@@ -22,6 +22,7 @@
       "@local/courses": ["packages/@local/courses"],
       "@local/github": ["packages/@local/github"],
       "@local/markdown": ["packages/@local/markdown"],
+      "@local/nock-github-contents": ["packages/@local/nock-github-contents"],
       "@notation/fieldtrip": ["packages/@notation/fieldtrip"]
     }
   },
