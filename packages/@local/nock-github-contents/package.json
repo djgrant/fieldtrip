@@ -1,0 +1,6 @@
+{
+  "name": "@local/nock-github-contents",
+  "version": "0.0.1",
+  "main": "index",
+  "module": "commonjs"
+}
