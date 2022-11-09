@@ -54,10 +54,11 @@ api.post("/courses/:id", async (req, res, next) => {
       ...req.locals.enrollmentKey,
       repo_url: `https://github.com/${user.login}/${course.repo}`,
     });
-    const createdRepo = await user.octokit.request("POST /user/repos", {
-      name: course.repo,
-      auto_init: true,
-    });
+    const createdRepo =
+      await user.octokit.rest.repos.createForAuthenticatedUser({
+        name: course.repo,
+        auto_init: true,
+      });
     res.sendStatus(createdRepo.status);
   } catch (err) {
     // if this fails it could mean:
@@ -93,11 +94,11 @@ api.post("/courses", async (req, res, next) => {
   try {
     const meta = extractCourseMeta(courseUrl);
     const isFetched = await loadCourse(meta);
-    console.log({ isFetched });
     if (isFetched) {
       await courses(db).insertOrIgnore({
         course_url: courseUrl,
       });
+
       return res.sendStatus(200);
     } else {
       rmSync(`../../courses/${meta.name}`, { recursive: true, force: true });

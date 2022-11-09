@@ -13,8 +13,6 @@ beforeAll(async () => {
   await prepareServer();
 });
 
-jest.setTimeout(10000);
-
 jest.mock("../src/middlewares/user-session", () => {
   return {
     __esModule: true,
@@ -64,31 +62,41 @@ jest.mock("../src/services/courses", () => {
   };
 });
 
-/* describe("Getting all courses", () => {
+describe("Getting all courses", () => {
   test("Should get all the courses", async () => {
     const res = await request(createServer()).get("/api/courses");
     expect(Array.isArray(res.body.courses)).toBe(true);
   });
-}); */
+});
 
-/* describe("Getting specific course", () => {
+describe("Getting specific course", () => {
   test("Should return a 404", async () => {
     await request(createServer()).get("/api/courses/popo").expect(404);
   });
-  test("Should return thecourse", async () => {
+  test("Should return a course", async () => {
+    await generateGhContentsApiNocks(
+      "/Users/alaa/Desktop/fieldtrip/courses/course"
+    );
     const data = { course: "https://github.com/alaa-yahia/course" };
     await request(createServer()).post("/api/courses").send(data).expect(200);
     await request(createServer()).get("/api/courses/course").expect(200);
   });
-}); */
+});
 
-/* describe("Enroll in specific course", () => {
+describe("Enroll in specific course", () => {
+  nock("https://api.github.com", { allowUnmocked: true })
+    .post("/user/repos", {
+      name: "coworker-tools",
+      auto_init: true,
+    })
+    .reply(201, createdRepo);
+
   test("Should return 404 if course not found", async () => {
     await request(createServer()).post("/api/courses/popo").expect(404);
   });
 
   test("Should return 201 when user enrolled in a course", async () => {
-    await request(createServer()).post("/api/courses/course").expect(422);
+    await request(createServer()).post("/api/courses/course").expect(201);
 
     expect(
       await enrollments(db).findOne({
@@ -104,13 +112,21 @@ jest.mock("../src/services/courses", () => {
       username: "alaa-yahia",
     });
   });
-}); */
+});
 
-test("Should return 200 when posting new course", async () => {
-  //nock.recorder.rec();
-  await generateGhContentsApiNocks(
-    "/Users/alaa/Desktop/fieldtrip/courses/course"
-  );
-  const data = { course: "https://github.com/alaa-yahia/course" };
-  await request(createServer()).post("/api/courses").send(data).expect(200);
+describe("Register a new course", () => {
+  test("Should return 200 when registering a new course", async () => {
+    await generateGhContentsApiNocks(
+      "/Users/alaa/Desktop/fieldtrip/courses/course"
+    );
+    const data = { course: "https://github.com/alaa-yahia/course" };
+    await request(createServer()).post("/api/courses").send(data).expect(200);
+    expect(
+      await courses(db).findOne({
+        course_url: "https://github.com/alaa-yahia/course",
+      })
+    ).toMatchObject({
+      course_url: "https://github.com/alaa-yahia/course",
+    });
+  });
 });
