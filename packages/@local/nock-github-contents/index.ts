@@ -13,8 +13,10 @@ export async function generateGhContentsApiNocks(absPathToDir: string) {
   };
   async function generateNocks(relativeRootPath: string = ".") {
     const dirents = await getDirents(relativeRootPath);
+    generateDirNock("", dirents);
     dirents.forEach(async (dirent) => {
       const direntPath = pathJoin(relativeRootPath, dirent.name);
+
       if (dirent.isDirectory()) {
         const childDirents = await getDirents(direntPath);
         generateDirNock(direntPath, childDirents);
@@ -30,13 +32,13 @@ export async function generateGhContentsApiNocks(absPathToDir: string) {
 
 function generateFileNock(path: string, filename: string, contents: Buffer) {
   nock("https://api.github.com")
-    .get(`/repos/org/repo/contents${path}`)
+    .get(`/repos/alaa-yahia/course/contents/${path}?name=course`)
     .reply(200, getFileResponse(path, filename, contents));
 }
 
 function generateDirNock(path: string, dirents: Dirent[]) {
   nock("https://api.github.com")
-    .get(`/repos/org/repo/contents${path}`)
+    .get(`/repos/alaa-yahia/course/contents/${path}?name=course`)
     .reply(200, getDirResponse(path, dirents));
 }
 
@@ -45,7 +47,7 @@ function getFileResponse(filePath: string, filename: string, content: Buffer) {
     type: "file",
     name: filename,
     path: filePath,
-    url: `https://api.github.com/repos/org/course/contents/${filePath}`,
+    url: `https://api.github.com/repos/alaa-yahia/course/contents/${filePath}`,
     content: Buffer.from(content).toString("base64"),
     encoding: "base64",
   };
@@ -56,7 +58,7 @@ function getDirResponse(dirPath: string, dirents: Dirent[]) {
     type: dirent.isDirectory() ? "dir" : "file",
     name: dirent.name,
     path: pathJoin(dirPath, dirent.name),
-    url: `https://api.github.com/repos/org/course/contents/${pathJoin(
+    url: `https://api.github.com/repos/alaa-yahia/course/contents/${pathJoin(
       dirPath,
       dirent.name
     )}`,

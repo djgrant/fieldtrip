@@ -54,7 +54,7 @@ const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
           }
 
           if (item.type === "file") {
-            const { data } = await octokit.rest.repos.getContent({
+            const { data } = await octokit.repos.getContent({
               ...meta,
               path: item.path,
             });
@@ -192,7 +192,6 @@ export const loadCourse = async (course: CourseMeta) => {
 
 export const loadCourses = async () => {
   const registeredCourses = await loadRegisteredCourses();
-  //const registeredCourses = ["https://github.com/alaa-yahia/course"];
   const coursesMeta = registeredCourses.map(extractCourseMeta);
 
   coursesMeta.forEach((course) => {

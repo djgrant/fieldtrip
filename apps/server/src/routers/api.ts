@@ -54,12 +54,11 @@ api.post("/courses/:id", async (req, res, next) => {
       ...req.locals.enrollmentKey,
       repo_url: `https://github.com/${user.login}/${course.repo}`,
     });
-    const requestRepo = await user.octokit.request("POST /user/repos", {
+    const createdRepo = await user.octokit.request("POST /user/repos", {
       name: course.repo,
       auto_init: true,
     });
-
-    res.sendStatus(requestRepo.status);
+    res.sendStatus(createdRepo.status);
   } catch (err) {
     // if this fails it could mean:
     // a) repo already exists
@@ -94,6 +93,7 @@ api.post("/courses", async (req, res, next) => {
   try {
     const meta = extractCourseMeta(courseUrl);
     const isFetched = await loadCourse(meta);
+    console.log({ isFetched });
     if (isFetched) {
       await courses(db).insertOrIgnore({
         course_url: courseUrl,
