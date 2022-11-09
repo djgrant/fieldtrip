@@ -61,14 +61,14 @@ jest.mock("../src/services/courses", () => {
   };
 });
 
-/* describe("Getting all courses", () => {
+describe("Getting all courses", () => {
   test("Should get all the courses", async () => {
     const res = await request(createServer()).get("/api/courses");
     expect(Array.isArray(res.body.courses)).toBe(true);
   });
-}); */
+});
 
-/* describe("Getting specific course", () => {
+describe("Getting specific course", () => {
   test("Should return a 404", async () => {
     await request(createServer()).get("/api/courses/popo").expect(404);
   });
