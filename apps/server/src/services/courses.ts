@@ -169,7 +169,6 @@ export const loadCourse = async (course: CourseMeta) => {
 
 export const loadCourses = async () => {
   const registeredCourses = await loadRegisteredCourses();
-  //const registeredCourses = ["https://github.com/alaa-yahia/course"];
   const coursesMeta = registeredCourses.map(extractCourseMeta);
 
   coursesMeta.forEach((course) => {

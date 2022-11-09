@@ -61,14 +61,14 @@ jest.mock("../src/services/courses", () => {
   };
 });
 
-describe("Getting all courses", () => {
+/* describe("Getting all courses", () => {
   test("Should get all the courses", async () => {
     const res = await request(createServer()).get("/api/courses");
     expect(Array.isArray(res.body.courses)).toBe(true);
   });
-});
+}); */
 
-describe("Getting specific course", () => {
+/* describe("Getting specific course", () => {
   test("Should return a 404", async () => {
     await request(createServer()).get("/api/courses/popo").expect(404);
   });
@@ -142,4 +142,13 @@ describe("Unenroll from a course", () => {
       })
     ).toBeNull();
   });
+}); */
+
+test("Should return 200 when posting new course", async () => {
+  //nock.recorder.rec();
+  await generateGhContentsApiNocks(
+    "/Users/alaa/Desktop/fieldtrip/courses/course"
+  );
+  const data = { course: "https://github.com/alaa-yahia/course" };
+  await request(createServer()).post("/api/courses").send(data).expect(200);
 });
