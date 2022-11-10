@@ -74,7 +74,9 @@ describe("Getting specific course", () => {
   });
   test("Should return a course", async () => {
     await generateGhContentsApiNocks(
-      "/Users/alaa/Desktop/fieldtrip/courses/course"
+      "/Users/alaa/Desktop/fieldtrip/courses/course",
+      "course",
+      "alaa-yahia"
     );
     const data = { course: "https://github.com/alaa-yahia/course" };
     await request(createServer()).post("/api/courses").send(data).expect(200);
@@ -116,7 +118,9 @@ describe("Enroll in specific course", () => {
 describe("Register a new course", () => {
   test("Should return 200 when registering a new course", async () => {
     await generateGhContentsApiNocks(
-      "/Users/alaa/Desktop/fieldtrip/courses/course"
+      "/Users/alaa/Desktop/fieldtrip/courses/course",
+      "course",
+      "alaa-yahia"
     );
     const data = { course: "https://github.com/alaa-yahia/course" };
     await request(createServer()).post("/api/courses").send(data).expect(200);
