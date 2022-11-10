@@ -130,3 +130,30 @@ describe("Register a new course", () => {
     });
   });
 });
+
+describe("Unenroll from a course", () => {
+  test("Should return 204 when user Unenrolled from a course", async () => {
+    nock("https://api.github.com", { allowUnmocked: true })
+      .delete("/repos/alaa-yahia/coworker-tools")
+      .reply(204);
+    await request(createServer()).delete("/api/courses/course").expect(204);
+
+    expect(
+      await enrollments(db).findOne({
+        username: "alaa-yahia",
+        course_id: "course",
+      })
+    ).toBeNull;
+    expect(
+      await events(db).findOne({
+        username: "alaa-yahia",
+        course_id: "course",
+      })
+    ).toBeNull;
+    expect(
+      await tasks(db).findOne({
+        name: "trigger:course:alaa-yahia",
+      })
+    ).toBeNull;
+  });
+});
