@@ -141,16 +141,5 @@ describe("Unenroll from a course", () => {
         course_id: "course",
       })
     ).toBeNull();
-    expect(
-      await events(db).findOne({
-        username: "alaa-yahia",
-        course_id: "course",
-      })
-    ).toBeNull();
-    expect(
-      await tasks(db).findOne({
-        name: "trigger:course:alaa-yahia",
-      })
-    ).toBeNull();
   });
 });
