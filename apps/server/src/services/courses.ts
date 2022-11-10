@@ -91,10 +91,8 @@ export const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
 
 const compileCourse = (courseName: string) => {
   console.log("compiled v compiled ");
-  const rollupConfigTarget = resolve(
-    __dirname,
-    "../../../../",
-    "courses",
+  const rollupConfigTarget = join(
+    coursesDirPath,
     courseName,
     "rollup.config.js"
   );
