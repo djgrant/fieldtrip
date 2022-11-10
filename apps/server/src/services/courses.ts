@@ -46,7 +46,7 @@ export const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   });
 
   try {
-    const { data } = await octokit.repos.getContent(meta);
+    const { data } = await octokit.rest.repos.getContent(meta);
     if (Array.isArray(data)) {
       await Promise.all(
         data.map(async (item) => {
@@ -55,7 +55,7 @@ export const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
           }
 
           if (item.type === "file") {
-            const { data } = await octokit.repos.getContent({
+            const { data } = await octokit.rest.repos.getContent({
               ...meta,
               path: item.path,
             });

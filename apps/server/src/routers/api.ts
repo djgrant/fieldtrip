@@ -4,10 +4,9 @@ import { Course } from "src/services/course";
 import { db, enrollments, events, tasks, courses } from "src/services/db";
 import { SERVER_HOST } from "src/config";
 import { courses as coursesMap } from "src/services/courses";
-import { dirname, join } from "path";
+import { resolve } from "path";
 import {
   extractCourseMeta,
-  loadCourse,
   getCourse,
   compileCourse,
   loadCompiledCourse,
@@ -114,13 +113,18 @@ api.post("/courses", async (req, res, next) => {
           "Couldn't fetch files from the repo. Does the repo exist and it is public? "
         );
     }
-
     const { course: courseName } = courseFiles;
     console.log(`${courseName} written to disk`);
     compileCourse(courseName);
     console.log("Course compiled successfuly");
     const configFile = loadCompiledCourse(
-      join("../../", "courses", courseName, `${courseName}.js`)
+      resolve(
+        __dirname,
+        "../../../../",
+        "courses",
+        courseName,
+        `${courseName}.js`
+      )
     );
     if (!configFile) {
       return res
@@ -131,7 +135,10 @@ api.post("/courses", async (req, res, next) => {
     }
     const isValid = await isCourseValid(configFile);
     if (!isValid) {
-      rmSync(`../../courses/${meta.name}`, { recursive: true, force: true });
+      rmSync(`${resolve(__dirname, "../../../../", "courses")}/${meta.name}`, {
+        recursive: true,
+        force: true,
+      });
       return res
         .status(400)
         .send("The default exported object doesn't comply with course schema");

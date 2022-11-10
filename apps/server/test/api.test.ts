@@ -1,12 +1,13 @@
 import request from "supertest";
+import { ProbotOctokit } from "probot";
+import nock from "nock";
+import { generateGhContentsApiNocks } from "@local/nock-github-contents";
 import createServer from "../src/app";
 import { prepareServer } from "../src/index";
 import * as config from "../src/config";
-import { ProbotOctokit } from "probot";
-import { generateGhContentsApiNocks } from "@local/nock-github-contents";
-import nock from "nock";
 import createdRepo from "./fixtures/created-repo";
-import { db, enrollments, events, tasks, courses } from "../src/services/db";
+import { db, enrollments, courses } from "../src/services/db";
+import { resolve } from "path";
 
 beforeAll(async () => {
   await prepareServer();
@@ -74,7 +75,7 @@ describe("Getting specific course", () => {
   });
   test("Should return a course", async () => {
     await generateGhContentsApiNocks(
-      "/Users/alaa/Desktop/fieldtrip/courses/course",
+      resolve(__dirname, "../../../", "courses/course"),
       "course",
       "alaa-yahia"
     );
@@ -84,7 +85,7 @@ describe("Getting specific course", () => {
   });
 });
 
-describe("Enroll in specific course", () => {
+/* describe("Enroll in specific course", () => {
   nock("https://api.github.com", { allowUnmocked: true })
     .post("/user/repos", {
       name: "coworker-tools",
@@ -118,7 +119,7 @@ describe("Enroll in specific course", () => {
 describe("Register a new course", () => {
   test("Should return 200 when registering a new course", async () => {
     await generateGhContentsApiNocks(
-      "/Users/alaa/Desktop/fieldtrip/courses/course",
+      resolve(__dirname, "../../../", "courses/course"),
       "course",
       "alaa-yahia"
     );
@@ -147,12 +148,3 @@ describe("Unenroll from a course", () => {
     ).toBeNull();
   });
 }); */
-
-test("Should return 200 when posting new course", async () => {
-  //nock.recorder.rec();
-  await generateGhContentsApiNocks(
-    "/Users/alaa/Desktop/fieldtrip/courses/course"
-  );
-  const data = { course: "https://github.com/alaa-yahia/course" };
-  await request(createServer()).post("/api/courses").send(data).expect(200);
-});

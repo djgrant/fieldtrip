@@ -67,7 +67,6 @@ export const createBot = (
 
       app.on(event as any, async (context) => {
         const github = new Github(context, { targetRepo: course.repo });
-        console.log(botTriggers, "mnmnmn");
         if (github.eventShouldBeIgnored) return;
 
         // wait for actions to finish to ensure state is up-to-date

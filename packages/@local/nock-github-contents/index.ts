@@ -52,10 +52,6 @@ function generateDirNock(
   repo: string,
   owner: string
 ) {
-  console.log(
-    `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
-    "pop"
-  );
   nock("https://api.github.com")
     .get(`/repos/${owner}/${repo}/contents/${path}?name=course`)
     .reply(200, getDirResponse(path, dirents, repo, owner));
