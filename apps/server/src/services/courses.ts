@@ -39,7 +39,7 @@ export const extractCourseMeta = (registeredCourse: string): any => {
   };
 };
 
-const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
+export const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   const octokit = new Octokit({
     auth: GITHUB_AUTH,
   });
@@ -85,7 +85,7 @@ const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   }
 };
 
-const compileCourse = (courseName: string) => {
+export const compileCourse = (courseName: string) => {
   const rollupConfigTarget = `../../courses/${courseName}/rollup.config.js`;
   const rollupConfigContent = `
     import esbuild from 'rollup-plugin-esbuild'
@@ -110,7 +110,7 @@ const compileCourse = (courseName: string) => {
   });
 };
 
-const loadCompiledCourse = (path: string) => {
+export const loadCompiledCourse = (path: string) => {
   if (existsSync(path)) {
     const loadedFile = require(join(process.cwd(), path));
     if (!loadedFile) {
@@ -121,7 +121,7 @@ const loadCompiledCourse = (path: string) => {
   return null;
 };
 
-const isCourseValid = async (course: CourseConfig) => {
+export const isCourseValid = async (course: CourseConfig) => {
   if (!course) {
     return false;
   }
