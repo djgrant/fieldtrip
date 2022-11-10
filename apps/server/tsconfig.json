@@ -5,8 +5,7 @@
     "baseUrl": "./",
     "module": "commonjs",
     "moduleResolution": "Node",
-    "outDir": "../../dist/out-tsc",
-    "allowJs": true
+    "outDir": "../../dist/out-tsc"
   },
   "ts-node": {
     "transpileOnly": true,

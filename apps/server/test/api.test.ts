@@ -7,7 +7,6 @@ import { generateGhContentsApiNocks } from "@local/nock-github-contents";
 import nock from "nock";
 import createdRepo from "./fixtures/created-repo";
 import { db, enrollments, events, tasks, courses } from "../src/services/db";
-import { MockAgent } from "undici";
 
 beforeAll(async () => {
   await prepareServer();

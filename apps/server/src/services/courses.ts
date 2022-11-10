@@ -18,6 +18,8 @@ type Files = {
   [key: string]: any;
 };
 
+const coursesDirPath = resolve(__dirname, "../../../../", "courses");
+
 export const courses = new Map();
 
 export const loadRegisteredCourses = async () => {
@@ -65,37 +67,12 @@ const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
             const content = Buffer.from(fileContent, "base64").toString("utf8");
             courseFiles[path] = content;
 
-            if (
-              !existsSync(
-                resolve(
-                  __dirname,
-                  "../../../../",
-                  "courses",
-                  meta.name,
-                  dirname(path)
-                )
-              )
-            ) {
-              mkdirSync(
-                resolve(
-                  __dirname,
-                  "../../../../",
-                  "courses",
-                  meta.name,
-                  dirname(path)
-                ),
-                {
-                  recursive: true,
-                }
-              );
+            if (!existsSync(join(coursesDirPath, meta.name, dirname(path)))) {
+              mkdirSync(join(coursesDirPath, meta.name, dirname(path)), {
+                recursive: true,
+              });
             }
-            const target = resolve(
-              __dirname,
-              "../../../../",
-              "courses",
-              meta.name,
-              path
-            );
+            const target = join(coursesDirPath, meta.name, path);
             writeFileSync(target, content, {
               encoding: "utf8",
               flag: "w",
@@ -114,10 +91,8 @@ const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
 
 const compileCourse = (courseName: string) => {
   console.log("compiled v compiled ");
-  const rollupConfigTarget = resolve(
-    __dirname,
-    "../../../../",
-    "courses",
+  const rollupConfigTarget = join(
+    coursesDirPath,
     courseName,
     "rollup.config.js"
   );
@@ -137,10 +112,10 @@ const compileCourse = (courseName: string) => {
   writeFileSync(rollupConfigTarget, rollupConfigContent);
 
   execSync(`npm install`, {
-    cwd: resolve(__dirname, "../../../../", "courses", courseName),
+    cwd: join(coursesDirPath, courseName),
   });
   execSync(`rollup --config rollup.config.js`, {
-    cwd: resolve(__dirname, "../../../../", "courses", courseName),
+    cwd: join(coursesDirPath, courseName),
   });
 };
 
@@ -163,7 +138,7 @@ const isCourseValid = async (course: CourseConfig) => {
 };
 
 export const loadCourse = async (course: CourseMeta) => {
-  const coursePath = resolve(__dirname, "../../../../", "courses", course.name);
+  const coursePath = join(coursesDirPath, course.name);
 
   if (
     !(
@@ -195,7 +170,7 @@ export const loadCourses = async () => {
   const coursesMeta = registeredCourses.map(extractCourseMeta);
 
   coursesMeta.forEach((course) => {
-    mkdirSync(resolve(__dirname, "../../../../", "courses", course.name), {
+    mkdirSync(join(coursesDirPath, course.name), {
       recursive: true,
     });
   });
