@@ -74,9 +74,9 @@ api.delete("/courses/:id", async (req, res, next) => {
   if (!user || !enrollmentKey) return res.send(403);
   if (!course) return res.send(400);
   try {
-    await user.octokit.request("DELETE /repos/{username}/{name}", {
-      username: user.login,
-      name: course.repo,
+    await user.octokit.rest.repos.delete({
+      owner: user.login,
+      repo: course.repo,
     });
     await enrollments(db).delete(enrollmentKey);
     await events(db).delete(enrollmentKey);

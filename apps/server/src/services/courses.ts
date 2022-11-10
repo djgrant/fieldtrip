@@ -90,7 +90,6 @@ const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
 };
 
 const compileCourse = (courseName: string) => {
-  console.log("compiled v compiled ");
   const rollupConfigTarget = join(
     coursesDirPath,
     courseName,
