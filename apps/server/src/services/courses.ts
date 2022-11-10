@@ -27,7 +27,6 @@ export const loadRegisteredCourses = async () => {
   return courses.map((course) => course.course_url);
 };
 
-//Extract meta from urls
 export const extractCourseMeta = (registeredCourse: string): any => {
   const url = new URL(registeredCourse, "https://github.com/").pathname
     .split("/")
@@ -89,8 +88,7 @@ export const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   }
 };
 
-const compileCourse = (courseName: string) => {
-  console.log("compiled v compiled ");
+export const compileCourse = (courseName: string) => {
   const rollupConfigTarget = join(
     coursesDirPath,
     courseName,
