@@ -14,7 +14,7 @@ const createServer = () => {
     mw.bots(bots).uma,
     mw.bots(bots).amber,
   ]);
-  app.use(["/api/user", "/api/courses/:id"], mw.userSession);
+  app.use(["/api/user", "/api/courses/:id", "/api/courses"], mw.userSession);
   app.use("/api/courses/:id", [mw.course, mw.db, mw.botSessions]);
   app.use("/api", routers.api);
   app.use("/auth", routers.auth);
