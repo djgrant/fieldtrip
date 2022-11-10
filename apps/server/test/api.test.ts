@@ -85,7 +85,7 @@ describe("Getting specific course", () => {
   });
 });
 
-/* describe("Enroll in specific course", () => {
+describe("Enroll in specific course", () => {
   nock("https://api.github.com", { allowUnmocked: true })
     .post("/user/repos", {
       name: "coworker-tools",
@@ -147,4 +147,4 @@ describe("Unenroll from a course", () => {
       })
     ).toBeNull();
   });
-}); */
+});
