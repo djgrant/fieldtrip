@@ -38,7 +38,6 @@
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "esbuild": "^0.15.7",
-    "esbuild-darwin-arm64": "^0.15.8",
     "eventemitter3": "^4.0.7",
     "evergreen-ui": "^6.10.3",
     "express": "^4.17.2",
