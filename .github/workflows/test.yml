@@ -32,4 +32,4 @@ jobs:
         env:
           DATABASE_URL: "postgres://test-user@localhost:5432/test-db"
       - run: npm ci
-      - run: npm test
+      - run: npm run test:server
