@@ -29,7 +29,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-        env:
-          DATABASE_URL: postgres://test-user@localhost:5432/test-db
+
       - run: npm ci
       - run: npm run test:server
+        env:
+          DATABASE_URL: postgres://test-user@localhost:5432/test-db
