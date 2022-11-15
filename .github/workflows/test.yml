@@ -1,8 +1,6 @@
 name: Tests CI
 
 on:
-  push:
-    branches: ["Fieldtrip-API-integration-tests"]
   pull_request:
     branches: ["main"]
 
@@ -10,11 +8,19 @@ jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ubuntu-latest
-
+    container: node:latest
+    services:
+      postgres:
+        image: postgres:10.6-alpine
+        env:
+          POSTGRES_USER: test-user
+          POSTGRES_DB: test-db
+          POSTGRES_PORT: 5432
+        ports:
+          - 5432:5432
     strategy:
       matrix:
         node-version: ["16.18", 17.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v3
