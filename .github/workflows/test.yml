@@ -34,3 +34,8 @@ jobs:
       - run: npm run test:server
         env:
           DATABASE_URL: postgres://test-user@localhost:5432/test-db
+          DATABASE_SCHEMA: public
+          SERVER_HOST: http://localhost:4000
+          CLIENT_HOST: http://localhost:3000
+          ROOT_DOMAIN: localhost
+          SERVER_PORT: 4000
