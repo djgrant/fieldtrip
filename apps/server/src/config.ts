@@ -27,6 +27,9 @@ export const GITHUB_AUTH = getEnv("GITHUB_AUTH");
 export const isDev = process.env.NODE_ENV === "development";
 export const isProd = process.env.NODE_ENV === "production";
 
+export const testUser = process.env.TEST_USER;
+export const testCourse = process.env.TEST_COURSE;
+
 export const createBotConfig = (i: number) => ({
   NAME: getEnv(`GH_APP${i}_NAME`),
   APP_ID: getEnv(`GH_APP${i}_ID`),

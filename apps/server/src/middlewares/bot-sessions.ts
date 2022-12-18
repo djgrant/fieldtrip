@@ -12,13 +12,11 @@ export const botSessions: RequestHandler = async (req, _, next) => {
   // Authorised bots with an installation ID in the session
   for (const botName of botNames) {
     const bot = bots[botName];
-
     try {
       const installationId = await getInstallationId(
         bot.instance,
         req.locals.user.login
       );
-
       const authedBot = await bot.instance.auth(installationId);
 
       req.locals.bots[botName] = {
@@ -30,9 +28,12 @@ export const botSessions: RequestHandler = async (req, _, next) => {
         ...req.session!.bots,
         [botName]: installationId,
       };
-    } catch {
-      delete req.session.bots![botName];
-      delete req.locals.bots![botName];
+    } catch (err) {
+      console.log(err);
+      if (req.session.bots) {
+        delete req.session.bots![botName];
+        delete req.locals.bots![botName];
+      }
     }
   }
   await enrollments(db).update(req.locals.enrollmentKey, {
