@@ -1,7 +1,9 @@
 # fieldtrip
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 An experimental platform to facilate simulations of group projects using GitHub bots.
@@ -41,8 +43,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/alaa-yahia"><img src="https://avatars.githubusercontent.com/u/6881345?v=4?s=100" width="100px;" alt="Alaa Yahia"/><br /><sub><b>Alaa Yahia</b></sub></a><br /><a href="https://github.com/Daniel Grant/Fieldtrip/commits?author=alaa-yahia" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/djgrant"><img src="https://avatars.githubusercontent.com/u/1670902?v=4?s=100" width="100px;" alt="Daniel Grant"/><br /><sub><b>Daniel Grant</b></sub></a><br /><a href="https://github.com/Daniel Grant/Fieldtrip/commits?author=djgrant" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/alaa-yahia"><img src="https://avatars.githubusercontent.com/u/6881345?v=4?s=100" width="100px;" alt="Alaa Yahia"/><br /><sub><b>Alaa Yahia</b></sub></a><br /><a href="https://github.com/Daniel Grant/Fieldtrip/commits?author=alaa-yahia" title="Code">💻</a></td>
     </tr>
   </tbody>
   <tfoot>
