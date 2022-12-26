@@ -4,19 +4,26 @@ import nock from "nock";
 import { generateGhContentsApiNocks } from "@local/nock-github-contents";
 import createServer from "../src/app";
 import { prepareServer } from "../src/index";
-import { testUser, testCourse, GITHUB_AUTH } from "../src/config";
+import {
+  testCourseOwner,
+  testCourseName,
+  testCourseUrl,
+  testCourseRepo,
+  GITHUB_AUTH,
+} from "../src/config";
 import createdRepo from "./fixtures/created-repo";
-import { db, enrollments, courses } from "../src/services/db";
+import createdCourse from "./fixtures/created-course";
+import compiledCourse from "./fixtures/compiled-course";
 import { resolve } from "path";
 
 beforeAll(async () => {
   await prepareServer();
 });
-
+jest.setTimeout(15000);
 jest.mock("../src/middlewares/user-session", () => {
   return {
     __esModule: true,
-    userSession: jest.fn(async (req, res, next) => {
+    userSession: jest.fn(async (req, _, next) => {
       const octokit = new ProbotOctokit({
         auth: { token: GITHUB_AUTH },
       });
@@ -37,15 +44,8 @@ jest.mock("../src/middlewares/course", () => {
     __esModule: true,
     course: jest.fn((req, _, next) => {
       const id = req.params.id;
-      if (id === "course") {
-        req.locals.course = req.session.course = {
-          id: "course",
-          repo: "coworker-tools",
-          title: "Coworker Discovery Tools",
-          module: "JS2",
-          summary: "./website/intro.md",
-          stages: [],
-        };
+      if (id === testCourseName) {
+        req.locals.course = req.session.course = compiledCourse;
         req.session.course = req.locals.course;
       }
       next();
@@ -73,22 +73,25 @@ describe("Getting specific course", () => {
   test("Should return a 404", async () => {
     await request(createServer()).get("/api/courses/popo").expect(404);
   });
+
   test("Should return a course", async () => {
     await generateGhContentsApiNocks(
-      resolve(__dirname, "../../../", "courses/course"),
-      "course",
-      "alaa-yahia"
+      resolve(__dirname, "../../../", `courses/${testCourseName}`),
+      testCourseName,
+      testCourseOwner
     );
-    const data = { course: "https://github.com/alaa-yahia/course" };
+    const data = { course: testCourseUrl };
     await request(createServer()).post("/api/courses").send(data).expect(200);
-    await request(createServer()).get("/api/courses/course").expect(200);
+    await request(createServer())
+      .get(`/api/courses/${testCourseName}`)
+      .expect(200);
   });
 });
 
 describe("Enroll in specific course", () => {
   nock("https://api.github.com", { allowUnmocked: true })
     .post("/user/repos", {
-      name: "coworker-tools",
+      name: testCourseRepo,
       auto_init: true,
     })
     .reply(201, createdRepo);
@@ -99,7 +102,7 @@ describe("Enroll in specific course", () => {
 
   test("Should return 201 when user enrolled in a course", async () => {
     const t = await request(createServer())
-      .post("/api/courses/course")
+      .post(`/api/courses/${testCourseName}`)
       .expect(201);
   });
 });
@@ -107,25 +110,28 @@ describe("Enroll in specific course", () => {
 describe("Register a new course", () => {
   test("Should return 200 when registering a new course", async () => {
     await generateGhContentsApiNocks(
-      resolve(__dirname, "../../../", "courses/course"),
-      "course",
-      "alaa-yahia"
+      resolve(__dirname, "../../../", `courses/${testCourseName}`),
+      testCourseName,
+      testCourseOwner
     );
-    const data = { course: "https://github.com/alaa-yahia/course" };
+    const data = { course: testCourseUrl };
     await request(createServer()).post("/api/courses").send(data).expect(200);
-    expect(
-      await courses(db).findOne({
-        course_url: "https://github.com/alaa-yahia/course",
-      })
-    ).toBeDefined();
+    const res = await request(createServer())
+      .get(`/api/courses/${testCourseName}`)
+      .expect(200);
+    expect(res.body).toEqual(expect.objectContaining(createdCourse));
   });
 });
 
 describe("Unenroll from a course", () => {
   test("Should return 204 when user Unenrolled from a course", async () => {
     nock("https://api.github.com", { allowUnmocked: true })
-      .delete("/repos/alaa-yahia/coworker-tools")
+      .delete(`/repos/${testCourseOwner}/${testCourseRepo}`)
       .reply(204);
     await request(createServer()).delete("/api/courses/course").expect(204);
+    const res = await request(createServer())
+      .get("/api/courses/course")
+      .expect(200);
+    expect(res.body.enrollment).toBeUndefined();
   });
 });
