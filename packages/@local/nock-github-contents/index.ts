@@ -41,7 +41,7 @@ function generateFileNock(
   repo: string,
   owner: string
 ) {
-  nock("https://api.github.com")
+  nock("https://api.github.com", { allowUnmocked: true })
     .get(`/repos/${owner}/${repo}/contents/${path}?name=course`)
     .reply(200, getFileResponse(path, filename, contents, repo, owner));
 }
@@ -52,11 +52,7 @@ function generateDirNock(
   repo: string,
   owner: string
 ) {
-  console.log(
-    `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
-    "pop"
-  );
-  nock("https://api.github.com")
+  nock("https://api.github.com", { allowUnmocked: true })
     .get(`/repos/${owner}/${repo}/contents/${path}?name=course`)
     .reply(200, getDirResponse(path, dirents, repo, owner));
 }

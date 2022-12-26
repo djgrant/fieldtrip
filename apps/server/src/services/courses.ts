@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, writeFileSync } from "fs";
-import { dirname, join } from "path";
+import { dirname, join, resolve } from "path";
 import { execSync } from "child_process";
 import { Octokit } from "@octokit/rest";
 import { GITHUB_AUTH } from "src/config";
@@ -18,14 +18,15 @@ type Files = {
   [key: string]: any;
 };
 
+const coursesDirPath = resolve(__dirname, "../../../../", "courses");
+
 export const courses = new Map();
 
-const loadRegisteredCourses = async () => {
+export const loadRegisteredCourses = async () => {
   const courses = (await registeredCourses(db).find().all()) || [];
   return courses.map((course) => course.course_url);
 };
 
-//Extract meta from urls
 export const extractCourseMeta = (registeredCourse: string): any => {
   const url = new URL(registeredCourse, "https://github.com/").pathname
     .split("/")
@@ -43,8 +44,9 @@ export const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
   const octokit = new Octokit({
     auth: GITHUB_AUTH,
   });
+
   try {
-    const { data } = await octokit.repos.getContent(meta);
+    const { data } = await octokit.rest.repos.getContent(meta);
     if (Array.isArray(data)) {
       await Promise.all(
         data.map(async (item) => {
@@ -60,15 +62,16 @@ export const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
 
             // @todo add typeguard to refine type for data
             // https://www.typescriptlang.org/docs/handbook/2/narrowing.html
-            const { path, content: fileContent } = data;
+            const { path, content: fileContent } = data as any;
             const content = Buffer.from(fileContent, "base64").toString("utf8");
             courseFiles[path] = content;
-            if (!existsSync(join("../../courses", meta.name, dirname(path)))) {
-              mkdirSync(`../../courses/${meta.name}/${dirname(path)}`, {
+
+            if (!existsSync(join(coursesDirPath, meta.name, dirname(path)))) {
+              mkdirSync(join(coursesDirPath, meta.name, dirname(path)), {
                 recursive: true,
               });
             }
-            const target = `../../courses/${meta.name}/${path}`;
+            const target = join(coursesDirPath, meta.name, path);
             writeFileSync(target, content, {
               encoding: "utf8",
               flag: "w",
@@ -80,13 +83,17 @@ export const getCourse = async (meta: CourseMeta, courseFiles: Files = {}) => {
 
     return { course: meta.name };
   } catch (err) {
-    //console.log(err);
+    console.log(err);
     return null;
   }
 };
 
 export const compileCourse = (courseName: string) => {
-  const rollupConfigTarget = `../../courses/${courseName}/rollup.config.js`;
+  const rollupConfigTarget = join(
+    coursesDirPath,
+    courseName,
+    "rollup.config.js"
+  );
   const rollupConfigContent = `
     import esbuild from 'rollup-plugin-esbuild'
     export default {
@@ -103,16 +110,16 @@ export const compileCourse = (courseName: string) => {
   writeFileSync(rollupConfigTarget, rollupConfigContent);
 
   execSync(`npm install`, {
-    cwd: `../../courses/${courseName}`,
+    cwd: join(coursesDirPath, courseName),
   });
   execSync(`rollup --config rollup.config.js`, {
-    cwd: `../../courses/${courseName}`,
+    cwd: join(coursesDirPath, courseName),
   });
 };
 
 export const loadCompiledCourse = (path: string) => {
   if (existsSync(path)) {
-    const loadedFile = require(join(process.cwd(), path));
+    const loadedFile = require(path);
     if (!loadedFile) {
       return null;
     }
@@ -129,7 +136,7 @@ export const isCourseValid = async (course: CourseConfig) => {
 };
 
 export const loadCourse = async (course: CourseMeta) => {
-  const coursePath = join("../../", "courses", course.name);
+  const coursePath = join(coursesDirPath, course.name);
 
   if (
     !(
@@ -161,7 +168,7 @@ export const loadCourses = async () => {
   const coursesMeta = registeredCourses.map(extractCourseMeta);
 
   coursesMeta.forEach((course) => {
-    mkdirSync(join("../../", process.cwd(), "courses", course.name), {
+    mkdirSync(join(coursesDirPath, course.name), {
       recursive: true,
     });
   });

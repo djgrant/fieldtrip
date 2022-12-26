@@ -4,10 +4,9 @@ import { Course } from "src/services/course";
 import { db, enrollments, events, tasks, courses } from "src/services/db";
 import { SERVER_HOST } from "src/config";
 import { courses as coursesMap } from "src/services/courses";
-import { dirname, join } from "path";
+import { resolve } from "path";
 import {
   extractCourseMeta,
-  loadCourse,
   getCourse,
   compileCourse,
   loadCompiledCourse,
@@ -31,17 +30,18 @@ api.get("/user", async (req, res) => {
 });
 
 api.get("/courses", async (req, res) => {
-  res.json({ courses: Array.from(coursesMap.values()) });
+  res.json({ courses: Array.from(coursesMap.values()) || [] });
 });
 
 api.get("/courses/:id", async (req, res, next) => {
   const courseConfig = req.locals.course;
-  if (!courseConfig) return res.send(404);
+  if (!courseConfig) return res.sendStatus(404);
   try {
     const state = req.locals.enrollmentKey
       ? await enrollments(db).findOne(req.locals.enrollmentKey)
       : null;
     const course = new Course(courseConfig, state, SERVER_HOST);
+
     const compiledCourse = await course.compile();
     res.send(compiledCourse);
   } catch (err) {
@@ -52,7 +52,6 @@ api.get("/courses/:id", async (req, res, next) => {
 
 api.post("/courses/:id", async (req, res, next) => {
   const { user, course } = req.locals;
-
   if (!user) return res.sendStatus(403);
   if (!course) return res.sendStatus(404);
 
@@ -62,7 +61,8 @@ api.post("/courses/:id", async (req, res, next) => {
       ...req.locals.enrollmentKey,
       repo_url: `https://github.com/${user.login}/${course.repo}`,
     });
-    await user.octokit.request("POST /user/repos", {
+
+    await user.octokit.rest.repos.createForAuthenticatedUser({
       name: course.repo,
       auto_init: true,
     });
@@ -81,9 +81,9 @@ api.delete("/courses/:id", async (req, res, next) => {
   if (!user || !enrollmentKey) return res.send(403);
   if (!course) return res.send(400);
   try {
-    await user.octokit.request("DELETE /repos/{username}/{name}", {
-      username: user.login,
-      name: course.repo,
+    await user.octokit.rest.repos.delete({
+      owner: user.login,
+      repo: course.repo,
     });
     await enrollments(db).delete(enrollmentKey);
     await events(db).delete(enrollmentKey);
@@ -113,13 +113,18 @@ api.post("/courses", async (req, res, next) => {
           "Couldn't fetch files from the repo. Does the repo exist and it is public? "
         );
     }
-
     const { course: courseName } = courseFiles;
     console.log(`${courseName} written to disk`);
     compileCourse(courseName);
     console.log("Course compiled successfuly");
     const configFile = loadCompiledCourse(
-      join("../../", "courses", courseName, `${courseName}.js`)
+      resolve(
+        __dirname,
+        "../../../../",
+        "courses",
+        courseName,
+        `${courseName}.js`
+      )
     );
     if (!configFile) {
       return res
@@ -130,7 +135,10 @@ api.post("/courses", async (req, res, next) => {
     }
     const isValid = await isCourseValid(configFile);
     if (!isValid) {
-      rmSync(`../../courses/${meta.name}`, { recursive: true, force: true });
+      rmSync(`${resolve(__dirname, "../../../../", "courses")}/${meta.name}`, {
+        recursive: true,
+        force: true,
+      });
       return res
         .status(400)
         .send("The default exported object doesn't comply with course schema");

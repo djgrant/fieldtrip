@@ -8,7 +8,7 @@ import type {
   Enrollments,
 } from "@notation/fieldtrip";
 import { getFile } from "@local/markdown";
-import { join } from "path";
+import { join, resolve } from "path";
 const notNull = (value: any): value is NonNullable<typeof value> =>
   value !== null && value !== undefined;
 
@@ -46,8 +46,14 @@ export class Course {
   }
 
   compileMeta = async (): Promise<CourseConfig> => {
+    // @todo Fix: course is hardcoded
     const summary = await getFile(
-      join("../../courses/course/docs", this.config.summary)
+      resolve(
+        __dirname,
+        "../../../../",
+        "courses/course/docs",
+        this.config.summary
+      )
     );
     const stages = await Promise.all(
       this.config.stages.map(this.compileStageMeta)

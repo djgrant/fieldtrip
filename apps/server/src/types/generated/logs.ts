@@ -8,32 +8,32 @@
 /* eslint-disable */
 // tslint:disable
 
-import Executions from "./executions";
+import Executions from './executions'
 
 interface Logs {
-  execution_id: Executions["id"];
+  execution_id: Executions['id']
   /**
    * @default nextval('logs_id_seq'::regclass)
    */
-  id: number & { readonly __brand?: "logs_id" };
-  message: any | null;
+  id: number & {readonly __brand?: 'logs_id'}
+  message: (any) | null
   /**
    * @default now()
    */
-  time: Date;
+  time: Date
 }
 export default Logs;
 
 interface Logs_InsertParameters {
-  execution_id: Executions["id"];
+  execution_id: Executions['id']
   /**
    * @default nextval('logs_id_seq'::regclass)
    */
-  id?: number & { readonly __brand?: "logs_id" };
-  message?: any | null;
+  id?: number & {readonly __brand?: 'logs_id'}
+  message?: (any) | null
   /**
    * @default now()
    */
-  time?: Date;
+  time?: Date
 }
-export type { Logs_InsertParameters };
+export type {Logs_InsertParameters}
